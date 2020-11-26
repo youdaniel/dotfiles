@@ -1,0 +1,11 @@
+{
+    "coc.preferences.formatOnType": true,
+    "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "css", "scss", "markdown", "vue"],
+    "prettier.disableLanguages": [],
+
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["-l", "79"],
+    "python.sortImports.path": "/home/daniel/.miniconda/bin/isort",
+    "python.jediEnabled": false
+
+}

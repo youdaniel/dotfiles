@@ -1,0 +1,9 @@
+[user]
+	email = dunneljir@gmail.com
+	name = Daniel You
+[core]
+	editor = nvim
+[credential]
+	helper = libsecret
+[pull]
+	ff = only

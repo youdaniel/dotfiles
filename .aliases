@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if command -v nvim &> /dev/null
+then
+    alias vim="nvim"
+fi
+
+if command -v vifm &> /dev/null
+then
+    alias vifm="/usr/bin/env bash $HOME/.config/vifm/scripts/vifmrun"
+fi
+
+# exa instead of ls
+if command -v exa &> /dev/null
+then
+    alias ls="exa --color=always --group-directories-first"
+    alias la="exa -al --color=always --group-directories-first"
+fi
+
+# bare git repo alias for dotfiles
+alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME" 
+
+alias pacman="sudo pacman"
+
+# Docker
+alias dcu="docker-compose up"
+alias dcub="docker-compose up --build"
