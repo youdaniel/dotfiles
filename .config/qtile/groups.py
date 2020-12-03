@@ -9,7 +9,7 @@ group_config = [
         "II",
         {
             "layout": "monadtall",
-            "matches": [Match(wm_class=["lightcord", "slack", "Slack"])],
+            "matches": [Match(wm_class="lightcord"), Match(wm_class="slack")],
         },
     ),
     ("III", {"layout": "monadtall"}),
@@ -18,7 +18,7 @@ group_config = [
     ("VI", {"layout": "monadtall"}),
     ("VII", {"layout": "monadtall"}),
     ("VIII", {"layout": "monadtall"}),
-    ("IX", {"layout": "monadtall", "matches": [Match(wm_class=["obs"])]}),
+    ("IX", {"layout": "monadtall", "matches": [Match(wm_class="obs")]}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_config]

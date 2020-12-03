@@ -95,7 +95,7 @@ keys = [
     Key("A-<Return>", lazy.spawn("alacritty")),
     Key("A-S-<Return>", lazy.spawn("rofi -monitor -4 -show")),
     Key("A-b", lazy.spawn("firefox -new-window")),
-    Key("M-l", lazy.spawn("light-locker-command -l")),
+    Key("M-l", lazy.spawn("xset dpms force off")),
     Key("M-C-l", lazy.spawn("systemctl suspend")),
     # Multimedia
     Key("<XF86AudioMute>", lazy.spawn("amixer -q set Master toggle")),
