@@ -1,4 +1,5 @@
 from libqtile import layout
+from libqtile.config import Match
 
 layout_defaults = {
     "border_width": 2,
@@ -14,24 +15,26 @@ layouts = [
 ]
 
 floating_layout = layout.Floating(
-    auto_float_typesR=[
-        {"wmclass": "confirm"},
-        {"wmclass": "dialog"},
-        {"wmclass": "download"},
-        {"wmclass": "error"},
-        {"wmclass": "lxpolkit"},
-        {"wmclass": "file_progress"},
-        {"wmclass": "notification"},
-        {"wmclass": "notify"},
-        {"wmclass": "popup_menu"},
-        {"wmclass": "splash"},
-        {"wmclass": "toolbar"},
-        {"wmclass": "confirmreset"},
-        {"wmclass": "makebranch"},
-        {"wmclass": "maketag"},
-        {"wname": "branchdialog"},
-        {"wname": "pinentry"},
-        {"wmclass": "ssh-askpass"},
-    ],
-    **layout_defaults
+    float_rules=[
+        Match(wm_type="utility"),
+        Match(wm_type="notification"),
+        Match(wm_type="toolbar"),
+        Match(wm_type="splash"),
+        Match(wm_type="dialog"),
+        Match(wm_class="file_progress"),
+        Match(wm_class="confirm"),
+        Match(wm_class="dialog"),
+        Match(wm_class="download"),
+        Match(wm_class="error"),
+        Match(wm_class="notification"),
+        Match(wm_class="splash"),
+        Match(wm_class="toolbar"),
+        Match(wm_class="confirmreset"),
+        Match(wm_class="makebranch"),
+        Match(wm_class="maketag"),
+        Match(wm_class="ssh-askpass"),
+        Match(wm_class="gcr-prompter"), 
+        Match(title="branchdialog"),
+        Match(title="pinentry"),
+    ], **layout_defaults
 )
