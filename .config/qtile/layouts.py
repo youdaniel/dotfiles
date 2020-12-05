@@ -33,8 +33,9 @@ floating_layout = layout.Floating(
         Match(wm_class="makebranch"),
         Match(wm_class="maketag"),
         Match(wm_class="ssh-askpass"),
-        Match(wm_class="gcr-prompter"), 
+        Match(wm_class="gcr-prompter"),
         Match(title="branchdialog"),
         Match(title="pinentry"),
-    ], **layout_defaults
+    ],
+    **layout_defaults
 )
