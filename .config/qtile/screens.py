@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+from libqtile import qtile
 from libqtile import bar, widget
 from libqtile.config import Screen
 
@@ -125,7 +126,11 @@ def init_widgets_list():
             padding=0,
             fontsize=14,
         ),
-        widget.Memory(foreground=colors[2], background=colors[0], padding=5,),
+        widget.Memory(
+            foreground=colors[2],
+            background=colors[0],
+            padding=5,
+        ),
         widget.TextBox(
             text="/",
             background=colors[0],
@@ -166,11 +171,9 @@ def init_widgets_list():
             func=currently_playing,
             markup=False,
             mouse_callbacks={
-                "Button2": lambda qtile: qtile.cmd_spawn(
-                    "playerctl play-pause"
-                ),
-                "Button1": lambda qtile: qtile.cmd_spawn("playerctl previous"),
-                "Button3": lambda qtile: qtile.cmd_spawn("playerctl next"),
+                "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
+                "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
+                "Button3": lambda: qtile.cmd_spawn("playerctl next"),
             },
         ),
         widget.TextBox(
