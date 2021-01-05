@@ -6,6 +6,17 @@ from libqtile.config import EzKey as Key
 from libqtile.lazy import lazy
 
 
+def float_to_front():
+    @lazy.function
+    def __inner(qtile):
+        for group in qtile.groups:
+            for window in group.windows:
+                if window.floating:
+                    window.cmd_bring_to_front()
+
+    return __inner
+
+
 def window_to_previous_screen():
     @lazy.function
     def __inner(qtile):
@@ -91,8 +102,9 @@ keys = [
     Key("A-S-c", lazy.window.kill()),
     Key("A-S-r", lazy.restart()),
     Key("A-S-q", lazy.shutdown()),
+    Key("M-S-f", float_to_front()),
     # Application Hotkeys
-    Key("A-<Return>", lazy.spawn("alacritty")),
+    Key("A-<Return>", lazy.spawn("kitty --single-instance")),
     Key("A-S-<Return>", lazy.spawn("rofi -monitor -4 -show")),
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
@@ -122,7 +134,9 @@ mouse = [
         start=lazy.window.get_position(),
     ),
     Drag(
-        "M-3", lazy.window.set_size_floating(), start=lazy.window.get_size(),
+        "M-3",
+        lazy.window.set_size_floating(),
+        start=lazy.window.get_size(),
     ),
     Click("M-2", lazy.window.bring_to_front()),
     Click("A-1", lazy.spawn("screenshot.sh select_no_save")),
