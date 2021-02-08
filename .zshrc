@@ -7,7 +7,7 @@ fi
 export PATH="/home/daniel/.local/bin:$PATH"
 
 # Load Antigen
-source $HOME/.antigen.zsh
+source $HOME/antigen.zsh
 
 # Load Antigen configuration
 antigen init $HOME/.antigenrc
@@ -49,7 +49,7 @@ then
 fi
 
 # FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{node_modules,.git}'"
 
 export BAT_THEME="Dracula"
 # export COLORTERM="truecolor"
@@ -73,10 +73,12 @@ eval "$(fnm env)"
 # Load aliases
 [[ -f ~/.aliases ]] && . ~/.aliases
 
-if command -v colorscript &> /dev/null
-then
-    colorscript --random
-fi
+# Newline
+precmd() {
+  precmd() {
+    echo
+  }
+}
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!

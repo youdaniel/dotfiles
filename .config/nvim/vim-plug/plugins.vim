@@ -1,7 +1,10 @@
+" https://github.com/sheerun/vim-polyglot/issues/292
+let g:polyglot_disabled = ["coffee-script"]
+
 call plug#begin('~/.config/nvim/plugged')
 
     " General improvements
-    Plug 'tpope/vim-commentary'
+    Plug 'tomtom/tcomment_vim'
     Plug 'tpope/vim-repeat'
     Plug 'tpope/vim-surround'
     Plug 'wellle/targets.vim'
@@ -23,7 +26,8 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'airblade/vim-rooter'
-" Undo stuff
+    
+    " Undo stuff
     Plug 'mbbill/undotree'
 
     " Git
@@ -37,6 +41,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Visual
     Plug 'dracula/vim', { 'as': 'dracula' }
     Plug 'itchyny/lightline.vim'
+    Plug 'mhinz/vim-startify'
 
     " Language
     Plug 'sheerun/vim-polyglot'

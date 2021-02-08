@@ -4,6 +4,11 @@ let $FZF_DEFAULT_OPTS = "--reverse --inline-info"
 command! -bang -nargs=? -complete=dir Files
 	\ call fzf#vim#files(<q-args>, {'options': ['--preview', 'bat --color=always --style=plain {}', '--preview-window', 'right:60%']}, <bang>0)
 
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --glob "!{node_modules,.git}" --smart-case -- '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
       \ { 'fg':      ['fg', 'Normal'],

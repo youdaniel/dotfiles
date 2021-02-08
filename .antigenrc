@@ -16,6 +16,7 @@ antigen bundle agkozak/zsh-z
 export SPACESHIP_ROOT=$HOME/.antigen/bundles/denysdovhan/spaceship-prompt
 SPACESHIP_VI_MODE_SHOW=false
 SPACESHIP_BATTERY_SHOW=false
+SPACESHIP_PROMPT_ADD_NEWLINE=false
 antigen theme denysdovhan/spaceship-prompt
 
 # Tell Antigen that you're done.

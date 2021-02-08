@@ -17,6 +17,11 @@ then
     alias la="exa -al --color=always --group-directories-first"
 fi
 
+if command -v bat &> /dev/null
+then
+    alias cat="bat"
+fi
+
 # bare git repo alias for dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME" 
 
@@ -25,3 +30,4 @@ alias pacman="sudo pacman"
 # Docker
 alias dcu="docker-compose up"
 alias dcub="docker-compose up --build"
+alias dcub="docker-compose exec"
