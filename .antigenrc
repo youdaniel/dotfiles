@@ -12,12 +12,5 @@ antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 antigen bundle agkozak/zsh-z
 
-# Load the theme.
-export SPACESHIP_ROOT=$HOME/.antigen/bundles/denysdovhan/spaceship-prompt
-SPACESHIP_VI_MODE_SHOW=false
-SPACESHIP_BATTERY_SHOW=false
-SPACESHIP_PROMPT_ADD_NEWLINE=false
-antigen theme denysdovhan/spaceship-prompt
-
 # Tell Antigen that you're done.
 antigen apply

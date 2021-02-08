@@ -1,6 +1,7 @@
 syntax enable
 set hidden
 set nowrap
+set encoding=utf-8
 set fileencoding=utf-8
 set pumheight=10
 set cmdheight=2
@@ -8,7 +9,6 @@ set iskeyword+=-
 set mouse=a
 set splitbelow
 set splitright
-set conceallevel=0
 set tabstop=4 softtabstop=4
 set shiftwidth=4
 set smarttab
@@ -20,9 +20,10 @@ set incsearch
 set nohlsearch
 set noshowmode
 set nobackup
-set nowritebackup
 set noswapfile
 set undodir=~/.config/nvim/undodir
-set updatetime=50
+set undofile
+set scrolloff=8
+set updatetime=300
 set timeoutlen=300
 set formatoptions-=cro

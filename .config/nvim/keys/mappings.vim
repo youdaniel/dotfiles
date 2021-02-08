@@ -30,3 +30,10 @@ autocmd FileType cpp nnoremap <F9> :w <bar> !g++ -std=c++17 -Wshadow -Wall % -o 
 
 " Undotree
 nnoremap <leader>u :UndotreeShow<CR>
+
+" Moving stuff in visual mode
+vnoremap J :m '>+1<CR>gv=gv
+vnoremap K :m '<-2<CR>gv=gv
+
+" replace without yank
+vnoremap <leader>p "_dP

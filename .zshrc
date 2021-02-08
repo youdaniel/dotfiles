@@ -94,3 +94,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# starship prompt
+eval "$(starship init zsh)"
