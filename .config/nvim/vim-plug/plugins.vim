@@ -50,4 +50,7 @@ call plug#begin('~/.config/nvim/plugged')
     " VimBeGood
     Plug 'ThePrimeagen/vim-be-good'
 
+    " Code Time
+    Plug 'wakatime/vim-wakatime'
+
 call plug#end()

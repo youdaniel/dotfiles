@@ -8,10 +8,11 @@ function run {
 }
 
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-run feh --bg-scale $HOME/Pictures/wallpaper.png
+run variety
 run picom
 run xss-lock slock
 run dunst
 run redshift
 run lightcord
 run slack
+run docker-compose -f ~/.scripts/hakatime/hakatime.yml up -d

@@ -30,4 +30,4 @@ alias pacman="sudo pacman"
 # Docker
 alias dcu="docker-compose up"
 alias dcub="docker-compose up --build"
-alias dcub="docker-compose exec"
+alias dce="docker-compose exec"
