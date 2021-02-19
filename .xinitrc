@@ -5,4 +5,7 @@ eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 export XDG_CURRENT_DESKTOP=qtile
 
+# Add .local/bin to path
+export PATH="/home/daniel/.local/bin:$PATH"
+
 qtile start

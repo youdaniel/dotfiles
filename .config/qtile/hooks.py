@@ -6,7 +6,7 @@ from libqtile import hook
 
 @hook.subscribe.startup_once
 def start_once():
-    subprocess.call([os.path.expanduser("~/.scripts/autostart.sh")])
+    subprocess.call([os.path.expanduser("~/.local/bin/autostart.sh")])
 
 
 @hook.subscribe.startup

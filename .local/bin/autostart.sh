@@ -15,4 +15,4 @@ run dunst
 run redshift
 run lightcord
 run slack
-run docker-compose -f ~/.scripts/hakatime/hakatime.yml up -d
+run docker-compose -f ~/.local/bin/hakatime/hakatime.yml up -d

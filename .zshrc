@@ -3,9 +3,6 @@ if [ -d "/home/daniel/.cargo" ]; then
   export PATH="/home/daniel/.cargo/bin:$PATH"
 fi
 
-# Add .local/bin to path
-export PATH="/home/daniel/.local/bin:$PATH"
-
 # Load Antigen
 source $HOME/antigen.zsh
 
