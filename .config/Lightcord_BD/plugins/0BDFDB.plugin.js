@@ -211,7 +211,7 @@ module.exports = (_ => {
 			if (i > 1000) result = null;
 			else {
 				if (typeof a !== typeof b) result = false;
-				else if (typeof a === "function") result = a.toString() == b.toString();
+				else if (typeof a == "function") result = a.toString() == b.toString();
 				else if (typeof a === "undefined") result = true;
 				else if (typeof a === "symbol") result = true;
 				else if (typeof a === "boolean") result = a == b;
@@ -525,7 +525,7 @@ module.exports = (_ => {
 			
 			if (!PluginStores.updateData.interval) PluginStores.updateData.interval = BDFDB.TimeUtils.interval(_ => {
 				BDFDB.PluginUtils.checkAllUpdates();
-			}, 1000*60*60*2);
+			}, 1000*60*60*4);
 			
 			BDFDB.TimeUtils.timeout(_ => {BDFDB.ArrayUtils.remove(PluginStores.updateData.timeouts, plugin.name, true);}, 30000);
 		}
@@ -573,7 +573,7 @@ module.exports = (_ => {
 	};
 	BDFDB.PluginUtils.translate = function (plugin) {
 		plugin.labels = {};
-		if (typeof plugin.setLabelsByLanguage === "function" || typeof plugin.changeLanguageStrings === "function") {
+		if (typeof plugin.setLabelsByLanguage == "function" || typeof plugin.changeLanguageStrings == "function") {
 			if (LibraryModules.LanguageStore.chosenLocale) translate();
 			else BDFDB.TimeUtils.interval(interval => {
 				if (LibraryModules.LanguageStore.chosenLocale) {
@@ -583,9 +583,8 @@ module.exports = (_ => {
 			}, 100);
 			function translate() {
 				let language = BDFDB.LanguageUtils.getLanguage();
-				if (typeof plugin.setLabelsByLanguage === "function") plugin.labels = plugin.setLabelsByLanguage(language.id);
-				if (typeof plugin.changeLanguageStrings === "function") plugin.changeLanguageStrings();
-				BDFDB.LogUtils.log(BDFDB.LanguageUtils.LibraryStringsFormat("toast_plugin_translated", language.ownlang), plugin.name);
+				if (typeof plugin.setLabelsByLanguage == "function") plugin.labels = plugin.setLabelsByLanguage(language.id);
+				if (typeof plugin.changeLanguageStrings == "function") plugin.changeLanguageStrings();
 			}
 		}
 	};
@@ -593,7 +592,8 @@ module.exports = (_ => {
 		BDFDB.TimeUtils.suppress(_ => {
 			if (!BDFDB.ObjectUtils.is(plugin)) return;
 			if (plugin == window.BDFDB_Global) {
-				document.querySelector(BDFDB.dotCN.noticeupdate)?.close();
+				let updateNotice = document.querySelector(BDFDB.dotCN.noticeupdate);
+				if (updateNotice) updateNotice.close();
 				BDFDB.TimeUtils.clear(PluginStores.updateData.interval);
 				delete window.BDFDB_Global.loaded;
 				BDFDB.TimeUtils.interval((interval, count) => {
@@ -615,14 +615,13 @@ module.exports = (_ => {
 		}, "Failed to clean up plugin!", plugin.name)();
 	};
 	BDFDB.PluginUtils.checkUpdate = function (pluginName, url) {
-		let updateStore = Object.assign({}, window.PluginUpdates && window.PluginUpdates.plugins, PluginStores.updateData.plugins);
-		if (pluginName && url && updateStore[url]) return new Promise(callback => {
+		if (pluginName && url && PluginStores.updateData.plugins[url]) return new Promise(callback => {
 			LibraryRequires.request(url, (error, response, body) => {
-				if (error || !updateStore[url]) return callback(null);
+				if (error || !PluginStores.updateData.plugins[url]) return callback(null);
 				let newName = (body.match(/"name"\s*:\s*"([^"]+)"/) || [])[1] || pluginName;
 				let newVersion = (body.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i) || "").toString().replace(/['"]/g, "");
 				if (!newVersion) return callback(null);
-				if (pluginName == newName && BDFDB.NumberUtils.getVersionDifference(newVersion, updateStore[url].version) > 0.2) {
+				if (pluginName == newName && BDFDB.NumberUtils.getVersionDifference(newVersion, PluginStores.updateData.plugins[url].version) > 0.2) {
 					BDFDB.NotificationUtils.toast(BDFDB.LanguageUtils.LibraryStringsFormat("toast_plugin_force_updated", pluginName), {
 						type: "warning",
 						disableInteractions: true
@@ -630,7 +629,7 @@ module.exports = (_ => {
 					BDFDB.PluginUtils.downloadUpdate(pluginName, url);
 					return callback(2);
 				}
-				else if (BDFDB.NumberUtils.compareVersions(newVersion, updateStore[url].version)) {
+				else if (BDFDB.NumberUtils.compareVersions(newVersion, PluginStores.updateData.plugins[url].version)) {
 					if (PluginStores.updateData.plugins[url]) PluginStores.updateData.plugins[url].outdated = true;
 					BDFDB.PluginUtils.showUpdateNotice(pluginName, url);
 					return callback(1);
@@ -646,27 +645,27 @@ module.exports = (_ => {
 	BDFDB.PluginUtils.checkAllUpdates = function () {
 		return new Promise(callback => {
 			let finished = 0, amount = 0;
-			let updateStore = Object.assign({}, window.PluginUpdates && window.PluginUpdates.plugins, PluginStores.updateData.plugins);
-			for (let url in updateStore) {
-				let plugin = updateStore[url];
+			for (let url in PluginStores.updateData.plugins) {
+				let plugin = PluginStores.updateData.plugins[url];
 				if (plugin) BDFDB.PluginUtils.checkUpdate(plugin.name, plugin.raw).then(state => {
 					finished++;
 					if (state == 1) amount++;
-					if (finished >= Object.keys(updateStore).length) callback(amount);
+					if (finished >= Object.keys(PluginStores.updateData.plugins).length) callback(amount);
 				});
 			}
 		});
 	};
 	BDFDB.PluginUtils.hasUpdateCheck = function (url) {
+		if (!url || typeof url != "string") return false;
 		let updateStore = Object.assign({}, window.PluginUpdates && window.PluginUpdates.plugins, PluginStores.updateData.plugins);
 		if (updateStore[url]) return true;
 		else {
-			let temp = "https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/PluginRepo/PluginRepo.plugin.js".replace("//raw.githubusercontent.com", "//").split("/");
+			let temp = url.replace("//raw.githubusercontent.com", "//").split("/");
 			let gitName = temp.splice(3, 1);
 			temp.splice(4, 1);
 			temp.splice(2, 1, gitName + ".github.io");
 			let pagesUrl = temp.join("/");
-			return updateStore[pagesUrl];
+			return !!updateStore[pagesUrl];
 		}
 	};
 	BDFDB.PluginUtils.showUpdateNotice = function (pluginName, url) {
@@ -772,11 +771,10 @@ module.exports = (_ => {
 				});
 			}
 			else {
-				let updateStore = Object.assign({}, window.PluginUpdates && window.PluginUpdates.plugins, PluginStores.updateData.plugins);
 				let wasEnabled = BDFDB.BDUtils.isPluginEnabled(pluginName);
 				let newName = (body.match(/"name"\s*:\s*"([^"]+)"/) || [])[1] || pluginName;
 				let newVersion = body.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i).toString().replace(/['"]/g, "");
-				let oldVersion = updateStore[url].version;
+				let oldVersion = PluginStores.updateData.plugins[url].version;
 				let fileName = pluginName == "BDFDB" ? "0BDFDB" : pluginName;
 				let newFileName = newName == "BDFDB" ? "0BDFDB" : newName;
 				LibraryRequires.fs.writeFile(LibraryRequires.path.join(BDFDB.BDUtils.getPluginsFolder(), newFileName + ".plugin.js"), body, _ => {
@@ -922,7 +920,7 @@ module.exports = (_ => {
 	InternalBDFDB.addSpecialListeners = function (plugin) {
 		plugin = plugin == BDFDB && InternalBDFDB || plugin;
 		if (BDFDB.ObjectUtils.is(plugin)) {
-			if (typeof plugin.onSwitch === "function") {
+			if (typeof plugin.onSwitch == "function") {
 				let spacer = document.querySelector(`${BDFDB.dotCN.guildswrapper} ~ * > ${BDFDB.dotCN.chatspacer}`);
 				if (spacer) {
 					let noChannelObserver = new MutationObserver(changes => {changes.forEach(change => {
@@ -1546,11 +1544,17 @@ module.exports = (_ => {
 					
 					(tooltip.setText = itemLayer.setText = newText => {
 						if (BDFDB.ObjectUtils.is(config.guild)) {
+							let voiceChannels = LibraryModules.GuildChannelStore.getChannels(config.guild.id)[BDFDB.DiscordConstants.ChannelTypes.GUILD_VOICE].map(c => c.channel.id);
 							let streamOwnerIds = LibraryModules.StreamUtils.getAllApplicationStreams().filter(app => app.guildId === config.guild.id).map(app => app.ownerId) || [];
 							let streamOwners = streamOwnerIds.map(ownerId => LibraryModules.UserStore.getUser(ownerId)).filter(n => n);
-							let connectedUsers = Object.keys(LibraryModules.VoiceUtils.getVoiceStates(config.guild.id)).map(userId => !streamOwnerIds.includes(userId) && LibraryModules.UserStore.getUser(userId)).filter(n => n);
+							let connectedUsers = BDFDB.ObjectUtils.toArray(LibraryModules.VoiceUtils.getVoiceStates(config.guild.id)).map(state => voiceChannels.includes(state.channelId) && state.channelId != config.guild.afkChannelId && !streamOwnerIds.includes(state.userId) && LibraryModules.UserStore.getUser(state.userId)).filter(n => n);
+							
 							let tooltipText = config.guild.toString();
 							if (fontColorIsGradient) tooltipText = `<span style="pointer-events: none; -webkit-background-clip: text !important; color: transparent !important; background-image: ${BDFDB.ColorUtils.createGradient(config.fontColor)} !important;">${BDFDB.StringUtils.htmlEscape(tooltipText)}</span>`;
+							
+							let isMuted = LibraryModules.MutedUtils.isMuted(config.guild.id);
+							let muteConfig = LibraryModules.MutedUtils.getMuteConfig(config.guild.id);
+							
 							BDFDB.ReactUtils.render(BDFDB.ReactUtils.createElement(BDFDB.ReactUtils.Fragment, {
 								children: [
 									BDFDB.ReactUtils.createElement("div", {
@@ -1596,7 +1600,16 @@ module.exports = (_ => {
 												max: 6
 											})
 										]
-									})
+									}),
+									isMuted && muteConfig && (muteConfig.end_time == null ? BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.TextElement, {
+										className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.tooltipmutetext, (connectedUsers.length || streamOwners.length) && BDFDB.disCN.tooltipmutetextwithactivity),
+										size: InternalComponents.LibraryComponents.TextElement.Sizes.SIZE_12,
+										color: InternalComponents.LibraryComponents.TextElement.Colors.MUTED,
+										children: BDFDB.LanguageUtils.LanguageStrings.VOICE_CHANNEL_MUTED
+									}) : BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.GuildComponents.MutedText, {
+										className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.tooltipmutetext, (connectedUsers.length || streamOwners.length) && BDFDB.disCN.tooltipmutetextwithactivity),
+										muteConfig: muteConfig
+									}))
 								].filter(n => n)
 							}), tooltipContent);
 						}
@@ -2404,7 +2417,7 @@ module.exports = (_ => {
 								let keys = Object.getOwnPropertyNames(instance);
 								for (let i = 0; result === undefined && i < keys.length; i++) {
 									let key = keys[i];
-									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] === "function")) result = getConstructor(instance[key]);
+									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] == "function")) result = getConstructor(instance[key]);
 								}
 							}
 						}
@@ -2484,7 +2497,7 @@ module.exports = (_ => {
 								let keys = Object.getOwnPropertyNames(instance);
 								for (let i = 0; result === undefined && i < keys.length; i++) {
 									let key = keys[i];
-									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] === "function")) result = getOwner(instance[key]);
+									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] == "function")) result = getOwner(instance[key]);
 								}
 							}
 						}
@@ -2587,7 +2600,7 @@ module.exports = (_ => {
 								let keys = Object.getOwnPropertyNames(instance);
 								for (let i = 0; result === undefined && i < keys.length; i++) {
 									let key = keys[i];
-									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] === "function")) result = findProps(instance[key]);
+									if (key && whitelist[key] && (typeof instance[key] === "object" || typeof instance[key] == "function")) result = findProps(instance[key]);
 								}
 							}
 						}
@@ -2651,7 +2664,7 @@ module.exports = (_ => {
 											}
 										}
 									}
-									else if ((typeof value === "object" || typeof value === "function") && (whitelist[key] || key[0] == "." || !isNaN(key[0]))) result = getKey(value);
+									else if ((typeof value === "object" || typeof value == "function") && (whitelist[key] || key[0] == "." || !isNaN(key[0]))) result = getKey(value);
 								}
 							}
 						}
@@ -3521,7 +3534,7 @@ module.exports = (_ => {
 					container = container || document.head.querySelector("bd-head bd-styles") || document.head;
 					container = Node.prototype.isPrototypeOf(container) ? container : document.head;
 					BDFDB.DOMUtils.removeWebStyle(url, container);
-					container.appendChild(BDFDB.DOMUtils.create(`<link type="text/css" rel="Stylesheet" href="${url}"></link>`));
+					container.appendChild(BDFDB.DOMUtils.create(`<link type="text/css" rel="stylesheet" href="${url}"></link>`));
 				};
 				BDFDB.DOMUtils.removeWebStyle = function (url, container) {
 					if (typeof url != "string") return;
@@ -7247,7 +7260,7 @@ module.exports = (_ => {
 							svgName: InternalComponents.LibraryComponents.SvgIcon.Names.CHANGELOG,
 							onClick: _ => {BDFDB.PluginUtils.openChangeLog(plugin);}
 						}));
-						if (PluginStores.updateData.plugins[url]?.outdated) controls.push(InternalBDFDB.createCustomControl({
+						if (PluginStores.updateData.plugins[url] && PluginStores.updateData.plugins[url].outdated) controls.push(InternalBDFDB.createCustomControl({
 							tooltipText: BDFDB.LanguageUtils.LanguageStrings.UPDATE_MANUALLY,
 							svgName: InternalComponents.LibraryComponents.SvgIcon.Names.DOWNLOAD,
 							onClick: _ => {BDFDB.PluginUtils.downloadUpdate(plugin.name, url);}
@@ -7256,15 +7269,14 @@ module.exports = (_ => {
 						else for (let control of controls) checkbox.parentElement.insertBefore(control, checkbox.parentElement.firstElementChild);
 					}
 				};
-				const cardObserver = (new MutationObserver(changes => {changes.forEach(change => {if (change.addedNodes) {change.addedNodes.forEach(node => {
-					if (BDFDB.DOMUtils.containsClass(node, BDFDB.disCN._repocard)) InternalBDFDB.appendCustomControls(node);
-					if (node.nodeType != Node.TEXT_NODE) for (let child of node.querySelectorAll(BDFDB.dotCN._repocard)) InternalBDFDB.appendCustomControls(child);
-				});}});}));
-				BDFDB.ObserverUtils.connect(BDFDB, document.querySelector(`${BDFDB.dotCN.layer}[aria-label="${BDFDB.DiscordConstants.Layers.USER_SETTINGS}"]`), {name: "cardObserver", instance: cardObserver}, {childList: true, subtree: true});
-				BDFDB.ObserverUtils.connect(BDFDB, BDFDB.dotCN.applayers, {name: "appLayerObserver", instance: (new MutationObserver(changes => {changes.forEach(change => {if (change.addedNodes) {change.addedNodes.forEach(node => {
-					if (node.nodeType != Node.TEXT_NODE && node.getAttribute("aria-label") == BDFDB.DiscordConstants.Layers.USER_SETTINGS) BDFDB.ObserverUtils.connect(BDFDB, node, {name: "cardObserver", instance: cardObserver}, {childList: true, subtree: true});
-				});}});}))}, {childList: true});
-				for (let child of document.querySelectorAll(BDFDB.dotCN._repocard)) InternalBDFDB.appendCustomControls(child);
+				InternalBDFDB.addListObserver = function (layer) {
+					if (!layer) return;
+					BDFDB.ObserverUtils.connect(BDFDB, layer, {name: "cardObserver", instance: new MutationObserver(changes => {changes.forEach(change => {if (change.addedNodes) {change.addedNodes.forEach(node => {
+						if (BDFDB.DOMUtils.containsClass(node, BDFDB.disCN._repocard)) InternalBDFDB.appendCustomControls(node);
+						if (node.nodeType != Node.TEXT_NODE) for (let child of node.querySelectorAll(BDFDB.dotCN._repocard)) InternalBDFDB.appendCustomControls(child);
+					});}});})}, {childList: true, subtree: true});
+					for (let child of layer.querySelectorAll(BDFDB.dotCN._repocard)) InternalBDFDB.appendCustomControls(child);
+				}
 
 				const keyDownTimeouts = {};
 				BDFDB.ListenerUtils.add(BDFDB, document, "keydown.BDFDBPressedKeys", e => {
@@ -7300,10 +7312,16 @@ module.exports = (_ => {
 						PrivateChannel: ["componentDidMount", "componentDidUpdate"],
 						UserPopout: ["componentDidMount", "componentDidUpdate"],
 						UserProfile: ["componentDidMount", "componentDidUpdate"],
+						SettingsView: "componentDidMount",
 						Shakeable: "render"
 					}
 				};
 				
+				
+				InternalBDFDB.processSettingsView = function (e) {
+					if (e.node && e.node.parentElement && e.node.parentElement.getAttribute("aria-label") == BDFDB.DiscordConstants.Layers.USER_SETTINGS) InternalBDFDB.addListObserver(e.node.parentElement);
+				}
+			
 				let AppViewExport = BDFDB.ModuleUtils.findByName("AppView", false);
 				if (AppViewExport) InternalBDFDB.processShakeable = function (e) {
 					let [children, index] = BDFDB.ReactUtils.findParent(e.returnvalue, {name: "AppView"});
@@ -7443,7 +7461,7 @@ module.exports = (_ => {
 				const QueuedComponents = BDFDB.ArrayUtils.removeCopies([].concat(ContextMenuTypes.map(n => n + "ContextMenu"), ["GuildHeaderContextMenu", "MessageOptionContextMenu", "MessageOptionToolbar"]));	
 				InternalBDFDB.addContextListeners = function (plugin) {
 					plugin = plugin == BDFDB && InternalBDFDB || plugin;
-					for (let type of QueuedComponents) if (typeof plugin[`on${type}`] === "function") {
+					for (let type of QueuedComponents) if (typeof plugin[`on${type}`] == "function") {
 						PluginStores.patchQueues[type].query.push(plugin);
 						PluginStores.patchQueues[type].query = BDFDB.ArrayUtils.removeCopies(PluginStores.patchQueues[type].query);
 						PluginStores.patchQueues[type].query.sort((x, y) => x.name < y.name ? -1 : x.name > y.name ? 1 : 0);
@@ -7453,12 +7471,12 @@ module.exports = (_ => {
 				InternalBDFDB.patchContextMenuForPlugin = function (plugin, type, module) {
 					plugin = plugin == BDFDB && InternalBDFDB || plugin;
 					if (module && module.exports && module.exports.default) BDFDB.PatchUtils.patch(plugin, module.exports, "default", {after: e => {
-						if (e.returnValue && typeof plugin[`on${type}`] === "function") plugin[`on${type}`]({instance: {props: e.methodArguments[0]}, returnvalue: e.returnValue, methodname: "default", type: module.exports.default.displayName});
+						if (e.returnValue && typeof plugin[`on${type}`] == "function") plugin[`on${type}`]({instance: {props: e.methodArguments[0]}, returnvalue: e.returnValue, methodname: "default", type: module.exports.default.displayName});
 					}});
 				};
 				InternalBDFDB.executeExtraPatchedPatches = function (type, e) {
 					if (e.returnvalue && BDFDB.ObjectUtils.is(PluginStores.patchQueues[type]) && BDFDB.ArrayUtils.is(PluginStores.patchQueues[type].query)) {
-						for (let plugin of PluginStores.patchQueues[type].query) if(typeof plugin[`on${type}`] === "function") plugin[`on${type}`](e);
+						for (let plugin of PluginStores.patchQueues[type].query) if(typeof plugin[`on${type}`] == "function") plugin[`on${type}`](e);
 					}
 				};
 				
@@ -7960,12 +7978,12 @@ module.exports = (_ => {
 						label: BDFDB.LanguageUtils.LibraryStrings.update_check_info,
 						dividerTop: true,
 						basis: "20%",
-						children: BDFDB.LanguageUtils.LanguageStrings.CHECKING_FOR_UPDATES,
+						children: BDFDB.LanguageUtils.LibraryStrings.check_for_updates,
 						labelChildren: BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.Clickable, {
 							children: BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.SvgIcon, {
 								name: InternalComponents.LibraryComponents.SvgIcon.Names.QUESTIONMARK,
-								width: 16,
-								height: 16,
+								width: 20,
+								height: 20,
 								onClick: _ => BDFDB.ModalUtils.open(BDFDB, {
 									header: "Plugins",
 									subHeader: "",

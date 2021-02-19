@@ -6,7 +6,7 @@ services:
     environment:
       # DB settings.
       HAKA_DB_HOST: haka_db
-      HAKA_DB_PORT: 5433
+      HAKA_DB_PORT: 5432
       HAKA_DB_NAME: test
       HAKA_DB_PASS: test
       HAKA_DB_USER: test
@@ -24,7 +24,7 @@ services:
       - "127.0.0.1:8080:8080"
   haka_db:
     container_name: haka_db
-    image: postgres:11-alpine
+    image: postgres:12-alpine
     environment:
       POSTGRES_DB: test
       POSTGRES_PASSWORD: test
@@ -32,11 +32,6 @@ services:
     volumes:
       - ./docker/:/docker-entrypoint-initdb.d/
       - deploy_db_data:/var/lib/postgresql/data
-    command: -p 5433
-    expose: 
-      - "5433"
-    ports:
-      - "5433:5433"
 
 volumes:
   deploy_db_data: {}
