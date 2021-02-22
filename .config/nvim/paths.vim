@@ -1,1 +1,1 @@
-let g:python3_host_prog = expand("~/.miniconda/bin/python3.8")
+let g:python3_host_prog = "/usr/bin/python"
