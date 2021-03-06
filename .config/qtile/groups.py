@@ -1,6 +1,6 @@
 from keys import keys
 from libqtile.config import EzKey as Key
-from libqtile.config import Group, Match
+from libqtile.config import Group, Match, ScratchPad, DropDown
 from libqtile.lazy import lazy
 
 group_config = [
@@ -30,3 +30,7 @@ for i, (name, kwargs) in enumerate(group_config, 1):
             Key(f"A-S-{i}", lazy.window.togroup(name)),
         ]
     )
+
+groups += [ScratchPad("SPD", dropdowns=[DropDown("python", "kitty -e python")])]
+
+keys.extend([Key(f"A-S-p", lazy.group["SPD"].dropdown_toggle("python"))])

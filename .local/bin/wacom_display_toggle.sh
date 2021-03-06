@@ -1,5 +1,5 @@
 #!/bin/bash
-temp="wacom_display_toggle.tmp"
+temp="./wacom_display_toggle.tmp"
 
 if [[ ! -e $temp ]]
 then

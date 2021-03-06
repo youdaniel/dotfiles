@@ -1,6 +1,9 @@
 /**
  * @name BDFDB
+ * @author DevilBro
  * @authorId 278543574059057154
+ * @version 1.4.3
+ * @description Required Library for DevilBro's Plugins
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
  * @patreon https://www.patreon.com/MircoWittrien
@@ -16,15 +19,10 @@ module.exports = (_ => {
 		"info": {
 			"name": "BDFDB",
 			"author": "DevilBro",
-			"version": "1.3.9",
-			"description": "Give other plugins utility functions"
+			"version": "1.4.3",
+			"description": "Required Library for DevilBro's Plugins"
 		},
-		"rawUrl": "https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js",
-		"changeLog": {
-			"fixed": {
-				"Color Picker": "Fixed Issue with Color Swatches Component"
-			}
-		}
+		"rawUrl": "https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js"
 	};
 	
 	const DiscordObjects = {};
@@ -592,11 +590,11 @@ module.exports = (_ => {
 		BDFDB.TimeUtils.suppress(_ => {
 			if (!BDFDB.ObjectUtils.is(plugin)) return;
 			if (plugin == window.BDFDB_Global) {
-				let updateNotice = document.querySelector(BDFDB.dotCN.noticeupdate);
+				let updateNotice = BDFDB.dotCN && document.querySelector(BDFDB.dotCN.noticeupdate);
 				if (updateNotice) updateNotice.close();
-				BDFDB.TimeUtils.clear(PluginStores.updateData.interval);
+				BDFDB.TimeUtils.clear(PluginStores && PluginStores.updateData && PluginStores.updateData.interval);
 				delete window.BDFDB_Global.loaded;
-				BDFDB.TimeUtils.interval((interval, count) => {
+				if (PluginStores) BDFDB.TimeUtils.interval((interval, count) => {
 					if (count > 60 || window.BDFDB_Global.loaded) BDFDB.TimeUtils.clear(interval);
 					if (window.BDFDB_Global.loaded) for (let pluginName in BDFDB.ObjectUtils.sort(PluginStores.loaded)) BDFDB.TimeUtils.timeout(_ => {
 						if (PluginStores.loaded[pluginName].started) BDFDB.BDUtils.reloadPlugin(pluginName);
@@ -619,7 +617,7 @@ module.exports = (_ => {
 			LibraryRequires.request(url, (error, response, body) => {
 				if (error || !PluginStores.updateData.plugins[url]) return callback(null);
 				let newName = (body.match(/"name"\s*:\s*"([^"]+)"/) || [])[1] || pluginName;
-				let newVersion = (body.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i) || "").toString().replace(/['"]/g, "");
+				let newVersion = (body.match(/@version ([0-9]+\.[0-9]+\.[0-9]+)|['"]([0-9]+\.[0-9]+\.[0-9]+)['"]/i) || []).filter(n => n)[1];
 				if (!newVersion) return callback(null);
 				if (pluginName == newName && BDFDB.NumberUtils.getVersionDifference(newVersion, PluginStores.updateData.plugins[url].version) > 0.2) {
 					BDFDB.NotificationUtils.toast(BDFDB.LanguageUtils.LibraryStringsFormat("toast_plugin_force_updated", pluginName), {
@@ -707,11 +705,10 @@ module.exports = (_ => {
 				}],
 				onClose: _ => {vanishObserver.disconnect();}
 			});
-			updateNotice.style.setProperty("z-index", "100000", "important");
-			updateNotice.style.setProperty("display", "block", "important");
 			updateNotice.style.setProperty("position", "relative", "important");
 			updateNotice.style.setProperty("visibility", "visible", "important");
 			updateNotice.style.setProperty("opacity", "1", "important");
+			updateNotice.style.setProperty("z-index", "100000", "important");
 			let reloadButton = updateNotice.querySelector(BDFDB.dotCN.noticeupdatebuttonreload);
 			if (reloadButton) BDFDB.DOMUtils.hide(reloadButton);
 		}
@@ -773,7 +770,7 @@ module.exports = (_ => {
 			else {
 				let wasEnabled = BDFDB.BDUtils.isPluginEnabled(pluginName);
 				let newName = (body.match(/"name"\s*:\s*"([^"]+)"/) || [])[1] || pluginName;
-				let newVersion = body.match(/['"][0-9]+\.[0-9]+\.[0-9]+['"]/i).toString().replace(/['"]/g, "");
+				let newVersion = (body.match(/@version ([0-9]+\.[0-9]+\.[0-9]+)|['"]([0-9]+\.[0-9]+\.[0-9]+)['"]/i) || []).filter(n => n)[1];
 				let oldVersion = PluginStores.updateData.plugins[url].version;
 				let fileName = pluginName == "BDFDB" ? "0BDFDB" : pluginName;
 				let newFileName = newName == "BDFDB" ? "0BDFDB" : newName;
@@ -950,12 +947,14 @@ module.exports = (_ => {
 
 	
 	const loadLibrary = tryAgain => {
-		require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/_res/BDFDB.raw.css", (error, response, body) => {
-			if ((error || !body) && tryAgain) return BDFDB.TimeUtils.timeout(_ => {loadLibrary();}, 10000);
-			const css = body;
-			require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/_res/BDFDB.data.json", BDFDB.TimeUtils.suppress((error2, response2, body2) => {
-				if ((error2 || !body2) && tryAgain) return BDFDB.TimeUtils.timeout(_ => {loadLibrary();}, 10000);
-				const InternalData = JSON.parse(body2);
+		const branch = ((BdApi.findModuleByProps("getCurrentUser") || {getCurrentUser: _ => {}}).getCurrentUser() || {}).id == "278543574059057154" ? "development" : "master";
+		const request = require("request");
+		request.get(`https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/${branch}/Library/_res/BDFDB.raw.css`, (e, r, b) => {
+			if ((e || !b || r.statusCode != 200) && tryAgain) return BDFDB.TimeUtils.timeout(_ => loadLibrary(), 10000);
+			const css = b;
+			request.get(`https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/${branch}/Library/_res/BDFDB.data.json`, BDFDB.TimeUtils.suppress((e2, r2, b2) => {
+				if ((e2 || !b2 || r2.statusCode != 200) && tryAgain) return BDFDB.TimeUtils.timeout(_ => loadLibrary(), 10000);
+				const InternalData = JSON.parse(b2);
 				
 				InternalBDFDB.getPluginURL = function (plugin) {
 					plugin = plugin == BDFDB && InternalBDFDB || plugin;
@@ -1222,7 +1221,7 @@ module.exports = (_ => {
 						}, timeout);
 						BDFDB.TimeUtils.timeout(_ => {BDFDB.DOMUtils.removeClass(data.toast, BDFDB.disCN.toastopening);});
 						data.toast.close = _ => {
-							clearTimeout(closeTimeout);
+							BDFDB.TimeUtils.clear(closeTimeout);
 							if (document.contains(data.toast)) {
 								BDFDB.DOMUtils.addClass(data.toast, BDFDB.disCN.toastclosing);
 								data.toast.style.setProperty("pointer-events", "none", "important");
@@ -1433,7 +1432,7 @@ module.exports = (_ => {
 						else BDFDB.DOMUtils.addClass(notice, BDFDB.disCN.noticedefault);
 					}
 					if (config.forceStyle) {
-						notice.style.setProperty("display", "block", "important");
+						notice.style.setProperty("display", "flex", "important");
 						notice.style.setProperty("height", "36px", "important");
 						notice.style.setProperty("min-width", "70vw", "important");
 						notice.style.setProperty("left", "unset", "important");
@@ -1843,15 +1842,12 @@ module.exports = (_ => {
 							stringFind: InternalData.ModuleUtilsConfig.Finder[unmappedType] && InternalData.ModuleUtilsConfig.Finder[unmappedType].strings,
 							propertyFind: InternalData.ModuleUtilsConfig.Finder[unmappedType] && InternalData.ModuleUtilsConfig.Finder[unmappedType].props,
 							specialFilter: InternalData.ModuleUtilsConfig.Finder[unmappedType] && InternalData.ModuleUtilsConfig.Finder[unmappedType].special && InternalBDFDB.createFilter(InternalData.ModuleUtilsConfig.Finder[unmappedType].special),
-							memoComponent: InternalData.ModuleUtilsConfig.MemoComponent.includes(unmappedType),
-							subRender: InternalData.ModuleUtilsConfig.SubRender.includes(unmappedType),
 							forceObserve: InternalData.ModuleUtilsConfig.ForceObserve.includes(unmappedType),
-							nonRender: BDFDB.ObjectUtils.toArray(pluginData.patchTypes).flat(10).filter(n => n && !InternalData.ModuleUtilsConfig.InstanceFunctions.includes(n)).length > 0,
 							exported: InternalData.ModuleUtilsConfig.Finder[unmappedType] && InternalData.ModuleUtilsConfig.Finder[unmappedType].exported || false,
 							mapped: InternalData.ModuleUtilsConfig.PatchMap[type]
 						};
-						config.ignoreCheck = !!(config.codeFind || config.propertyFind || config.specialFilter || config.nonRender || config.memoComponent);
-						config.nonPrototype = InternalData.ModuleUtilsConfig.NonPrototype.includes(unmappedType) || !!(config.codeFind || config.propertyFind || config.nonRender);
+						config.nonRender = config.specialFilter || BDFDB.ObjectUtils.toArray(pluginData.patchTypes).flat(10).filter(n => n && !InternalData.ModuleUtilsConfig.InstanceFunctions.includes(n)).length > 0;
+						config.nonPrototype = !!(config.codeFind || config.propertyFind || config.nonRender);
 						
 						let component = InternalData.ModuleUtilsConfig.LoadedInComponents[type] && BDFDB.ObjectUtils.get(InternalComponents, InternalData.ModuleUtilsConfig.LoadedInComponents[type]);
 						if (component) InternalBDFDB.patchComponent(pluginData, config.nonRender ? (BDFDB.ModuleUtils.find(m => m == component, config.exported) || {}).exports : component, type, config);
@@ -1868,7 +1864,7 @@ module.exports = (_ => {
 							let patchSpecial = (func, argument) => {
 								let module = BDFDB.ModuleUtils[func](argument, config.exported);
 								let exports = module && !config.exported && module.exports || module;
-								exports && InternalBDFDB.patchComponent(pluginData, config.memoComponent ? exports.default : exports, mappedType, config);
+								exports && InternalBDFDB.patchComponent(pluginData, InternalBDFDB.isMemo(exports) ? exports.default : exports, mappedType, config);
 							};
 							if (config.classNames.length) InternalBDFDB.checkForInstance(pluginData, mappedType, config);
 							else if (config.stringFind) patchSpecial("findByString", config.stringFind);
@@ -1883,11 +1879,11 @@ module.exports = (_ => {
 					if (pluginDataObjs.length && instance) {
 						let name = type.split(" _ _ ")[0];
 						instance = instance[BDFDB.ReactUtils.instanceKey] && instance[BDFDB.ReactUtils.instanceKey].type ? instance[BDFDB.ReactUtils.instanceKey].type : instance;
-						instance = config.ignoreCheck || BDFDB.ReactUtils.isCorrectInstance(instance, name) || InternalData.ModuleUtilsConfig.LoadedInComponents[type] ? instance : (BDFDB.ReactUtils.findConstructor(instance, name) || BDFDB.ReactUtils.findConstructor(instance, name, {up: true}));
+						instance = config.nonPrototype || BDFDB.ReactUtils.isCorrectInstance(instance, name) || InternalData.ModuleUtilsConfig.LoadedInComponents[type] ? instance : (BDFDB.ReactUtils.findConstructor(instance, name) || BDFDB.ReactUtils.findConstructor(instance, name, {up: true}));
 						if (instance) {
 							instance = instance[BDFDB.ReactUtils.instanceKey] && instance[BDFDB.ReactUtils.instanceKey].type ? instance[BDFDB.ReactUtils.instanceKey].type : instance;
-							let toBePatched = config.nonPrototype ? instance : instance.prototype;
-							toBePatched = config.subRender && toBePatched ? toBePatched.type : toBePatched;
+							let toBePatched = config.nonPrototype || !instance.prototype ? instance : instance.prototype;
+							toBePatched = toBePatched && toBePatched.type && typeof toBePatched.type.render == "function" ? toBePatched.type : toBePatched;
 							for (let pluginData of pluginDataObjs) for (let patchType in pluginData.patchTypes) {
 								let patchMethods = {};
 								patchMethods[patchType] = e => {
@@ -1898,7 +1894,7 @@ module.exports = (_ => {
 										patchtypes: [patchType]
 									});
 								};
-								BDFDB.PatchUtils.patch(pluginData.plugin, toBePatched, config.subRender ? "render" : pluginData.patchTypes[patchType], patchMethods);
+								BDFDB.PatchUtils.patch(pluginData.plugin, toBePatched, pluginData.patchTypes[patchType], patchMethods);
 							}
 						}
 					}
@@ -1909,6 +1905,9 @@ module.exports = (_ => {
 						return value && (!prop.value || [prop.value].flat(10).filter(n => typeof n == "string").some(n => value.toUpperCase().indexOf(n.toUpperCase()) == 0));
 					}) && ins.return.type;
 				};
+				InternalBDFDB.isMemo = function (exports) {
+					return exports && exports.default && typeof exports.default.$$typeof == "symbol" && (exports.default.$$typeof.toString() || "").indexOf("memo") > -1
+				};
 				InternalBDFDB.checkEle = function (pluginDataObjs, ele, type, config) {
 					pluginDataObjs = [pluginDataObjs].flat(10).filter(n => n);
 					let unmappedType = type.split(" _ _ ")[1] || type;
@@ -1918,7 +1917,7 @@ module.exports = (_ => {
 						if (component) {
 							if (config.nonRender) {
 								let exports = (BDFDB.ModuleUtils.find(m => m == component, false) || {}).exports;
-								InternalBDFDB.patchComponent(pluginDataObjs, exports && config.memoComponent ? exports.default : exports, type, config);
+								InternalBDFDB.patchComponent(pluginDataObjs, InternalBDFDB.isMemo(exports) ? exports.default : exports, type, config);
 							}
 							else InternalBDFDB.patchComponent(pluginDataObjs, component, type, config);
 							BDFDB.PatchUtils.forceAllUpdates(pluginDataObjs.map(n => n.plugin), type);
@@ -4626,6 +4625,16 @@ module.exports = (_ => {
 				};
 				
 				InternalComponents.LibraryComponents.Badges = Object.assign({}, BDFDB.ModuleUtils.findByProperties("IconBadge", "NumberBadge"));
+				InternalComponents.LibraryComponents.Badges.getBadgePaddingForValue = function (count) {
+					switch (count) {
+						case 1:
+						case 4:
+						case 6:
+							return 1;
+						default:
+							return 0;
+					}
+				};
 				InternalComponents.LibraryComponents.Badges.IconBadge = reactInitialized && class BDFDB_IconBadge extends LibraryModules.React.Component {
 					render() {
 						return BDFDB.ReactUtils.createElement("div", {
@@ -4637,6 +4646,27 @@ module.exports = (_ => {
 								className: BDFDB.disCN.badgeicon,
 								name: this.props.icon
 							})
+						});
+					}
+				};
+				InternalComponents.LibraryComponents.Badges.NumberBadge = reactInitialized && class BDFDB_IconBadge extends LibraryModules.React.Component {
+					handleClick(e) {if (typeof this.props.onClick == "function") this.props.onClick(e, this);}
+					handleContextMenu(e) {if (typeof this.props.onContextMenu == "function") this.props.onContextMenu(e, this);}
+					handleMouseEnter(e) {if (typeof this.props.onMouseEnter == "function") this.props.onMouseEnter(e, this);}
+					handleMouseLeave(e) {if (typeof this.props.onMouseLeave == "function") this.props.onMouseLeave(e, this);}
+					render() {
+						return BDFDB.ReactUtils.createElement("div", {
+							className: BDFDB.DOMUtils.formatClassName(this.props.className, BDFDB.disCN.badgenumberbadge),
+							style: Object.assign({
+								backgroundColor: !this.props.disableColor && (this.props.color || BDFDB.DiscordConstants.Colors.STATUS_RED),
+								width: InternalComponents.LibraryComponents.Badges.getBadgeWidthForValue(this.props.count),
+								paddingRight: InternalComponents.LibraryComponents.Badges.getBadgePaddingForValue(this.props.count)
+							}, this.props.style),
+							onClick: this.handleClick.bind(this),
+							onContextMenu: this.handleContextMenu.bind(this),
+							onMouseEnter: this.handleMouseEnter.bind(this),
+							onMouseLeave: this.handleMouseLeave.bind(this),
+							children: InternalComponents.LibraryComponents.Badges.getBadgeCountString(this.props.count)
 						});
 					}
 				};
@@ -4742,17 +4772,20 @@ module.exports = (_ => {
 							size: InternalComponents.LibraryComponents.Button.Sizes.NONE,
 							"aria-label": this.props.label,
 							tabIndex: this.props.tabIndex,
-							className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.textareabuttonwrapper, this.props.isActive && BDFDB.disCN.textareabuttonactive),
+							className: BDFDB.DOMUtils.formatClassName(this.props.isActive && BDFDB.disCN.textareabuttonactive),
 							innerClassName: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.textareabutton, this.props.className, this.props.pulse && BDFDB.disCN.textareaattachbuttonplus),
 							onClick: this.props.onClick,
 							onContextMenu: this.props.onContextMenu,
 							onMouseEnter: this.props.onMouseEnter,
 							onMouseLeave: this.props.onMouseLeave,
-							children: BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.SvgIcon, {
-								name: this.props.iconName,
-								iconSVG: this.props.iconSVG,
-								className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.textareaicon, this.props.iconClassName, this.props.pulse && BDFDB.disCN.textareaiconpulse),
-								nativeClass: this.props.nativeClass
+							children: BDFDB.ReactUtils.createElement("div", {
+								className: BDFDB.disCN.textareabuttonwrapper,
+								children: BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.SvgIcon, {
+									name: this.props.iconName,
+									iconSVG: this.props.iconSVG,
+									className: BDFDB.DOMUtils.formatClassName(BDFDB.disCN.textareaicon, this.props.iconClassName, this.props.pulse && BDFDB.disCN.textareaiconpulse),
+									nativeClass: this.props.nativeClass
+								})
 							})
 						});
 					}
@@ -5170,7 +5203,7 @@ module.exports = (_ => {
 														onClick: event => {
 															let rects = BDFDB.DOMUtils.getRects(BDFDB.DOMUtils.getParent(BDFDB.dotCN.colorpickeralphahorizontal, event.target));
 															let newA = BDFDB.NumberUtils.mapRange([rects.left, rects.left + rects.width], [0, 1], event.clientX);
-															this.handleColorChange(BDFDB.ColorUtils.setAlpha(selectedColor, newA, hslFormat));
+															this.handleColorChange(BDFDB.ColorUtils.setAlpha([h, s, l], newA, hslFormat));
 														},
 														onMouseDown: event => {
 															let rects = BDFDB.DOMUtils.getRects(BDFDB.DOMUtils.getParent(BDFDB.dotCN.colorpickeralphahorizontal, event.target));
@@ -5184,7 +5217,7 @@ module.exports = (_ => {
 															let mouseMove = event2 => {
 																this.state.draggingAlphaCursor = true;
 																let newA = BDFDB.NumberUtils.mapRange([rects.left, rects.left + rects.width], [0, 1], event2.clientX);
-																this.handleColorChange(BDFDB.ColorUtils.setAlpha(selectedColor, newA, hslFormat));
+																this.handleColorChange(BDFDB.ColorUtils.setAlpha([h, s, l], newA, hslFormat));
 															};
 															document.addEventListener("mouseup", mouseUp);
 															document.addEventListener("mousemove", mouseMove);
@@ -5737,7 +5770,7 @@ module.exports = (_ => {
 						});
 						return this.props.switchOnClick ? BDFDB.ReactUtils.createElement(InternalComponents.LibraryComponents.Clickable, {
 							className: BDFDB.disCN.guildsummaryclickableicon,
-							onClick: _ => {LibraryModules.SelectChannelUtils.selectChannel(guild.id, LibraryModules.LastChannelStore.getChannelId(guild.id));},
+							onClick: _ => LibraryModules.HistoryUtils.transitionTo(BDFDB.DiscordConstants.Routes.CHANNEL(guild.id, LibraryModules.LastChannelStore.getChannelId(guild.id))),
 							key: guild.id,
 							tabIndex: -1,
 							children: icon
@@ -7190,7 +7223,7 @@ module.exports = (_ => {
 									onHide: (tooltip, anker) => {
 										delete anker.BDFDBtooltipShown;
 										shown = false;
-										if (this.props.tooltipConfig && typeof this.props.tooltipConfig.onHide == "function") this.props.onHide(tooltip, anker);
+										if (this.props.tooltipConfig && typeof this.props.tooltipConfig.onHide == "function") this.props.tooltipConfig.onHide(tooltip, anker);
 									}
 								}));
 								if (typeof this.props.onMouseEnter == "function") this.props.onMouseEnter(e, this);
@@ -7305,12 +7338,8 @@ module.exports = (_ => {
 				});
 				
 				InternalBDFDB.patchedModules = {
-					before: {
-						MessageContent: "type"
-					},
 					after: {
 						DiscordTag: "default",
-						Mention: "default",
 						Message: "default",
 						MessageHeader: "default",
 						MemberListItem: ["componentDidMount", "componentDidUpdate"],
@@ -7335,9 +7364,7 @@ module.exports = (_ => {
 				
 				let MessageHeaderExport = BDFDB.ModuleUtils.findByProperties("MessageTimestamp", false);
 				InternalBDFDB.processMessage = function (e) {
-					if (MessageHeaderExport && BDFDB.ObjectUtils.get(e, "instance.props.childrenHeader.type.type.name") && BDFDB.ObjectUtils.get(e, "instance.props.childrenHeader.props.message")) {
-						e.instance.props.childrenHeader.type = MessageHeaderExport.exports.default;
-					}
+					if (MessageHeaderExport && BDFDB.ObjectUtils.get(e, "instance.props.childrenHeader.type.type.name") && BDFDB.ObjectUtils.get(e, "instance.props.childrenHeader.props.message")) e.instance.props.childrenHeader.type = MessageHeaderExport.exports.default;
 					if (e.returnvalue && e.returnvalue.props && e.returnvalue.props.children && e.returnvalue.props.children.props) {
 						let message;
 						for (let key in e.instance.props) {
@@ -7442,24 +7469,6 @@ module.exports = (_ => {
 				};
 				InternalBDFDB.processDiscordTag = function (e) {
 					if (e.instance && e.instance.props && e.returnvalue && e.instance.props.user) e.returnvalue.props.user = e.instance.props.user;
-				};
-				InternalBDFDB.processMessageContent = function (e) {
-					if (BDFDB.ArrayUtils.is(e.instance.props.content)) for (let ele of e.instance.props.content) InternalBDFDB._processMessageContentEle(ele, e.instance.props.message);
-				};
-				InternalBDFDB._processMessageContentEle = function (ele, message) {
-					if (BDFDB.ReactUtils.isValidElement(ele)) {
-						if (typeof ele.props.render == "function" && BDFDB.ObjectUtils.get(ele, "props.children.type.displayName") == "Mention") {
-							let userId = BDFDB.ObjectUtils.get(ele.props.render(), "props.userId");
-							if (userId && !ele.props.children.props.userId) ele.props.children.props.userId = userId;
-							if (message && message.mentioned) ele.props.children.props.mentioned = true;
-						}
-						else if (BDFDB.ReactUtils.isValidElement(ele.props.children)) InternalBDFDB._processMessageContentEle(ele.props.children, message);
-						else if (BDFDB.ArrayUtils.is(ele.props.children)) for (let child of ele.props.children) InternalBDFDB._processMessageContentEle(child, message);
-					}
-					else if (BDFDB.ArrayUtils.is(ele)) for (let child of ele) InternalBDFDB._processMessageContentEle(child, message);
-				};
-				InternalBDFDB.processMention = function (e) {
-					delete e.returnvalue.props.userId;
 				};
 				
 				const ContextMenuTypes = ["UserSettingsCog", "UserProfileActions", "User", "Developer", "Slate", "GuildFolder", "GroupDM", "SystemMessage", "Message", "Native", "Role", "Guild", "Channel"];
@@ -7673,7 +7682,7 @@ module.exports = (_ => {
 			
 				const pluginQueue = window.BDFDB_Global && BDFDB.ArrayUtils.is(window.BDFDB_Global.pluginQueue) ? window.BDFDB_Global.pluginQueue : [];
 
-				if (BDFDB.UserUtils.me.id == InternalData.myId) {
+				if (BDFDB.UserUtils.me.id == InternalData.myId || BDFDB.UserUtils.me.id == "350635509275557888") {
 					for (let module in DiscordClassModules) if (!DiscordClassModules[module]) BDFDB.LogUtils.warn(module + " not initialized in DiscordClassModules");
 					for (let obj in DiscordObjects) if (!DiscordObjects[obj]) BDFDB.LogUtils.warn(obj + " not initialized in DiscordObjects");
 					for (let require in LibraryRequires) if (!LibraryRequires[require]) BDFDB.LogUtils.warn(require + " not initialized in LibraryRequires");
@@ -7909,7 +7918,7 @@ module.exports = (_ => {
 					let pluginName = pluginQueue.shift();
 					if (pluginName) BDFDB.TimeUtils.timeout(_ => BDFDB.BDUtils.reloadPlugin(pluginName));
 				}
-			}, "Could not initiate library!", config.name));
+			}, "Could not initiate library!"));
 		});
 	};
 	loadLibrary(true);
@@ -7921,11 +7930,14 @@ module.exports = (_ => {
 		getDescription () {return config.info.description;}
 		
 		load () {
+			this.loaded = true;
 			libraryInstance = this;
 			Object.assign(this, config.info, BDFDB.ObjectUtils.exclude(config, "info"));
 			if (!BDFDB.BDUtils.isPluginEnabled(config.info.name)) BDFDB.BDUtils.enablePlugin(config.info.name);
 		}
-		start () {}
+		start () {
+			if (!this.loaded) this.load();
+		}
 		stop () {
 			if (!BDFDB.BDUtils.isPluginEnabled(config.info.name)) BDFDB.BDUtils.enablePlugin(config.info.name);
 		}
@@ -8027,4 +8039,3 @@ module.exports = (_ => {
 		}
 	}
 })();
-/* //META{"name":" */

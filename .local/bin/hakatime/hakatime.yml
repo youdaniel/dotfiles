@@ -11,8 +11,8 @@ services:
       HAKA_DB_PASS: test
       HAKA_DB_USER: test
       # Server settings.
-      HAKA_BADGE_URL: "http://localhost:8080"
-      HAKA_PORT: 8080
+      HAKA_BADGE_URL: "http://localhost:4252"
+      HAKA_PORT: 4252
       HAKA_SHIELDS_IO_URL: "https://img.shields.io"
       HAKA_ENABLE_REGISTRATION: "true" # Toggle after you've created your account.
       # Number of hours after which inactive browser sessions will expire (login required).
@@ -21,7 +21,7 @@ services:
       HAKA_ENV: "prod" # Use a json logger for production.
       HAKA_HTTP_LOG: "true" # If you want to log http requests.
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:4252:4252"
   haka_db:
     container_name: haka_db
     image: postgres:12-alpine

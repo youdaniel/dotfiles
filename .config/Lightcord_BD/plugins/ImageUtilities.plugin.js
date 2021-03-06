@@ -14,15 +14,15 @@ module.exports = (_ => {
 		"info": {
 			"name": "ImageUtilities",
 			"author": "DevilBro",
-			"version": "4.2.9",
+			"version": "4.3.3",
 			"description": "Add a handful of options for images/emotes/avatars (direct download, reverse image search, zoom, copy image link, copy image to clipboard, gallery mode)"
 		},
 		"changeLog": {
-			"fixed": {
-				"Image as Video": "Fixed issue where images would sometimes be seen as videos"
-			},
 			"improved": {
-				"Discords Native Options": "Instead of just hiding the native image options, the plugin now injects the new options into the native groups"
+				"Video File Types": "Added 10 additional video file types"
+			},
+			"fixed": {
+				"Twitter Gallery": "Fixed an issue where gallery mode wouldn't work with some twitter embedded images"
 			}
 		}
 	};
@@ -71,16 +71,28 @@ module.exports = (_ => {
 		const imgUrlReplaceString = "DEVILBRO_BD_REVERSEIMAGESEARCH_REPLACE_IMAGEURL";
 			
 		const fileTypes = {
-			apng:	{copyable: false,	searchable: true,	video: false},
-			avi:	{copyable: false,	searchable: false,	video: true},
-			jpeg:	{copyable: true,	searchable: true,	video: false},
-			jpg:	{copyable: true,	searchable: true,	video: false},
-			gif:	{copyable: false,	searchable: true,	video: false},
-			mov:	{copyable: false,	searchable: false,	video: true},
-			mp4:	{copyable: false,	searchable: false,	video: true},
-			png:	{copyable: true,	searchable: true,	video: false},
-			svg:	{copyable: false,	searchable: false,	video: false},
-			webp:	{copyable: true,	searchable: true,	video: false}
+			"3gp":		{copyable: false,	searchable: false,	video: true},
+			"3g2":		{copyable: false,	searchable: false,	video: true},
+			"amv":		{copyable: false,	searchable: false,	video: true},
+			"apng":		{copyable: false,	searchable: true,	video: false},
+			"avi":		{copyable: false,	searchable: false,	video: true},
+			"flv":		{copyable: false,	searchable: false,	video: true},
+			"jpeg":		{copyable: true,	searchable: true,	video: false},
+			"jpg":		{copyable: true,	searchable: true,	video: false},
+			"gif":		{copyable: false,	searchable: true,	video: false},
+			"m4v":		{copyable: false,	searchable: false,	video: true},
+			"mkv":		{copyable: false,	searchable: false,	video: true},
+			"mov":		{copyable: false,	searchable: false,	video: true},
+			"mp4":		{copyable: false,	searchable: false,	video: true},
+			"mpeg-1":	{copyable: false,	searchable: false,	video: true},
+			"mpeg-2":	{copyable: false,	searchable: false,	video: true},
+			"ogg":		{copyable: false,	searchable: false,	video: true},
+			"ogv":		{copyable: false,	searchable: false,	video: true},
+			"png":		{copyable: true,	searchable: true,	video: false},
+			"svg":		{copyable: false,	searchable: false,	video: false},
+			"webm":		{copyable: false,	searchable: false,	video: true},
+			"webp":		{copyable: true,	searchable: true,	video: false},
+			"wmv":		{copyable: false,	searchable: false,	video: true}
 		};
 		
 		const ImageDetails = class ImageDetails extends BdApi.React.Component {
@@ -142,6 +154,7 @@ module.exports = (_ => {
 						enableCopyImg: 			{value: true,	inner: false,		description: "Add a copy Image option in the Image Modal"},
 						enableSaveImg: 			{value: true,	inner: false,		description: "Add a save Image as option in the Image Modal"},
 						addUserAvatarEntry: 	{value: true, 	inner: true,		description: "User Avatars"},
+						addGroupIconEntry: 		{value: true, 	inner: true,		description: "Group Icons"},
 						addGuildIconEntry: 		{value: true, 	inner: true,		description: "Server Icons"},
 						addEmojiEntry: 			{value: true, 	inner: true,		description: "Custom Emojis/Emotes"}
 					},
@@ -487,6 +500,10 @@ module.exports = (_ => {
 				if (e.instance.props.user && settings.addUserAvatarEntry) this.injectItem(e, e.instance.props.user.getAvatarURL("png"), BDFDB.LibraryModules.IconUtils.hasAnimatedAvatar(e.instance.props.user) && e.instance.props.user.getAvatarURL("gif"))
 			}
 
+			onGroupDMContextMenu (e) {
+				if (e.instance.props.channel && e.instance.props.channel.isGroupDM() && settings.addGroupIconEntry) this.injectItem(e, BDFDB.DMUtils.getIcon(e.instance.props.channel.id));
+			}
+
 			onNativeContextMenu (e) {
 				if (e.type == "NativeImageContextMenu" && (e.instance.props.href || e.instance.props.src)) {
 					this.injectItem(e, e.instance.props.href || e.instance.props.src);
@@ -513,16 +530,17 @@ module.exports = (_ => {
 			}
 
 			injectItem (e, ...urls) {
-				let types = [];
+				let fileTypes = [];
 				let validUrls = urls.filter(n => this.isValid(n)).map(n => {
-					let url = n.replace(/^url\(|\)$|"|'/g, "").replace(/\?size\=\d+$/, "?size=4096").replace(/[\?\&](height|width)=\d+/g, "");
-					if (url.indexOf("https://images-ext-1.discordapp.net/external/") > -1) {
+					let originalUrl = n.replace(/^url\(|\)$|"|'/g, "").replace(/\?size\=\d+$/, "?size=4096");
+					let url = originalUrl.replace(/[\?\&](height|width)=\d+/g, "").split("%3A")[0];
+					if (url.indexOf("https://images-ext-1.discordapp.net/external/") > -1 || url.indexOf("https://images-ext-2.discordapp.net/external/") > -1) {
 						if (url.split("/https/").length > 1) url = "https://" + url.split("/https/").pop();
 						else if (url.split("/http/").length > 1) url = "http://" + url.split("/http/").pop();
 					}
 					const file = url && (BDFDB.LibraryModules.URLParser.parse(url).pathname || "").toLowerCase();
-					const type = file && file.split(".").pop();
-					return url && type && !types.includes(type) && types.push(type) && {url, type};
+					const fileType = file && (file.split(".").pop() || "");
+					return url && fileType && !fileTypes.includes(fileType) && fileTypes.push(fileType) && {url, originalUrl, fileType};
 				}).filter(n => n);
 				if (!validUrls.length) return;
 				
@@ -536,10 +554,10 @@ module.exports = (_ => {
 				
 				let type = this.isValid(validUrls[0].url, "video") ? BDFDB.LanguageUtils.LanguageStrings.VIDEO : BDFDB.LanguageUtils.LanguageStrings.IMAGE;
 				let isNative = validUrls.length == 1 && removeIndex > -1;
-				let subMenu = validUrls.length == 1 ? this.createUrlMenu(e, validUrls[0].url) : validUrls.map((urlData, i) => BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
-					label: urlData.type.toUpperCase(),
+				let subMenu = validUrls.length == 1 ? this.createUrlMenu(e, validUrls[0].url, validUrls[0].originalUrl) : validUrls.map((urlData, i) => BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
+					label: urlData.fileType.toUpperCase(),
 					id: BDFDB.ContextMenuUtils.createItemId(this.name, "subitem", i),
-					children: this.createUrlMenu(e, urlData.url)
+					children: this.createUrlMenu(e, urlData.url, urlData.originalUrl)
 				}));
 				
 				let [children, index] = isNative ? [removeParent, removeIndex] : BDFDB.ContextMenuUtils.findItem(e.returnvalue, {id: "devmode-copy-id", group: true});
@@ -552,7 +570,7 @@ module.exports = (_ => {
 				}));
 			}
 			
-			createUrlMenu (e, url) {
+			createUrlMenu (e, url, originalUrl) {
 				let enginesWithoutAll = BDFDB.ObjectUtils.filter(enabledEngines, n => n != "_all", true);
 				let engineKeys = Object.keys(enginesWithoutAll);
 				let locations = Object.keys(ownLocations).filter(n => ownLocations[n].enabled);
@@ -586,8 +604,8 @@ module.exports = (_ => {
 											size: BDFDB.LibraryComponents.ModalComponents.ModalSize.DYNAMIC,
 											"aria-label": BDFDB.LanguageUtils.LanguageStrings.IMAGE,
 											children: BDFDB.ReactUtils.createElement(BDFDB.LibraryComponents.ImageModal, {
-												src: url,
-												original: url,
+												src: originalUrl || url,
+												original: originalUrl || url,
 												width: this.width,
 												height: this.height,
 												className: BDFDB.disCN.imagemodalimage,
@@ -814,6 +832,8 @@ module.exports = (_ => {
 							if (event.which != 1) return;
 							BDFDB.ListenerUtils.stopEvent(event);
 
+							let vanishObserver;
+							
 							let imgRects = BDFDB.DOMUtils.getRects(e.node.firstElementChild);
 
 							let lens = BDFDB.DOMUtils.create(`<div class="${BDFDB.disCN._imageutilitieslense}" style="border-radius: 50% !important; pointer-events: none !important; z-index: 10000 !important; width: ${zoomSettings.lensesize}px !important; height: ${zoomSettings.lensesize}px !important; position: fixed !important;"><div style="position: absolute !important; top: 0 !important; right: 0 !important; bottom: 0 !important; left: 0 !important;"><${e.node.firstElementChild.tagName} src="${e.instance.props.src}" style="width: ${imgRects.width * zoomSettings.zoomlevel}px; height: ${imgRects.height * zoomSettings.zoomlevel}px; position: fixed !important;${settings.pixelZoom ? " image-rendering: pixelated !important;" : ""}"${e.node.firstElementChild.tagName == "VIDEO" ? " loop autoplay" : ""}></${e.node.firstElementChild.tagName}></div></div>`);
@@ -853,10 +873,7 @@ module.exports = (_ => {
 								this.cleanupListeners("Zoom");
 								document.removeEventListener("mousemove", dragging);
 								document.removeEventListener("mouseup", releasing);
-								if (document.removeImageUtilitiesZoomObserver) {
-									document.removeImageUtilitiesZoomObserver.disconnect();
-									delete document.removeImageUtilitiesZoomObserver;
-								}
+								if (vanishObserver) vanishObserver.disconnect();
 								BDFDB.DOMUtils.remove(lens, backdrop);
 								BDFDB.DataUtils.save(zoomSettings, this, "zoomSettings");
 							};
@@ -899,13 +916,8 @@ module.exports = (_ => {
 							document.addEventListener("keydown", document.keydownImageUtilitiesZoomListener);
 							document.addEventListener("keyup", document.keyupImageUtilitiesZoomListener);
 							
-							document.removeImageUtilitiesZoomObserver = new MutationObserver(changes => changes.forEach(change => {
-								let nodes = Array.from(change.removedNodes);
-								if (nodes.indexOf(appMount) > -1 || nodes.some(n => n.contains(appMount)) || nodes.indexOf(e.node) > -1 || nodes.some(n => n.contains(e.node))) {
-									releasing();
-								}
-							}));
-							document.removeImageUtilitiesZoomObserver.observe(document.body, {subtree: true, childList: true});
+							vanishObserver = new MutationObserver(changes => {if (!document.contains(e.node)) releasing();});
+							vanishObserver.observe(appMount, {childList: true, subtree: true});
 						});
 					}
 				}
@@ -967,8 +979,8 @@ module.exports = (_ => {
 			
 			isValid (url, type) {
 				if (!url) return false;
-				const file = url && (BDFDB.LibraryModules.URLParser.parse(url).pathname || "").toLowerCase();
-				return file && (!type && (url.startsWith("https://images-ext-2.discordapp.net/") || Object.keys(fileTypes).some(t => file.endsWith(`/${t}`) || file.endsWith(`.${t}`))) || type && Object.keys(fileTypes).filter(t => fileTypes[t][type]).some(t => file.endsWith(`/${t}`) || file.endsWith(`.${t}`)));
+				const file = url && (BDFDB.LibraryModules.URLParser.parse(url).pathname || "").split("%3A")[0].toLowerCase();
+				return file && (!type && (url.startsWith("https://images-ext-1.discordapp.net/") || url.startsWith("https://images-ext-2.discordapp.net/") || Object.keys(fileTypes).some(t => file.endsWith(`/${t}`) || file.endsWith(`.${t}`))) || type && Object.keys(fileTypes).filter(t => fileTypes[t][type]).some(t => file.endsWith(`/${t}`) || file.endsWith(`.${t}`)));
 			}
 			
 			downloadFile (url, path) {
@@ -1397,16 +1409,16 @@ module.exports = (_ => {
 						};
 					case "th":		// Thai
 						return {
-							context_copy:						"คัดลอก {{var0}}",
+							context_copy:						"คัดลอก{{var0}}",
 							context_lenssize:					"ขนาดเลนส์",
-							context_saveas:						"บันทึก {{var0}} เป็น ...",
-							context_searchwith:					"ค้นหา {{var0}} ด้วย ...",
-							context_view:						"ดู {{var0}}",
+							context_saveas:						"บันทึก{{var0}}เป็น ...",
+							context_searchwith:					"ค้นหา{{var0}} ้วย ...",
+							context_view:						"ดู{{var0}}",
 							submenu_disabled:					"ปิดใช้งานทั้งหมด",
-							toast_copy_failed:					"ไม่สามารถคัดลอก {{var0}} ไปยังคลิปบอร์ดได้",
-							toast_copy_success:					"คัดลอก {{var0}} ไปยังคลิปบอร์ดแล้ว",
-							toast_save_failed:					"ไม่สามารถบันทึก {{var0}} ใน '{{var1}}'",
-							toast_save_success:					"{{var0}} ถูกบันทึกใน '{{var1}}'"
+							toast_copy_failed:					"ไม่สามารถคัดลอก{{var0}}ไปยังคลิปบอร์ดได้",
+							toast_copy_success:					"คัดลอก{{var0}}ไปยังคลิปบอร์ดแล้ว",
+							toast_save_failed:					"ไม่สามารถบันทึก{{var0}}ใน '{{var1}}'",
+							toast_save_success:					"{{var0}} ูกบันทึกใน '{{var1}}'"
 						};
 					case "tr":		// Turkish
 						return {
