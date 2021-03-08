@@ -117,6 +117,7 @@ keys = [
     Key("<XF86AudioNext>", lazy.spawn("playerctl next")),
     Key("<XF86AudioPrev>", lazy.spawn("playerctl previous")),
     Key("<XF86AudioStop>", lazy.spawn("playerctl stop")),
+    Key("A-C-m", lazy.spawn("toggle_microphone.sh")),
     # Scripts
     Key("A-C-w", lazy.spawn("wacom_display_toggle.sh")),
     Key("<Print>", lazy.spawn("screenshot.sh select_no_save")),

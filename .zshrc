@@ -1,6 +1,11 @@
 # add cargo to path
 if [ -d "/home/daniel/.cargo" ]; then
-  export PATH="/home/daniel/.cargo/bin:$PATH"
+  export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# add poetry to path
+if [ -d "/home/daniel/.poetry" ]; then
+  export PATH="$HOME/.poetry/bin:$PATH"
 fi
 
 # Load Antigen
