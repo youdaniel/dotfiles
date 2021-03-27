@@ -1,6 +1,6 @@
 {
     "coc.preferences.formatOnType": true,
-    "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "css", "scss", "markdown", "cpp", "vue"],
+    "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "css", "scss", "markdown", "cpp", "vue", "typescript"],
 
     "prettier.disableLanguages": [],
 
@@ -8,5 +8,6 @@
     "python.formatting.provider": "black",
     "python.formatting.blackPath": "/usr/bin/black",
     "python.linting.mypyEnabled": true,
-    "python.sortImports.path": "/usr/bin/isort"
+    "python.sortImports.path": "/usr/bin/isort",
+    "python.sortImports.args": ["-l", "88"]
 }

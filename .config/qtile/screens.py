@@ -1,8 +1,6 @@
-import os
 import subprocess
 
-from libqtile import qtile
-from libqtile import bar, widget
+from libqtile import bar, qtile, widget
 from libqtile.config import Screen
 
 colors = [
@@ -22,16 +20,12 @@ colors = [
 
 def currently_playing():
     title = (
-        subprocess.run(
-            ["playerctl", "metadata", "title"], stdout=subprocess.PIPE
-        )
+        subprocess.run(["playerctl", "metadata", "title"], stdout=subprocess.PIPE)
         .stdout.decode("utf-8")
         .strip()
     )
     artist = (
-        subprocess.run(
-            ["playerctl", "metadata", "artist"], stdout=subprocess.PIPE
-        )
+        subprocess.run(["playerctl", "metadata", "artist"], stdout=subprocess.PIPE)
         .stdout.decode("utf-8")
         .replace("- Topic", "")
         .strip()
@@ -40,16 +34,12 @@ def currently_playing():
     return f"♪ {title}{artist}".strip()
 
 
-widget_defaults = dict(
-    font="Ubuntu", fontsize=12, padding=2, background=colors[2]
-)
+widget_defaults = dict(font="Ubuntu", fontsize=12, padding=2, background=colors[2])
 
 
 def init_widgets_list():
     widgets = [
-        widget.Sep(
-            linewidth=0, padding=6, foreground=colors[2], background=colors[0]
-        ),
+        widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
         widget.GroupBox(
             font="Ubuntu Bold",
             fontsize=10,
@@ -69,12 +59,8 @@ def init_widgets_list():
             background=colors[0],
             disable_drag=True,
         ),
-        widget.Sep(
-            linewidth=0, padding=6, foreground=colors[2], background=colors[0]
-        ),
-        widget.WindowName(
-            foreground=colors[5], background=colors[0], padding=0
-        ),
+        widget.Sep(linewidth=0, padding=6, foreground=colors[2], background=colors[0]),
+        widget.WindowName(foreground=colors[5], background=colors[0], padding=0),
         widget.TextBox(
             text=" ",
             padding=0,
@@ -183,9 +169,7 @@ def init_widgets_list():
             padding=2,
             fontsize=14,
         ),
-        widget.CurrentLayout(
-            foreground=colors[2], background=colors[0], padding=5
-        ),
+        widget.CurrentLayout(foreground=colors[2], background=colors[0], padding=5),
         widget.TextBox(
             text="/",
             background=colors[0],

@@ -1,12 +1,15 @@
 /**
  * @name MessageUtilities
+ * @author DevilBro
  * @authorId 278543574059057154
+ * @version 1.8.9
+ * @description Adds several Quick Actions for Messages (Delete, Edit, Pin, etc.)
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
  * @patreon https://www.patreon.com/MircoWittrien
- * @website https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/MessageUtilities
- * @source https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/MessageUtilities/MessageUtilities.plugin.js
- * @updateUrl https://raw.githubusercontent.com/mwittrien/BetterDiscordAddons/master/Plugins/MessageUtilities/MessageUtilities.plugin.js
+ * @website https://mwittrien.github.io/
+ * @source https://github.com/mwittrien/BetterDiscordAddons/tree/master/Plugins/MessageUtilities/
+ * @updateUrl https://mwittrien.github.io/BetterDiscordAddons/Plugins/MessageUtilities/MessageUtilities.plugin.js
  */
 
 module.exports = (_ => {
@@ -14,13 +17,8 @@ module.exports = (_ => {
 		"info": {
 			"name": "MessageUtilities",
 			"author": "DevilBro",
-			"version": "1.8.7",
-			"description": "Offers you a number of useful message options (quick actions)"
-		},
-		"changeLog": {
-			"fixed": {
-				"Edit": "Trying to edit a message that is alsready being edited no longer resets the edit"
-			}
+			"version": "1.8.9",
+			"description": "Adds several Quick Actions for Messages (Delete, Edit, Pin, etc.)"
 		}
 	};
 
@@ -32,8 +30,8 @@ module.exports = (_ => {
 		
 		downloadLibrary () {
 			require("request").get("https://mwittrien.github.io/BetterDiscordAddons/Library/0BDFDB.plugin.js", (e, r, b) => {
-				if (!e && b && b.indexOf(`* @name BDFDB`) > -1) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => BdApi.showToast("Finished downloading BDFDB Library", {type: "success"}));
-				else BdApi.alert("Error", "Could not download BDFDB Library Plugin, try again later or download it manually from GitHub: https://github.com/mwittrien/BetterDiscordAddons/tree/master/Library/");
+				if (!e && b && r.statusCode == 200) require("fs").writeFile(require("path").join(BdApi.Plugins.folder, "0BDFDB.plugin.js"), b, _ => BdApi.showToast("Finished downloading BDFDB Library", {type: "success"}));
+				else BdApi.alert("Error", "Could not download BDFDB Library Plugin. Try again later or download it manually from GitHub: https://mwittrien.github.io/downloader/?library");
 			});
 		}
 		
@@ -185,8 +183,8 @@ module.exports = (_ => {
 														reset: true,
 														disabled: !settings[action],
 														ref: instance => {if (instance) keyRecorderIns = instance;},
-														onChange: keyCombo => {
-															bindings[action].keycombo = keyCombo;
+														onChange: value => {
+															bindings[action].keycombo = value;
 															BDFDB.DataUtils.save(bindings, this, "bindings");
 															this.SettingsUpdated = true;
 														}
@@ -196,8 +194,8 @@ module.exports = (_ => {
 														options: Object.keys(clickMap).map((label, i) => ({value: i, label: label})),
 														disabled: !settings[action],
 														ref: instance => {if (instance) clickSelectorIns = instance;},
-														onChange: choice => {
-															bindings[action].click = choice.value;
+														onChange: value => {
+															bindings[action].click = value;
 															BDFDB.DataUtils.save(bindings, this, "bindings");
 															this.SettingsUpdated = true;
 														}
@@ -250,7 +248,7 @@ module.exports = (_ => {
 					if (group && group.type == BDFDB.LibraryComponents.MenuItems.MenuGroup && BDFDB.ArrayUtils.is(group.props.children)) for (let item of group.props.children) {
 						if (item && item.props && item.props.id && !item.props.hint && !item.props.children) {
 							let hint, action;
-							if (item.props.id == "mark-unread") hint = settings.addHints && `${BDFDB.LibraryModules.KeyCodeUtils.getString(18)}+${clickMap.CLICK}`;
+							if (item.props.id == "mark-unread") hint = settings.addHints && `${BDFDB.LibraryModules.KeyCodeUtils.getString(18)}+CLICK`;
 							else {
 								switch (item.props.id) {
 									case "copy-link":
@@ -363,9 +361,9 @@ module.exports = (_ => {
 			doDelete ({messageDiv, message}, action) {
 				let deleteLink = messageDiv.parentElement.querySelector(BDFDB.dotCNS.messagelocalbotoperations + BDFDB.dotCN.anchor);
 				if (deleteLink) deleteLink.click();
-				else {
+				else if (BDFDB.DiscordConstants.MessageTypesDeletable[message.type]) {
 					let channel = BDFDB.LibraryModules.ChannelStore.getChannel(message.channel_id);
-					if ((channel && BDFDB.UserUtils.can("MANAGE_MESSAGES")) || message.author.id == BDFDB.UserUtils.me.id && message.type != 1 && message.type != 2 && message.type != 3) {
+					if (channel && (BDFDB.UserUtils.can("MANAGE_MESSAGES") || message.author.id == BDFDB.UserUtils.me.id)) {
 						BDFDB.LibraryModules.MessageUtils.deleteMessage(message.channel_id, message.id, message.state != BDFDB.DiscordConstants.MessageStates.SENT);
 						if (toasts[action]) BDFDB.NotificationUtils.toast(this.formatToast(BDFDB.LanguageUtils.LanguageStrings.GUILD_SETTINGS_FOLLOWER_ANALYTICS_MESSAGE_DELETED), {type: "success"});
 					}
@@ -390,7 +388,7 @@ module.exports = (_ => {
 			doPinUnPin ({messageDiv, message}, action) {
 				if (message.state == BDFDB.DiscordConstants.MessageStates.SENT) {
 					let channel = BDFDB.LibraryModules.ChannelStore.getChannel(message.channel_id);
-					if (channel && (BDFDB.DMUtils.isDMChannel(channel.id) || BDFDB.UserUtils.can("MANAGE_MESSAGES")) && message.type == BDFDB.DiscordConstants.MessageTypes.DEFAULT) {
+					if (channel && (BDFDB.DMUtils.isDMChannel(channel.id) || BDFDB.UserUtils.can("MANAGE_MESSAGES")) && (message.type == BDFDB.DiscordConstants.MessageTypes.DEFAULT || message.type == BDFDB.DiscordConstants.MessageTypes.REPLY)) {
 						if (message.pinned) {
 							BDFDB.LibraryModules.MessagePinUtils.unpinMessage(channel, message.id);
 							if (toasts[action]) BDFDB.NotificationUtils.toast(this.formatToast(BDFDB.LanguageUtils.LanguageStrings.MESSAGE_UNPINNED), {type: "danger"});
@@ -406,7 +404,7 @@ module.exports = (_ => {
 			doReply ({messageDiv, message}, action) {
 				if (message.state == BDFDB.DiscordConstants.MessageStates.SENT) {
 					let channel = BDFDB.LibraryModules.ChannelStore.getChannel(message.channel_id);
-					if (channel && (BDFDB.DMUtils.isDMChannel(channel.id) || BDFDB.UserUtils.can("SEND_MESSAGES")) && message.type == BDFDB.DiscordConstants.MessageTypes.DEFAULT) {
+					if (channel && (BDFDB.DMUtils.isDMChannel(channel.id) || BDFDB.UserUtils.can("SEND_MESSAGES")) && (message.type == BDFDB.DiscordConstants.MessageTypes.DEFAULT || message.type == BDFDB.DiscordConstants.MessageTypes.REPLY)) {
 						BDFDB.LibraryModules.MessageManageUtils.replyToMessage(channel, message);
 						if (toasts[action]) BDFDB.NotificationUtils.toast(this.formatToast(BDFDB.LanguageUtils.LanguageStrings.NOTIFICATION_REPLY), {type: "success"});
 					}

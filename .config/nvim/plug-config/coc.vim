@@ -1,20 +1,24 @@
 let g:coc_global_extensions = [
+      \ 'coc-apollo',
       \ 'coc-css',
+      \ 'coc-docker',
       \ 'coc-emmet',
       \ 'coc-highlight',
       \ 'coc-html',
       \ 'coc-json',
       \ 'coc-lists',
+      \ 'coc-markdownlint',
       \ 'coc-marketplace',
+      \ 'coc-prettier',
       \ 'coc-pyright',
       \ 'coc-sh',
       \ 'coc-snippets',
+      \ 'coc-toml',
       \ 'coc-tsserver',
+      \ 'coc-vetur',
       \ 'coc-vimlsp',
       \ 'coc-yaml',
       \ 'coc-yank',
-      \ 'coc-prettier',
-      \ 'coc-markdownlint',
       \ ]
 
 " Use tab for trigger completion with characters ahead and navigate.
@@ -43,9 +47,9 @@ endif
 
 " Automatically install missing plugins on startup
 autocmd VimEnter *
-  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
-  \|   PlugInstall --sync | q
-  \| endif
+      \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+      \|   PlugInstall --sync | q
+      \| endif
 
 " GoTo code navigation.
 nmap <leader>gd <Plug>(coc-definition)
@@ -58,3 +62,4 @@ nmap <leader>gr <Plug>(coc-references)
 imap <C-l> <Plug>(coc-snippets-expand)
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
+nnoremap <leader>si :CocCommand python.sortImports<CR>

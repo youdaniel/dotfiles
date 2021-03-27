@@ -1,5 +1,5 @@
 #!/bin/bash
-temp="./wacom_display_toggle.tmp"
+temp="/home/daniel/.local/bin/wacom_display_toggle.tmp"
 
 if [[ ! -e $temp ]]
 then
