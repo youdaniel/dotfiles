@@ -8,6 +8,11 @@ if [ -d "/home/daniel/.poetry" ]; then
   export PATH="$HOME/.poetry/bin:$PATH"
 fi
 
+# add yarn to path
+if [ -d "/home/daniel/.yarn" ]; then
+  export PATH="$HOME/.yarn/bin:$PATH"
+fi
+
 # Load Antigen
 source $HOME/antigen.zsh
 

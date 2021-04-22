@@ -1,6 +1,6 @@
 {
     "coc.preferences.formatOnType": true,
-    "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "css", "scss", "markdown", "cpp", "vue", "typescript"],
+    "coc.preferences.formatOnSaveFiletypes": ["python", "javascript", "css", "scss", "markdown", "cpp", "vue", "typescript", "graphql"],
 
     "prettier.disableLanguages": [],
 

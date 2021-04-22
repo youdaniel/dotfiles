@@ -62,4 +62,5 @@ nmap <leader>gr <Plug>(coc-references)
 imap <C-l> <Plug>(coc-snippets-expand)
 
 nnoremap <leader>prw :CocSearch <C-R>=expand("<cword>")<CR><CR>
-nnoremap <leader>si :CocCommand python.sortImports<CR>
+nnoremap <leader>psi :CocCommand python.sortImports<CR>
+nnoremap <leader>tsi :CocCommand tsserver.organizeImports<CR>
