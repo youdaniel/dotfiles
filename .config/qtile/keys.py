@@ -1,5 +1,3 @@
-import os
-
 from libqtile.config import EzClick as Click
 from libqtile.config import EzDrag as Drag
 from libqtile.config import EzKey as Key
@@ -104,7 +102,7 @@ keys = [
     Key("A-S-q", lazy.shutdown()),
     Key("M-S-f", float_to_front()),
     # Application Hotkeys
-    Key("A-<Return>", lazy.spawn("kitty --single-instance")),
+    Key("A-<Return>", lazy.spawn("alacritty")),
     Key("A-S-<Return>", lazy.spawn("rofi -monitor -4 -show")),
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
