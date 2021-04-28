@@ -96,7 +96,7 @@ def init_widgets_list():
             foreground=colors[2],
             background=colors[0],
             padding=5,
-            tag_sensor="Package id 0",
+            tag_sensor="Tdie",
         ),
         widget.TextBox(
             text="/",
