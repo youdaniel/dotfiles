@@ -4,7 +4,7 @@ require'nvim-treesitter.configs'.setup {
     highlight = {
         enable = O.treesitter.highlight.enabled -- false will disable the whole extension
     },
-    indent = {enable = true},
+    -- indent = {enable = true},
     autotag = {enable = true},
     context_commentstring = {enable = true}
 }

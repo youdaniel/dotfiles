@@ -15,7 +15,7 @@ if O.tsserver.autoformat then
 end
 
 local vue_autoformat = {'BufWritePre', '*.vue', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
-if O.vue.autoformat then table.insert(auto_formatters, vue_autoformat) end
+table.insert(auto_formatters, vue_autoformat)
 
 local lua_format = {'BufWritePre', '*.lua', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
 if O.lua.autoformat then table.insert(auto_formatters, lua_format) end

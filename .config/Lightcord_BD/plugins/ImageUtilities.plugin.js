@@ -2,7 +2,7 @@
  * @name ImageUtilities
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 4.3.6
+ * @version 4.3.7
  * @description Adds several Utilities for Images/Videos (Gallery, Download, Reverse Search, Zoom, Copy, etc.)
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -17,10 +17,13 @@ module.exports = (_ => {
 		"info": {
 			"name": "ImageUtilities",
 			"author": "DevilBro",
-			"version": "4.3.6",
+			"version": "4.3.7",
 			"description": "Adds several Utilities for Images/Videos (Gallery, Download, Reverse Search, Zoom, Copy, etc.)"
 		},
 		"changeLog": {
+			"fixed": {
+				"Embed Thumbnails": "Fixed issue that caused Embed Thumbnails to go out of bounds of embeds"
+			},
 			"improved": {
 				"Tenor and other GIFs": "Fixed issue where link for some GIFs copied by 'Copy Link' wasn't the same as Discord's Original"
 			}
@@ -288,7 +291,22 @@ module.exports = (_ => {
 				});
 				
 				BDFDB.PatchUtils.patch(this, (BDFDB.ModuleUtils.findByName("renderImageComponent", false).exports || {}), "renderImageComponent", {after: e => {
-					if (e.returnValue && e.returnValue.type && (e.returnValue.type.displayName == "LazyImageZoomable" || e.returnValue.type.displayName == "LazyImage") && e.methodArguments[0].original && e.methodArguments[0].src.indexOf("https://media.discordapp.net/attachments") == 0 && (e.methodArguments[0].className || "").indexOf(BDFDB.disCN.embedthumbnail) == -1) return this.injectImageDetails(e.methodArguments[0], e.returnValue);
+					if (this.settings.general.showAsHeader && e.returnValue && e.returnValue.type && (e.returnValue.type.displayName == "LazyImageZoomable" || e.returnValue.type.displayName == "LazyImage") && e.methodArguments[0].original && e.methodArguments[0].src.indexOf("https://media.discordapp.net/attachments") == 0 && (e.methodArguments[0].className || "").indexOf(BDFDB.disCN.embedmedia) == -1 && (e.methodArguments[0].className || "").indexOf(BDFDB.disCN.embedthumbnail) == -1) {
+						return BDFDB.ReactUtils.createElement("div", {
+							className: BDFDB.disCN.embedwrapper,
+							children: [
+								BDFDB.ReactUtils.createElement(ImageDetails, {
+									original: e.methodArguments[0].original,
+									attachment: {
+										height: 0,
+										width: 0,
+										filename: "unknown.png"
+									}
+								}),
+								e.returnValue
+							]
+						});
+					}
 				}});
 
 				this.forceUpdateAll();
@@ -519,22 +537,25 @@ module.exports = (_ => {
 					if (e.instance.props.attachment) this.injectItem(e, e.instance.props.attachment.url);
 					else if (e.instance.props.target.tagName == "A" && e.instance.props.message.embeds && e.instance.props.message.embeds[0] && (e.instance.props.message.embeds[0].type == "image" || e.instance.props.message.embeds[0].type == "video")) this.injectItem(e, e.instance.props.target.href);
 					else if (e.instance.props.target.tagName == "IMG") {
-						if (BDFDB.DOMUtils.containsClass(e.instance.props.target.parentElement, BDFDB.disCN.imagewrapper)) this.injectItem(e, e.instance.props.target.src);
+						if (BDFDB.DOMUtils.containsClass(e.instance.props.target.parentElement, BDFDB.disCN.imagewrapper)) this.injectItem(e, {file: e.instance.props.target.src, original: this.getTargetLink(e.instance.props.target)});
 						else if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.embedauthoricon) && this.settings.places.userAvatars) this.injectItem(e, e.instance.props.target.src);
 						else if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.emojiold, "emote", false) && this.settings.places.emojis) this.injectItem(e, e.instance.props.target.src);
 					}
 					else if (e.instance.props.target.tagName == "VIDEO") {
-						if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.embedvideo) || BDFDB.DOMUtils.getParent(BDFDB.dotCN.attachmentvideo, e.instance.props.target)) {
-							let src = "", href = "", ele = e.instance.props.target;
-							while (ele instanceof Node) ele instanceof HTMLImageElement && null != ele.src && (src = ele.src), ele instanceof HTMLAnchorElement && null != ele.href && (href = ele.href), ele = ele.parentNode;
-							this.injectItem(e, {file: e.instance.props.target.src, original: href || src});
-						}
+						if (BDFDB.DOMUtils.containsClass(e.instance.props.target, BDFDB.disCN.embedvideo) || BDFDB.DOMUtils.getParent(BDFDB.dotCN.attachmentvideo, e.instance.props.target)) this.injectItem(e, {file: e.instance.props.target.src, original: this.getTargetLink(e.instance.props.target)});
 					}
 					else {
 						let reaction = BDFDB.DOMUtils.getParent(BDFDB.dotCN.messagereaction, e.instance.props.target);
 						if (reaction && this.settings.places.emojis) this.injectItem(e, reaction.querySelector(BDFDB.dotCN.emojiold).src);
 					}
 				}
+			}
+			
+			getTargetLink (target) {
+				let ele = target;
+				let src = "", href = "";
+				while (ele instanceof Node) ele instanceof HTMLImageElement && null != ele.src && (src = ele.src), ele instanceof HTMLAnchorElement && null != ele.href && (href = ele.href), ele = ele.parentNode;
+				return href || src;
 			}
 
 			injectItem (e, ...urls) {
@@ -978,27 +999,6 @@ module.exports = (_ => {
 						e.instance.props.resized = true;
 					}
 				}
-			}
-			
-			injectImageDetails (props, child) {
-				if (this.settings.general.showAsHeader) {
-					props.detailsAdded = true;
-					return BDFDB.ReactUtils.createElement("div", {
-						className: BDFDB.disCN.embedwrapper,
-						children: [
-							BDFDB.ReactUtils.createElement(ImageDetails, {
-								original: props.original,
-								attachment: {
-									height: 0,
-									width: 0,
-									filename: "unknown.png"
-								}
-							}),
-							child
-						]
-					});
-				}
-				return child;
 			}
 			
 			isValid (url, type) {

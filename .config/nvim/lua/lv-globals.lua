@@ -40,11 +40,6 @@ O = {
         autoformat = false,
         diagnostics = {virtual_text = true, signs = true, underline = true}
     },
-    vue = {
-        -- @usage can be 'prettier'
-        formatter = '',
-        autoformat = false
-    },
     json = {
         -- @usage can be 'prettier'
         formatter = '',

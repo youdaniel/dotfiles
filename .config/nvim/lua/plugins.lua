@@ -79,11 +79,11 @@ return require("packer").startup(function(use)
 
     -- Status Line and Bufferline
     use {"glepnir/galaxyline.nvim", opt = true}
-    use {"romgrk/barbar.nvim", opt = true}
 
     require_plugin("nvim-lspconfig")
     require_plugin("lspsaga.nvim")
     require_plugin("nvim-lspinstall")
+	require_plugin("friendly-snippets")
     require_plugin("popup.nvim")
     require_plugin("plenary.nvim")
     require_plugin("telescope.nvim")
@@ -107,5 +107,4 @@ return require("packer").startup(function(use)
     require_plugin("nvcode-color-schemes.vim")
     require_plugin("nvim-web-devicons")
     require_plugin("galaxyline.nvim")
-    require_plugin("barbar.nvim")
 end)
