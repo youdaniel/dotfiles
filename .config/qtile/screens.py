@@ -97,6 +97,7 @@ def init_widgets_list():
             background=colors[0],
             padding=5,
             tag_sensor="Tdie",
+            threshold=90,
         ),
         widget.TextBox(
             text="/",

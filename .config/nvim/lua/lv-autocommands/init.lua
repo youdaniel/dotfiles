@@ -42,6 +42,10 @@ utils.define_augroups({
         }, {'FileType', 'dashboard', 'set showtabline=0 | autocmd BufLeave <buffer> set showtabline=2'}
     },
     _markdown = {{'FileType', 'markdown', 'setlocal wrap'}, {'FileType', 'markdown', 'setlocal spell'}},
+    _graphql = {
+        {'BufWinEnter', '.graphql', 'setlocal filetype=graphql'}, {'BufRead', '*.graphql', 'setlocal filetype=graphql'},
+        {'BufNewFile', '*.graphql', 'setlocal filetype=graphql'}
+    },
     _buffer_bindings = {
         {'FileType', 'dashboard', 'nnoremap <silent> <buffer> q :q<CR>'},
         {'FileType', 'lspinfo', 'nnoremap <silent> <buffer> q :q<CR>'},

@@ -58,7 +58,7 @@ return require("packer").startup(function(use)
     use {"lewis6991/gitsigns.nvim", opt = true}
 
     -- Utilities
-    use {"liuchengxu/vim-which-key", opt = true}
+    use {"folke/which-key.nvim", opt = true}
     use {"wakatime/vim-wakatime", opt = true}
     use {"mbbill/undotree", opt = true}
     use {"windwp/nvim-autopairs", opt = true}
@@ -83,7 +83,7 @@ return require("packer").startup(function(use)
     require_plugin("nvim-lspconfig")
     require_plugin("lspsaga.nvim")
     require_plugin("nvim-lspinstall")
-	require_plugin("friendly-snippets")
+    require_plugin("friendly-snippets")
     require_plugin("popup.nvim")
     require_plugin("plenary.nvim")
     require_plugin("telescope.nvim")
@@ -94,7 +94,7 @@ return require("packer").startup(function(use)
     require_plugin("nvim-tree.lua")
     require_plugin("vim-fugitive")
     require_plugin("gitsigns.nvim")
-    require_plugin("vim-which-key")
+    require_plugin("which-key.nvim")
     require_plugin("vim-wakatime")
     require_plugin("undotree")
     require_plugin("nvim-autopairs")

@@ -29,7 +29,7 @@ O.python.diagnostics.underline = true
 -- TODO look into stylua
 O.lua.formatter = 'lua-format'
 -- O.lua.formatter = 'lua-format'
-O.lua.autoformat = false
+O.lua.autoformat = true
 
 -- javascript
 O.tsserver.formatter = 'prettier'
