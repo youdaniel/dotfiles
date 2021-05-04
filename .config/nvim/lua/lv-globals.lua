@@ -16,13 +16,13 @@ O = {
         formatter = '',
         autoformat = false,
         isort = false,
-        diagnostics = {virtual_text = true, signs = true, underline = true}
+        diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     lua = {
         -- @usage can be 'lua-format'
         formatter = '',
         autoformat = false,
-        diagnostics = {virtual_text = true, signs = true, underline = true}
+        diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     sh = {
         -- @usage can be 'shellcheck'
@@ -30,7 +30,7 @@ O = {
         -- @usage can be 'shfmt'
         formatter = '',
         autoformat = false,
-        diagnostics = {virtual_text = true, signs = true, underline = true}
+        diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     tsserver = {
         -- @usage can be 'eslint'
@@ -38,15 +38,15 @@ O = {
         -- @usage can be 'prettier'
         formatter = '',
         autoformat = false,
-        diagnostics = {virtual_text = true, signs = true, underline = true}
+        diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
     json = {
         -- @usage can be 'prettier'
         formatter = '',
         autoformat = false,
-        diagnostics = {virtual_text = true, signs = true, underline = true}
+        diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}
     },
-    clang = {diagnostics = {virtual_text = true, signs = true, underline = true}}
+    clang = {diagnostics = {virtual_text = {spacing = 0, prefix = ""}, signs = true, underline = true}}
     -- css = {formatter = '', autoformat = false, virtual_text = true},
     -- json = {formatter = '', autoformat = false, virtual_text = true}
 }
