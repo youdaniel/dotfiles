@@ -20,12 +20,10 @@ vim.cmd([[
 
 -- TODO fix this
 -- resize with arrows
-vim.cmd([[
-  nnoremap <silent> <C-Up>    :resize -2<CR>
-  nnoremap <silent> <C-Down>  :resize +2<CR>
-  nnoremap <silent> <C-Left>  :vertical resize -2<CR>
-  nnoremap <silent> <C-Right> :vertical resize +2<CR>
-]])
+vim.api.nvim_set_keymap('n', '<C-Up>', ':resize -2<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-Down>', ':resize +2<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize -2<CR>', {silent = true})
+vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize +2<CR>', {silent = true})
 
 -- copy and paste
 vim.api.nvim_set_keymap('v', '<C-c>', '"+yi', {silent = true})
@@ -64,3 +62,6 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 -- map <leader>n <Plug>(miniyank-cycle)
 -- map <leader>N <Plug>(miniyank-cycleback)
 -- ]])
+
+-- Toggle the QuickFix window
+vim.api.nvim_set_keymap('', '<C-q>', ':call QuickFixToggle()<CR>', {noremap = true, silent = true})

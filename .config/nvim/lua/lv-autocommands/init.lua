@@ -23,13 +23,16 @@ if O.lua.autoformat then table.insert(auto_formatters, lua_format) end
 local json_format = {'BufWritePre', '*.json', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
 if O.json.autoformat then table.insert(auto_formatters, json_format) end
 
+local html_format = {'BufWritePre', '*.html', 'lua vim.lsp.buf.formatting_sync(nil, 1000)'}
+table.insert(auto_formatters, html_format)
+
 utils.define_augroups({
     _general_settings = {
         {'TextYankPost', '*', 'lua require(\'vim.highlight\').on_yank({higroup = \'Search\', timeout = 200})'},
         {'BufWinEnter', '*', 'setlocal formatoptions-=c formatoptions-=r formatoptions-=o'},
         {'BufRead', '*', 'setlocal formatoptions-=c formatoptions-=r formatoptions-=o'},
         {'BufNewFile', '*', 'setlocal formatoptions-=c formatoptions-=r formatoptions-=o'},
-        {'VimLeavePre', '*', 'set title set titleold='}
+        {'VimLeavePre', '*', 'set title set titleold='}, {'FileType', 'qf', 'set nobuflisted'}
 
         -- {'User', 'GoyoLeave', 'lua require(\'galaxyline\').disable_galaxyline()'},
         -- {'User', 'GoyoEnter', 'lua require(\'galaxyline\').galaxyline_augroup()'},
@@ -39,7 +42,7 @@ utils.define_augroups({
         {
             'FileType', 'dashboard',
             'setlocal nocursorline noswapfile synmaxcol& signcolumn=no norelativenumber nocursorcolumn nospell  nolist  nonumber bufhidden=wipe colorcolumn= foldcolumn=0 matchpairs= '
-        }, {'FileType', 'dashboard', 'set showtabline=0 | autocmd BufLeave <buffer> set showtabline=2'}
+        }
     },
     _markdown = {{'FileType', 'markdown', 'setlocal wrap'}, {'FileType', 'markdown', 'setlocal spell'}},
     _graphql = {
