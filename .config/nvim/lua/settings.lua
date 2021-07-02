@@ -7,7 +7,6 @@ vim.o.title = true
 TERMINAL = vim.fn.expand('$TERMINAL')
 vim.cmd('let &titleold="' .. TERMINAL .. '"')
 vim.wo.wrap = false -- Display long lines as just one line
-vim.cmd('syntax on') -- syntax highlighting
 vim.o.pumheight = 10 -- Makes popup menu smaller
 vim.o.fileencoding = "utf-8" -- The encoding written to file
 vim.o.cmdheight = 2 -- More space for displaying messages
@@ -17,9 +16,10 @@ vim.o.splitbelow = true -- Horizontal splits will automatically be below
 vim.o.termguicolors = true -- set term gui colors most terminals support this
 vim.o.splitright = true -- Vertical splits will automatically be to the right
 vim.o.conceallevel = 0 -- So that I can see `` in markdown files
-vim.cmd('set ts=4') -- Insert 2 spaces for a tab
-vim.cmd('set sw=4') -- Change the number of space characters inserted for indentation
-vim.cmd('set expandtab') -- Converts tabs to spaces
+vim.opt.tabstop = 4 -- Insert 2 spaces for a tab
+vim.opt.shiftwidth = 4 -- Change the number of space characters inserted for indentation
+vim.opt.expandtab = true -- Converts tabs to spaces
+vim.o.completeopt = "menuone,noselect"
 vim.bo.smartindent = true -- Makes indenting smart
 vim.wo.number = true -- set numbered lines
 vim.wo.relativenumber = true -- set relative number
@@ -31,7 +31,7 @@ vim.wo.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shif
 vim.o.updatetime = 300 -- Faster completion
 vim.o.timeoutlen = 300 -- By default timeoutlen is 1000 ms
 vim.o.scrolloff = 8 -- More cursor space
-vim.cmd('set nobackup') -- No backup file
-vim.cmd('set noswapfile') -- No swap file
-vim.cmd('set undofile') -- Undo file
+vim.o.swapfile = false -- Do not write any swp files
+vim.o.undodir = CACHE_PATH .. '/undo' -- Set undo directory
+vim.o.undofile = true -- Enable persistent undo
 vim.o.guifont = "Iosevka Nerd Font:h17"

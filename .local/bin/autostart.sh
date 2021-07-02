@@ -8,6 +8,7 @@ function run {
 }
 
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+run ibus-daemon -drxR
 run variety
 run picom
 run xss-lock slock
