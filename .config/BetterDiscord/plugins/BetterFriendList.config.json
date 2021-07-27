@@ -1,0 +1,9 @@
+{
+	"general": {
+		"addTotalAmount": true,
+		"addHiddenCategory": true,
+		"addSortOptions": true,
+		"addSearchbar": true,
+		"addMutualGuild": true
+	}
+}

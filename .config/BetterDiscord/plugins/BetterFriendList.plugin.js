@@ -2,7 +2,7 @@
  * @name BetterFriendList
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 1.3.4
+ * @version 1.3.6
  * @description Adds extra Controls to the Friends Page, for example sort by Name/Status, Search and All/Request/Blocked Amount
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -17,12 +17,16 @@ module.exports = (_ => {
 		"info": {
 			"name": "BetterFriendList",
 			"author": "DevilBro",
-			"version": "1.3.4",
+			"version": "1.3.6",
 			"description": "Adds extra Controls to the Friends Page, for example sort by Name/Status, Search and All/Request/Blocked Amount"
 		},
 		"changeLog": {
 			"added": {
 				"Hidden": "You can now hide Friends from your Friend List and put them into an extra category, allowing you to clean up your list without hurting someones feelings"
+			},
+			"fixed": {
+				"Online Count": "No longer includes hidden Friends",
+				"Actions Overflow/Miss-Align": "Should look normal now"
 			}
 		}
 	};
@@ -121,16 +125,6 @@ module.exports = (_ => {
 				};
 				
 				this.css = `
-					${BDFDB.dotCN.peoplewrapper} > * {
-						justify-content: unset;
-					}
-					${BDFDB.dotCNS.peoplewrapper + BDFDB.dotCN.userinfo} {
-						flex: 1 1 auto;
-					}
-					${BDFDB.dotCN._betterfriendlistmutualguilds} {
-						margin-left: 13px;
-						width: 200px;
-					}
 					${BDFDB.dotCNS.peoplestabbar + BDFDB.dotCN.peoplesbadge} {
 						background-color: var(--background-accent);
 						margin-left: 6px;
@@ -141,6 +135,16 @@ module.exports = (_ => {
 					${BDFDB.dotCN._betterfriendlistnamecell} {
 						width: 150px;
 					}
+					${BDFDB.dotCN.peoplesuser} {
+						flex: 1 1 auto;
+					}
+					${BDFDB.dotCN.peoplesactions} {
+						flex: 0 0 auto;
+					}
+					${BDFDB.dotCN._betterfriendlistmutualguilds} {
+						flex: 0 0 200px;
+						margin-left: 13px;
+					}
 				`;
 			}
 			
@@ -149,6 +153,13 @@ module.exports = (_ => {
 				sortReversed = false;
 				searchQuery = "";
 				isHiddenSelected = false;
+				
+				BDFDB.PatchUtils.patch(this, BDFDB.LibraryModules.StatusMetaUtils, "getOnlineFriendCount", {after: e => {
+					if (this.settings.general.addHiddenCategory) for (let id of hiddenFriends) if (BDFDB.LibraryModules.RelationshipStore.isFriend(id)) {
+						const status = BDFDB.UserUtils.getStatus(id);
+						if (status && status != BDFDB.DiscordConstants.StatusTypes.OFFLINE && e.returnValue > 0) e.returnValue--;
+					}
+				}});
 
 				this.forceUpdateAll();
 			}
@@ -382,11 +393,11 @@ module.exports = (_ => {
 					else if (this.settings.general.addMutualGuild && e.instance.props.mutualGuilds && e.instance.props.mutualGuilds.length) {
 						if (typeof e.returnvalue.props.children == "function") {
 							let childrenRender = e.returnvalue.props.children;
-							e.returnvalue.props.children = (...args) => {
+							e.returnvalue.props.children = BDFDB.TimeUtils.suppress((...args) => {
 								let children = childrenRender(...args);
 								this.injectMutualGuilds(children, e.instance.props.mutualGuilds);
 								return children;
-							};
+							}, "", this);
 						}
 						else this.injectMutualGuilds(e.returnvalue, e.instance.props.mutualGuilds);
 					}
