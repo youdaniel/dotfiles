@@ -14,6 +14,5 @@ run picom
 run xss-lock slock
 run dunst
 run redshift
-run lightcord
+run discord
 run slack
-run docker-compose -f ~/.local/bin/hakatime/hakatime.yml up -d
