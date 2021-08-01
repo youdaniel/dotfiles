@@ -11,7 +11,7 @@ group_config = [
         "II",
         {
             "layout": "monadtall",
-            "matches": [Match(wm_class="lightcord"), Match(wm_class="slack")],
+            "matches": [Match(wm_class="discord"), Match(wm_class="slack")],
         },
     ),
     ("III", {"layout": "monadtall"}),

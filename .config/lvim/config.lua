@@ -15,6 +15,8 @@ lvim.colorscheme = "dracula"
 -- lvim.default_options.hlsearch = false
 -- lvim.default_options.relativenumber = true
 
+vim.opt.relativenumber = true
+
 -- keymappings
 
 lvim.leader_key = " "
@@ -34,12 +36,18 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 
 -- python
-lvim.lang.python.formatter.exe = "black"
-lvim.lang.python.formatter.args = { "-" }
+lvim.lang.python.formatters = {
+	{
+		exe = "black",
+	},
+}
 lvim.lang.python.isort = true
--- To change enabled linters
--- https://github.com/mfussenegger/nvim-lint#available-linters
--- O.lang.python.linters = { "flake8", "pylint", "mypy", ... }
+
+lvim.lang.vue.formatters = {
+	{
+		exe = "prettier",
+	},
+}
 
 -- Additional Plugins
 lvim.plugins = {
