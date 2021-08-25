@@ -2,7 +2,7 @@
  * @name ImageUtilities
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 4.4.5
+ * @version 4.4.6
  * @description Adds several Utilities for Images/Videos (Gallery, Download, Reverse Search, Zoom, Copy, etc.)
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -17,17 +17,17 @@ module.exports = (_ => {
 		"info": {
 			"name": "ImageUtilities",
 			"author": "DevilBro",
-			"version": "4.4.5",
+			"version": "4.4.6",
 			"description": "Adds several Utilities for Images/Videos (Gallery, Download, Reverse Search, Zoom, Copy, etc.)"
 		},
 		"changeLog": {
 			"fixed": {
-				"Copy Image Linux": "Should work now"
+				"Double Zoom Lens": "No longer gets the zoom lens stuck on right click"
 			}
 		}
 	};
 	
-	return (window.Lightcord || window.LightCord) ? class {
+	return (window.Lightcord && !Node.prototype.isPrototypeOf(window.Lightcord) || window.LightCord && !Node.prototype.isPrototypeOf(window.LightCord)) ? class {
 		getName () {return config.info.name;}
 		getAuthor () {return config.info.author;}
 		getVersion () {return config.info.version;}
@@ -508,9 +508,9 @@ module.exports = (_ => {
 
 			onGuildContextMenu (e) {
 				if (e.instance.props.guild && this.settings.places.guildIcons) {
-					let banner = BDFDB.DOMUtils.getParent(BDFDB.dotCN.guildheader, e.instance.props.target) || BDFDB.DOMUtils.getParent(BDFDB.dotCN.guildchannels, e.instance.props.target) && !e.instance.props.target.className && e.instance.props.target.parentElement.firstElementChild == e.instance.props.target;
-					if (banner) {
-						if (e.instance.props.guild.banner) this.injectItem(e, (BDFDB.LibraryModules.IconUtils.getGuildBannerURL(e.instance.props.guild) || "").replace(/\.webp|\.gif/, ".png"));
+					if (BDFDB.DOMUtils.getParent(BDFDB.dotCN.guildheader, e.instance.props.target) || BDFDB.DOMUtils.getParent(BDFDB.dotCN.guildchannels, e.instance.props.target) && !e.instance.props.target.className && e.instance.props.target.parentElement.firstElementChild == e.instance.props.target) {
+						let banner = BDFDB.GuildUtils.getBanner(e.instance.props.guild.id);
+						if (banner) this.injectItem(e, banner.replace(/\.webp|\.gif/, ".png"));
 					}
 					else if (e.type != "GuildChannelListContextMenu") this.injectItem(e, (e.instance.props.guild.getIconURL() || "").replace(/\.webp|\.gif/, ".png"), e.instance.props.guild.icon && BDFDB.LibraryModules.IconUtils.isAnimatedIconHash(e.instance.props.guild.icon) && e.instance.props.guild.getIconURL(true));
 				}
@@ -921,12 +921,15 @@ module.exports = (_ => {
 								pane.style.setProperty("height", imgRects.height * this.settings.zoomSettings.zoomLevel + "px", "important");
 							};
 							lens.update();
+							
+							e.node.style.setProperty("pointer-events", "none", "important");
 
 							let dragging = event2 => {
 								event = event2;
 								lens.update();
 							};
 							let releasing = _ => {
+								e.node.style.removeProperty("pointer-events");
 								this.cleanupListeners("Zoom");
 								document.removeEventListener("mousemove", dragging);
 								document.removeEventListener("mouseup", releasing);
@@ -1014,8 +1017,9 @@ module.exports = (_ => {
 			}
 			
 			processUserBanner (e) {
-				if (e.instance.props.user && this.settings.places.userAvatars && BDFDB.UserUtils.getBanner(e.instance.props.user.id)) e.returnvalue.props.onContextMenu = event => {
-					let validUrls = this.filterUrls((e.instance.props.user.getBannerURL() || "").replace(/\.webp|\.gif/, ".png"), BDFDB.LibraryModules.IconUtils.isAnimatedIconHash(e.instance.props.user.banner) && e.instance.props.user.getBannerURL(true));
+				let banner = e.instance.props.user && this.settings.places.userAvatars && BDFDB.UserUtils.getBanner(e.instance.props.user.id);
+				if (banner) e.returnvalue.props.onContextMenu = event => {
+					let validUrls = this.filterUrls(banner.replace(/\.webp|\.gif/, ".png"), BDFDB.LibraryModules.IconUtils.isAnimatedIconHash(e.instance.props.user.banner) && e.instance.props.user.getBannerURL(true));
 					if (validUrls.length) BDFDB.ContextMenuUtils.open(this, event, BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuGroup, {
 						children: validUrls.length == 1 ? this.createSubMenus({}, validUrls) : BDFDB.ContextMenuUtils.createItem(BDFDB.LibraryComponents.MenuItems.MenuItem, {
 							label: BDFDB.LanguageUtils.LanguageStrings.IMAGE + " " + BDFDB.LanguageUtils.LanguageStrings.ACTIONS,

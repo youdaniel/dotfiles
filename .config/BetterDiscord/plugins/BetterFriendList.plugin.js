@@ -2,7 +2,7 @@
  * @name BetterFriendList
  * @author DevilBro
  * @authorId 278543574059057154
- * @version 1.3.8
+ * @version 1.3.9
  * @description Adds extra Controls to the Friends Page, for example sort by Name/Status, Search and All/Request/Blocked Amount
  * @invite Jx3TjNS
  * @donate https://www.paypal.me/MircoWittrien
@@ -17,17 +17,17 @@ module.exports = (_ => {
 		"info": {
 			"name": "BetterFriendList",
 			"author": "DevilBro",
-			"version": "1.3.8",
+			"version": "1.3.9",
 			"description": "Adds extra Controls to the Friends Page, for example sort by Name/Status, Search and All/Request/Blocked Amount"
 		},
 		"changeLog": {
 			"fixed": {
-				"Favorites": "Added new Favorites Category, similar to hidden category but doesn't hide favorized friend from the other entries"
+				"Count": "No longer says Count = 0 for all categories if hidden is disabled"
 			}
 		}
 	};
 
-	return (window.Lightcord || window.LightCord) ? class {
+	return (window.Lightcord && !Node.prototype.isPrototypeOf(window.Lightcord) || window.LightCord && !Node.prototype.isPrototypeOf(window.LightCord)) ? class {
 		getName () {return config.info.name;}
 		getAuthor () {return config.info.author;}
 		getVersion () {return config.info.version;}
@@ -254,7 +254,7 @@ module.exports = (_ => {
 						if (this.settings.general.addTotalAmount) {
 							let relationships = BDFDB.LibraryModules.RelationshipStore.getRelationships(), relationshipCount = {};
 							for (let type in BDFDB.DiscordConstants.RelationshipTypes) relationshipCount[type] = 0;
-							for (let id in relationships) if (this.settings.general.addHiddenCategory && (hiddenFriends.indexOf(id) == -1 || relationships[id] != BDFDB.DiscordConstants.RelationshipTypes.FRIEND)) relationshipCount[relationships[id]]++;
+							for (let id in relationships) if (!this.settings.general.addHiddenCategory || (hiddenFriends.indexOf(id) == -1 || relationships[id] != BDFDB.DiscordConstants.RelationshipTypes.FRIEND)) relationshipCount[relationships[id]]++;
 							for (let child of e.returnvalue.props.children) if (child && child.props.id != BDFDB.DiscordConstants.FriendsSections.ADD_FRIEND) {
 								let newChildren = [child.props.children].flat().filter(child => BDFDB.ObjectUtils.get(child, "type.displayName") != "NumberBadge");
 								switch (child.props.id) {

@@ -24,8 +24,7 @@ lvim.leader_key = " "
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
-lvim.builtin.terminal.active = false
-lvim.builtin.galaxyline.colors.alt_bg = "#292D38"
+lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.nvimtree.auto_close = 0
@@ -34,20 +33,6 @@ lvim.builtin.nvimtree.auto_close = 0
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-
--- python
-lvim.lang.python.formatters = {
-	{
-		exe = "black",
-	},
-}
-lvim.lang.python.isort = true
-
-lvim.lang.vue.formatters = {
-	{
-		exe = "prettier",
-	},
-}
 
 -- Additional Plugins
 lvim.plugins = {
@@ -59,6 +44,7 @@ lvim.plugins = {
 		end,
 	},
 	{ "tpope/vim-surround" },
+  { "mfussenegger/nvim-jdtls"}
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
