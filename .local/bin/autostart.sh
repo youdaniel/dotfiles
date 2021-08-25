@@ -16,3 +16,7 @@ run dunst
 run redshift
 run discord
 run slack
+
+if [ "$IS_LAPTOP" == "true" ]; then
+  run libinput-gestures-setup start
+fi
