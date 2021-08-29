@@ -1,25 +1,14 @@
---[[
-lvim is the global options object
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
-
 lvim.format_on_save = true
 lvim.colorscheme = "dracula"
--- lvim.default_options.timeoutlen = 100
--- lvim.default_options.hlsearch = false
--- lvim.default_options.relativenumber = true
-
+lvim.format_on_save = false
 vim.opt.relativenumber = true
 
 -- keymappings
-
 lvim.leader_key = " "
+
+-- LSP
+lvim.lsp.override = { "java" }
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -44,7 +33,7 @@ lvim.plugins = {
 		end,
 	},
 	{ "tpope/vim-surround" },
-  { "mfussenegger/nvim-jdtls"}
+	{ "mfussenegger/nvim-jdtls" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
