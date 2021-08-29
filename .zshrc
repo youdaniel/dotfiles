@@ -1,3 +1,5 @@
+fpath=(~/.zsh $fpath)
+
 # add cargo to path
 if [ -d "/home/daniel/.cargo" ]; then
   export PATH="$HOME/.cargo/bin:$PATH"
@@ -54,9 +56,6 @@ then
     export VISUAL=nvim
     export MANPAGER="nvim +Man!"
 fi
-
-# FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{node_modules,.git}'"
 
 export BAT_THEME="Dracula"
 # export COLORTERM="truecolor"
