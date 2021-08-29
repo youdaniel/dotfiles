@@ -5,16 +5,11 @@ then
     alias vim="lvim"
 fi
 
-if command -v vifm &> /dev/null
-then
-    alias vifm="/usr/bin/env bash $HOME/.config/vifm/scripts/vifmrun"
-fi
-
 # exa instead of ls
 if command -v exa &> /dev/null
 then
     alias ls="exa --color=always --group-directories-first"
-    alias la="exa -al --color=always --group-directories-first"
+    alias la="exa -la --color=always --group-directories-first"
 fi
 
 if command -v bat &> /dev/null
@@ -31,3 +26,6 @@ alias pacman="sudo pacman"
 alias dcu="docker-compose up"
 alias dcub="docker-compose up --build"
 alias dce="docker-compose exec"
+
+# Clear without new line
+alias clear="unset NEW_LINE_BEFORE_PROMPT && clear"

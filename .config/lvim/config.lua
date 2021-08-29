@@ -36,6 +36,13 @@ lvim.plugins = {
     event = "CursorMoved",
   },
   { "dracula/vim" },
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    -- event = "BufReadPre",
+    config = function()
+      require "user.blankline"
+    end,
+  },
   { "mfussenegger/nvim-jdtls" },
   {
     "ray-x/lsp_signature.nvim",
