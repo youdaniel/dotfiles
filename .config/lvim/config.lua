@@ -1,7 +1,11 @@
 -- general
-lvim.format_on_save = true
-lvim.colorscheme = "dracula"
 lvim.format_on_save = false
+vim.cmd[[
+  augroup select_autoformat
+    autocmd BufWritePre *.{py,lua} :silent lua vim.lsp.buf.formatting_sync()
+  augroup END
+]]
+lvim.colorscheme = "dracula"
 vim.opt.relativenumber = true
 
 -- keymappings
@@ -14,9 +18,8 @@ lvim.lsp.override = { "java" }
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
-lvim.builtin.nvimtree.auto_close = 0
+lvim.builtin.project.active = false
+lvim.builtin.dap.active = false
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = "maintained"
