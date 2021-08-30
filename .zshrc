@@ -15,6 +15,8 @@ if [ -d "/home/daniel/.yarn" ]; then
   export PATH="$HOME/.yarn/bin:$PATH"
 fi
 
+export CLASSPATH=".:/usr/share/java/:/usr/share/java/junit.jar:/usr/share/java/hamcrest-core.jar"
+
 # Load Antigen
 source $HOME/antigen.zsh
 
