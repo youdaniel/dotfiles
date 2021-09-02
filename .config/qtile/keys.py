@@ -117,8 +117,8 @@ keys = [
     Key("<XF86AudioStop>", lazy.spawn("playerctl stop")),
     Key("A-C-m", lazy.spawn("toggle_microphone.sh")),
     # Backlight
-    Key("<XF86MonBrightnessUp>", lazy.spawn("xbacklight -inc 10")),
-    Key("<XF86MonBrightnessDown>", lazy.spawn("xbacklight -dec 10")),
+    Key("<XF86MonBrightnessUp>", lazy.spawn("set_backlight.sh inc")),
+    Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),
     # Scripts
     Key("A-C-w", lazy.spawn("wacom_display_toggle.sh")),
     Key("<Print>", lazy.spawn("screenshot.sh select_no_save")),

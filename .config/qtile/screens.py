@@ -157,6 +157,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
             widget.Battery(
                 foreground=colors[2],
                 background=colors[0],
+                charge_char="",
                 discharge_char="",
                 format="{char}🔋{percent:2.0%} {hour:d}:{min:02d} left",
             )
