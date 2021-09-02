@@ -52,6 +52,10 @@ lvim.plugins = {
       require "user.blankline"
     end,
   },
+  { 
+    "kevinhwang91/nvim-bqf", 
+    event="BufRead" 
+  },
   { "mfussenegger/nvim-jdtls" },
   {
     "ray-x/lsp_signature.nvim",
