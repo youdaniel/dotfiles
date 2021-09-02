@@ -23,6 +23,8 @@ lvim.builtin.dap.active = false
 vim.g.nvim_tree_disable_netrw = 0
 vim.g.nvim_tree_hijack_netrw = 0
 vim.g.netrw_banner = 0
+vim.g.vimtex_compiler_progname = "nvr"
+vim.g.vimtex_view_method = "zathura"
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.lsp.diagnostics.virtual_text = true
@@ -37,6 +39,12 @@ lvim.plugins = {
     event = "CursorMoved",
   },
   { "dracula/vim" },
+  {
+    "lervag/vimtex",
+    config = function()
+      vim.cmd "call vimtex#init()"
+    end,
+  },
   {
     "lukas-reineke/indent-blankline.nvim",
     -- event = "BufReadPre",
