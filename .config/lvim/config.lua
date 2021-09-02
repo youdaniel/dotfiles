@@ -24,6 +24,7 @@ vim.g.nvim_tree_disable_netrw = 0
 vim.g.nvim_tree_hijack_netrw = 0
 vim.g.netrw_banner = 0
 vim.g.vimtex_compiler_progname = "nvr"
+vim.g.vimtex_quickfix_enabled = 0
 vim.g.vimtex_view_method = "zathura"
 
 -- if you don't want all the parsers change this to a table of the ones you want
@@ -52,9 +53,9 @@ lvim.plugins = {
       require "user.blankline"
     end,
   },
-  { 
-    "kevinhwang91/nvim-bqf", 
-    event="BufRead" 
+  {
+    "kevinhwang91/nvim-bqf",
+    event = "BufRead",
   },
   { "mfussenegger/nvim-jdtls" },
   {
