@@ -7,9 +7,11 @@ vim.cmd [[
 ]]
 lvim.colorscheme = "dracula"
 vim.opt.relativenumber = true
+vim.opt.hlsearch = false
 
 -- keymappings
 lvim.leader_key = " "
+lvim.keys.insert_mode[";;"] = '<C-r>"'
 
 -- LSP
 lvim.lsp.override = { "java" }
@@ -73,6 +75,7 @@ lvim.plugins = {
       require "user.quickscope"
     end,
   },
+  { "wellle/targets.vim" },
   {
     "windwp/nvim-ts-autotag",
     event = "InsertEnter",
