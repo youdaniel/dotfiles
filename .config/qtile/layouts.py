@@ -10,7 +10,6 @@ layout_defaults = {
 
 layouts = [
     layout.MonadTall(**layout_defaults),
-    layout.Max(**layout_defaults),
     layout.Bsp(**layout_defaults),
 ]
 
