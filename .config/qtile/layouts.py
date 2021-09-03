@@ -3,7 +3,7 @@ from libqtile.config import Match
 
 layout_defaults = {
     "border_width": 2,
-    "margin": 5,
+    "margin": 10,
     "border_focus": "#f8f8f2",
     "border_normal": "#282a36",
 }

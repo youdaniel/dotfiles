@@ -1,9 +1,7 @@
 window:
   padding:
-    x: 3
-    y: 3
-
-  dynamic_padding: true
+    x: 5
+    y: 5
 
 scrolling:
   history: 5000
