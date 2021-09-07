@@ -37,22 +37,11 @@ def window_to_next_screen():
     return __inner
 
 
-def switch_screens():
-    @lazy.function
-    def __inner(qtile):
-        i = qtile.screens.index(qtile.current_screen)
-        group = qtile.screens[i - 1].group
-        qtile.current_screen.set_group(group)
-
-    return __inner
-
-
 keys = [
     Key("A-w", lazy.to_screen(0)),
     Key("A-e", lazy.to_screen(1)),
     Key("A-S-w", window_to_previous_screen()),
     Key("A-S-e", window_to_next_screen()),
-    Key("A-s", switch_screens()),
     Key("A-k", lazy.layout.up()),
     Key("A-j", lazy.layout.down()),
     Key("A-h", lazy.layout.left()),
@@ -61,32 +50,8 @@ keys = [
     Key("A-S-j", lazy.layout.shuffle_down()),
     Key("A-S-h", lazy.layout.shuffle_left()),
     Key("A-S-l", lazy.layout.shuffle_right()),
-    Key(
-        "A-C-k",
-        lazy.layout.grow_up(),
-        lazy.layout.grow(),
-        lazy.layout.decrease_nmaster(),
-    ),
-    Key(
-        "A-C-j",
-        lazy.layout.grow_down(),
-        lazy.layout.shrink(),
-        lazy.layout.increase_nmaster(),
-    ),
-    Key(
-        "A-C-h",
-        lazy.layout.grow_left(),
-        lazy.layout.shrink(),
-        lazy.layout.decrease_ratio(),
-        lazy.layout.add(),
-    ),
-    Key(
-        "A-C-l",
-        lazy.layout.grow_right(),
-        lazy.layout.grow(),
-        lazy.layout.increase_ratio(),
-        lazy.layout.delete(),
-    ),
+    Key("A-C-S-h", lazy.layout.swap_column_left()),
+    Key("A-C-S-l", lazy.layout.swap_column_right()),
     Key("A-M-k", lazy.layout.flip_up()),
     Key("A-M-j", lazy.layout.flip_down()),
     Key("A-M-h", lazy.layout.flip_left()),
@@ -120,7 +85,6 @@ keys = [
     Key("<XF86MonBrightnessUp>", lazy.spawn("set_backlight.sh inc")),
     Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),
     # Scripts
-    Key("A-C-w", lazy.spawn("wacom_display_toggle.sh")),
     Key("<Print>", lazy.spawn("screenshot.sh select_no_save")),
     Key("S-<Print>", lazy.spawn("screenshot.sh select")),
     Key("C-<Print>", lazy.spawn("screenshot.sh select_window")),

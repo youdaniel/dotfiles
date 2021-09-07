@@ -1,3 +1,5 @@
+import os
+
 from libqtile import layout
 from libqtile.config import Match
 
@@ -10,8 +12,12 @@ layout_defaults = {
 
 layouts = [
     layout.MonadTall(**layout_defaults),
-    layout.Bsp(**layout_defaults),
+    layout.Max(**layout_defaults),
 ]
+
+if not os.getenv("IS_LAPTOP"):
+    layouts.append(layout.Columns(**layout_defaults, num_columns=3))
+
 
 floating_layout = layout.Floating(
     float_rules=[

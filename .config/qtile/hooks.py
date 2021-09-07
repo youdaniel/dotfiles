@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-from libqtile import hook
+from libqtile import hook, qtile
 
 
 @hook.subscribe.startup_once
@@ -16,14 +16,6 @@ def start_always():
 
 
 @hook.subscribe.client_new
-def float_firefox(window):
-    wm_class = window.window.get_wm_class()
-    w_name = window.window.get_name()
-    if wm_class == ("Places", "firefox") and w_name == "Library":
-        window.floating = True
-
-
-@hook.subscribe.client_new
 def float_steam(window):
     wm_class = window.window.get_wm_class()
     w_name = window.window.get_name()
@@ -35,3 +27,9 @@ def float_steam(window):
         or "PMaxSize" in window.window.get_wm_normal_hints().get("flags", ())
     ):
         window.floating = True
+
+
+@hook.subscribe.layout_change
+def layout_change(layout, group):
+    bar = qtile.current_screen.top
+    bar.show(False) if qtile.current_layout.info()["name"] == "max" else bar.show(True)
