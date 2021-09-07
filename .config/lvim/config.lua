@@ -11,7 +11,6 @@ vim.opt.hlsearch = false
 
 -- keymappings
 lvim.leader_key = " "
-lvim.keys.insert_mode[";;"] = '<C-r>"'
 
 -- LSP
 lvim.lsp.override = { "java" }
@@ -37,6 +36,7 @@ lvim.builtin.treesitter.autotag.enable = true
 
 -- Additional Plugins
 lvim.plugins = {
+  { "AndrewRadev/splitjoin.vim" },
   {
     "andymass/vim-matchup",
     event = "CursorMoved",
@@ -84,7 +84,7 @@ lvim.plugins = {
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
-  { "BufNewFile", "*.cpp", "0r ~/Documents/CP/cp.cpp" },
+  { "BufNewFile", "*.cpp", "0r ~/Documents/CP/cp.cpp | $d" },
   {
     "FileType",
     "cpp",
