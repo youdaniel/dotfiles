@@ -80,6 +80,13 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     )
     widgets.append(slashSeparator())
     widgets.append(widget.Memory())
+    widgets.append(slashSeparator())
+    widgets.append(
+        widget.Net(
+            interface="wlp2s0" if is_laptop else "eno1",
+            format="{down} ↓↑ {up}",
+        )
+    )
     if is_laptop:
         widgets.append(slashSeparator())
         widgets.append(
@@ -87,14 +94,6 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                 charge_char="",
                 discharge_char="",
                 format="{char}{percent:2.0%} {hour:d}:{min:02d} left",
-            )
-        )
-    else:
-        widgets.append(slashSeparator())
-        widgets.append(
-            widget.Net(
-                interface="wlp2s0" if is_laptop else "eno1",
-                format="{down} ↓↑ {up}",
             )
         )
     widgets.append(slashSeparator())
@@ -113,8 +112,9 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
             },
         )
     )
-    widgets.append(slashSeparator())
-    widgets.append(widget.CurrentLayout())
+    if not is_laptop:
+        widgets.append(slashSeparator())
+        widgets.append(widget.CurrentLayout())
     widgets.append(slashSeparator())
     widgets.append(
         widget.Clock(

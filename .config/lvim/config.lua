@@ -49,15 +49,20 @@ lvim.plugins = {
     end,
   },
   {
+    "iamcco/markdown-preview.nvim",
+    run = "cd app && npm install",
+    ft = "markdown",
+  },
+  {
+    "kevinhwang91/nvim-bqf",
+    event = "BufRead",
+  },
+  {
     "lukas-reineke/indent-blankline.nvim",
     -- event = "BufReadPre",
     config = function()
       require "user.blankline"
     end,
-  },
-  {
-    "kevinhwang91/nvim-bqf",
-    event = "BufRead",
   },
   { "mfussenegger/nvim-jdtls" },
   {
@@ -89,6 +94,11 @@ lvim.autocommands.custom_groups = {
     "FileType",
     "cpp",
     "nnoremap <F9> :w <bar> !g++ -std=c++17 -Wshadow -Wall % -o %:r -g -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG <CR>",
+  },
+  {
+    "FileType",
+    "markdown",
+    "set nowrap",
   },
 }
 
