@@ -85,6 +85,13 @@ lvim.plugins = {
     "windwp/nvim-ts-autotag",
     event = "InsertEnter",
   },
+  {
+    "windwp/nvim-spectre",
+    event = "BufRead",
+    config = function()
+      require("user.spectre").config()
+    end,
+  },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -104,3 +111,9 @@ lvim.autocommands.custom_groups = {
 
 -- Additional Leader bindings for WhichKey
 lvim.builtin.which_key.mappings.y = { "<cmd>%y+<CR>", "Copy All" }
+lvim.builtin.which_key.mappings["r"] = {
+  name = "Replace",
+  r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
+  w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
+  f = { "<cmd>lua require('spectre').open_file_search()<cr>", "Replace Buffer" },
+}
