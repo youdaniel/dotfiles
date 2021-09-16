@@ -1,4 +1,4 @@
-WORKSPACE_PATH = "/home/" .. USER .. "/.workspace/"
+WORKSPACE_PATH = "/home/" .. os.getenv "USER" .. "/.workspace/"
 JAVA_LS_EXECUTABLE = os.getenv "HOME" .. "/.local/share/lunarvim/lvim/utils/bin/jdtls"
 
 require("jdtls").start_or_attach {
