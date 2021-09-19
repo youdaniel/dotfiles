@@ -6,11 +6,15 @@ vim.cmd [[
   augroup END
 ]]
 lvim.colorscheme = "dracula"
+vim.opt.clipboard = "unnamed"
 vim.opt.relativenumber = true
 vim.opt.hlsearch = false
 
 -- keymappings
 lvim.leader_key = " "
+lvim.keys.visual_mode["<C-c>"] = '"+yi'
+lvim.keys.visual_mode["<C-v>"] = 'c<ESC>"+p'
+lvim.keys.insert_mode["<C-v>"] = '<ESC>"+pa'
 
 -- LSP
 lvim.lsp.override = { "java" }
@@ -20,7 +24,7 @@ lvim.lsp.override = { "java" }
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.project.active = false
-lvim.builtin.dap.active = false
+lvim.builtin.dap.active = true
 vim.g.nvim_tree_disable_netrw = 0
 vim.g.nvim_tree_hijack_netrw = 0
 vim.g.netrw_banner = 0
@@ -28,7 +32,6 @@ vim.g.vimtex_compiler_progname = "nvr"
 vim.g.vimtex_quickfix_enabled = 0
 vim.g.vimtex_view_method = "zathura"
 
--- if you don't want all the parsers change this to a table of the ones you want
 lvim.lsp.diagnostics.virtual_text = true
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
@@ -62,6 +65,12 @@ lvim.plugins = {
     -- event = "BufReadPre",
     config = function()
       require "user.blankline"
+    end,
+  },
+  {
+    "mfussenegger/nvim-dap-python",
+    config = function()
+      require("dap-python").setup "~/.local/share/nvim/dapinstall/python/bin/python"
     end,
   },
   { "mfussenegger/nvim-jdtls" },
