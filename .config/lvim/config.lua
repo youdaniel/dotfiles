@@ -2,7 +2,7 @@
 lvim.format_on_save = false
 vim.cmd [[
   augroup select_autoformat
-    autocmd BufWritePre *.{py,lua} :silent lua vim.lsp.buf.formatting_sync()
+    autocmd BufWritePre *.{py,lua,vue} :silent lua vim.lsp.buf.formatting_sync()
   augroup END
 ]]
 lvim.colorscheme = "dracula"
