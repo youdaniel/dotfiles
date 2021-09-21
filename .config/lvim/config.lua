@@ -36,6 +36,9 @@ lvim.lsp.diagnostics.virtual_text = true
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.autotag.enable = true
+lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } } -- treesitter is buggy :(
+
+lvim.builtin.cmp.confirm_opts.select = false -- prevent weird autocomplete behavior with snippets
 
 -- Additional Plugins
 lvim.plugins = {
@@ -89,6 +92,7 @@ lvim.plugins = {
       require "user.quickscope"
     end,
   },
+  { "Vimjas/vim-python-pep8-indent" },
   { "wellle/targets.vim" },
   {
     "windwp/nvim-ts-autotag",
