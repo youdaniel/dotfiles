@@ -6,21 +6,21 @@ from libqtile.lazy import lazy
 from keys import keys
 
 group_config = [
-    ("I", {"layout": "monadtall"}),
+    ("I", {"layout": "columns"}),
     (
         "II",
         {
-            "layout": "monadtall",
+            "layout": "columns",
             "matches": [Match(wm_class="discord"), Match(wm_class="slack")],
         },
     ),
-    ("III", {"layout": "monadtall"}),
-    ("IV", {"layout": "monadtall"}),
-    ("V", {"layout": "monadtall"}),
-    ("VI", {"layout": "monadtall"}),
-    ("VII", {"layout": "monadtall"}),
-    ("VIII", {"layout": "monadtall"}),
-    ("IX", {"layout": "monadtall", "matches": [Match(wm_class="obs")]}),
+    ("III", {"layout": "columns"}),
+    ("IV", {"layout": "columns"}),
+    ("V", {"layout": "columns"}),
+    ("VI", {"layout": "columns"}),
+    ("VII", {"layout": "columns"}),
+    ("VIII", {"layout": "columns"}),
+    ("IX", {"layout": "columns", "matches": [Match(wm_class="obs")]}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_config]

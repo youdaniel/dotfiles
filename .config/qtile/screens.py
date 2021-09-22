@@ -130,9 +130,12 @@ screens = [
             widgets=init_widgets_list(),
             opacity=1,
             size=25,
-            margin=[10, 10, 0, 10],
+            margin=[10, 10, 5, 10],
             background=colors[0],
             foreground=colors[2],
-        )
+        ),
+        bottom=bar.Gap(5),
+        left=bar.Gap(5),
+        right=bar.Gap(5),
     ),
 ]
