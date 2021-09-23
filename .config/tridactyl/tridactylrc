@@ -1,0 +1,11 @@
+sanitize tridactyllocal tridactylsync
+
+set newtab about:blank
+
+seturl https://codeforces.com noiframe true
+seturl https://degreeaudit.gatech.edu/DashboardServlet noiframe true
+
+set smoothscroll true
+
+bind j scrollline 5
+bind k scrollline -5
