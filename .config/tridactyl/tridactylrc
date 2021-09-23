@@ -9,3 +9,5 @@ set smoothscroll true
 
 bind j scrollline 5
 bind k scrollline -5
+
+bind D tabdetach
