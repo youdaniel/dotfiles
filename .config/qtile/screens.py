@@ -99,20 +99,20 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     widgets.append(slashSeparator())
     widgets.append(widget.TextBox(text="Vol:"))
     widgets.append(widget.Volume())
-    widgets.append(slashSeparator())
-    widgets.append(
-        widget.GenPollText(
-            update_interval=1,
-            func=currently_playing,
-            markup=False,
-            mouse_callbacks={
-                "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
-                "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
-                "Button3": lambda: qtile.cmd_spawn("playerctl next"),
-            },
-        )
-    )
     if not is_laptop:
+        widgets.append(slashSeparator())
+        widgets.append(
+            widget.GenPollText(
+                update_interval=1,
+                func=currently_playing,
+                markup=False,
+                mouse_callbacks={
+                    "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
+                    "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
+                    "Button3": lambda: qtile.cmd_spawn("playerctl next"),
+                },
+            )
+        )
         widgets.append(slashSeparator())
         widgets.append(widget.CurrentLayout())
     widgets.append(slashSeparator())
