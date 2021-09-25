@@ -113,8 +113,6 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                 },
             )
         )
-        widgets.append(slashSeparator())
-        widgets.append(widget.CurrentLayout())
     widgets.append(slashSeparator())
     widgets.append(
         widget.Clock(
