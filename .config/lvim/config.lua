@@ -25,8 +25,8 @@ lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.project.active = false
 lvim.builtin.dap.active = true
-lvim.builtin.nvimtree.disable_netrw = 0
-lvim.builtin.nvimtree.hijack_netrw = 0
+lvim.builtin.nvimtree.setup.disable_netrw = 0
+lvim.builtin.nvimtree.setup.hijack_netrw = 0
 vim.g.netrw_banner = 0
 vim.g.vimtex_compiler_progname = "nvr"
 vim.g.vimtex_quickfix_enabled = 0
@@ -36,7 +36,7 @@ lvim.lsp.diagnostics.virtual_text = true
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.autotag.enable = true
-lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python" } }
+lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
 
 lvim.builtin.cmp.confirm_opts.select = false
 
