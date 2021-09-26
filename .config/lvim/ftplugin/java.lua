@@ -13,7 +13,10 @@ require("jdtls").start_or_attach {
   },
 }
 
-vim.api.nvim_set_keymap("n", "<leader>la", ":lua require('jdtls').code_action()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>la", ":lua require('jdtls').code_action()<CR>", {
+  noremap = true,
+  silent = true,
+})
 
 vim.cmd "command! -buffer JdtCompile lua require('jdtls').compile()"
 vim.cmd "command! -buffer JdtUpdateConfig lua require('jdtls').update_project_config()"
