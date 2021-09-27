@@ -5,6 +5,9 @@ set newtab about:blank
 seturl https://codeforces.com noiframe true
 seturl https://degreeaudit.gatech.edu/DashboardServlet noiframe true
 
+blacklistadd https://leetcode.com/problems/
+
+set leavegithubalone true
 set smoothscroll true
 
 bind j scrollline 5
