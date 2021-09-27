@@ -30,7 +30,7 @@ def float_steam(window):
 
 
 @hook.subscribe.layout_change
-def _(layout, _):
+def _(layout, group):
     bar = qtile.current_screen.top
     if layout.name == "max":
         bar.show(False)
@@ -41,3 +41,5 @@ def _(layout, _):
 
     for attr in ["left", "bottom", "right"]:
         getattr(qtile.current_screen, attr).size = gap_size
+
+    group.layout_all()
