@@ -35,7 +35,6 @@ vim.g.vimtex_view_method = "zathura"
 lvim.lsp.diagnostics.virtual_text = true
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.autotag.enable = true
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
 
 lvim.builtin.cmp.confirm_opts.select = false
@@ -96,7 +95,9 @@ lvim.plugins = {
   { "wellle/targets.vim" },
   {
     "windwp/nvim-ts-autotag",
-    event = "InsertEnter",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
   },
   {
     "windwp/nvim-spectre",
