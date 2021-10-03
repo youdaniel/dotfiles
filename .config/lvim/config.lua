@@ -1,10 +1,5 @@
 -- general
-lvim.format_on_save = false
-vim.cmd [[
-  augroup select_autoformat
-    autocmd BufWritePre *.{py,lua,vue} :silent lua vim.lsp.buf.formatting_sync()
-  augroup END
-]]
+lvim.format_on_save = true
 lvim.colorscheme = "dracula"
 vim.opt.clipboard = "unnamed"
 vim.opt.relativenumber = true
@@ -17,27 +12,30 @@ lvim.keys.visual_mode["<C-v>"] = 'c<ESC>"+p'
 lvim.keys.insert_mode["<C-v>"] = '<ESC>"+pa'
 
 -- LSP
-lvim.lsp.override = { "java" }
+lvim.lsp.override = { "jdtls" }
+lvim.lsp.diagnostics.virtual_text = true
 
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+-- builtin
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.project.active = false
 lvim.builtin.dap.active = true
-lvim.builtin.nvimtree.setup.disable_netrw = 0
-lvim.builtin.nvimtree.setup.hijack_netrw = 0
-vim.g.netrw_banner = 0
+
+-- vimtex
 vim.g.vimtex_compiler_progname = "nvr"
 vim.g.vimtex_quickfix_enabled = 0
 vim.g.vimtex_view_method = "zathura"
 
-lvim.lsp.diagnostics.virtual_text = true
+-- treesitter
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
 
+-- cmp
 lvim.builtin.cmp.confirm_opts.select = false
+
+-- nvimtree
+lvim.builtin.nvimtree.setup.view.auto_resize = true
 
 -- Additional Plugins
 lvim.plugins = {
@@ -83,7 +81,6 @@ lvim.plugins = {
       require("user.lsp_signature").config()
     end,
   },
-  { "tamago324/lir.nvim" }, -- prevents extra buffer from appearing in bufferline with nvim /path/to/dir
   { "tpope/vim-surround" },
   {
     "unblevable/quick-scope",
