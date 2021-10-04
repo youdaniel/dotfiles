@@ -36,6 +36,7 @@ lvim.builtin.cmp.confirm_opts.select = false
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.auto_resize = true
+lvim.builtin.nvimtree.setup.auto_close = false
 
 -- Additional Plugins
 lvim.plugins = {
@@ -62,7 +63,6 @@ lvim.plugins = {
   },
   {
     "lukas-reineke/indent-blankline.nvim",
-    -- event = "BufReadPre",
     config = function()
       require "user.blankline"
     end,
