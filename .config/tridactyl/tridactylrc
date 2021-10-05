@@ -9,6 +9,7 @@ seturl https://degreeaudit.gatech.edu/DashboardServlet noiframe true
 blacklistadd https://leetcode.com/problems/
 blacklistadd https://leetcode.com/contest/
 blacklistadd https://app.codesignal.com/
+blacklistadd https://monkeytype.com/
 
 set smoothscroll true
 
