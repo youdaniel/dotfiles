@@ -9,6 +9,9 @@ require("jdtls").start_or_attach {
       format = {
         enabled = false,
       },
+      referencesCodeLens = {
+        enabled = false
+      },
       project = {
         referencedLibraries = { "lib/**/*.jar" },
       },
