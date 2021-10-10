@@ -32,59 +32,6 @@ lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
 
 -- cmp
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
-end
-
-local function T(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local is_emmet_active = function()
-  local clients = vim.lsp.buf_get_clients()
-
-  for _, client in pairs(clients) do
-    if client.name == "emmet_ls" then
-      return true
-    end
-  end
-  return false
-end
-
-lvim.builtin.cmp.confirm_opts.select = false
-lvim.builtin.cmp.mapping["<Tab>"] = require("cmp").mapping(function()
-  if vim.fn.pumvisible() == 1 then
-    vim.fn.feedkeys(T "<down>", "n")
-  elseif require("luasnip").expand_or_jumpable() then
-    vim.fn.feedkeys(T "<Plug>luasnip-expand-or-jump", "")
-  elseif check_backspace() then
-    vim.fn.feedkeys(T "<Tab>", "n")
-  elseif is_emmet_active() then
-    return vim.fn["cmp#complete"]()
-  elseif vim.b.doge_interactive then
-    vim.fn.feedkeys(T "<Plug>(doge-comment-jump-forward)", "")
-  else
-    vim.fn.feedkeys(T "<Tab>", "n")
-  end
-end, {
-  "i",
-  "s",
-})
-lvim.builtin.cmp.mapping["<S-Tab>"] = require("cmp").mapping(function(fallback)
-  if vim.fn.pumvisible() == 1 then
-    vim.fn.feedkeys(T "<up>", "n")
-  elseif require("luasnip").jumpable(-1) then
-    vim.fn.feedkeys(T "<Plug>luasnip-jump-prev", "")
-  elseif vim.b.doge_interactive then
-    vim.fn.feedkeys(T "<Plug>(doge-comment-jump-backward)", "")
-  else
-    fallback()
-  end
-end, {
-  "i",
-  "s",
-})
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.auto_resize = true
@@ -97,7 +44,6 @@ lvim.plugins = {
     "andymass/vim-matchup",
     event = "CursorMoved",
   },
-  { "dracula/vim" },
   {
     "lervag/vimtex",
     config = function()
@@ -161,6 +107,7 @@ lvim.plugins = {
       require("user.spectre").config()
     end,
   },
+  { "youdaniel/dracula" },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
