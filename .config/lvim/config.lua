@@ -110,6 +110,11 @@ lvim.plugins = {
   { "youdaniel/dracula" },
 }
 
+-- formatters
+lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
+lvim.lang.lua.formatters = { { exe = "stylua" } }
+lvim.lang.vue.formatters = { { exe = "prettier" } }
+
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
   { "BufNewFile", "*.cpp", "0r ~/Documents/CP/cp.cpp | $d" },
