@@ -31,11 +31,23 @@ lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
 
--- cmp
-
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.auto_resize = true
 lvim.builtin.nvimtree.setup.auto_close = false
+
+-- formatters
+local formatters = require "lvim.lsp.null-ls.formatters"
+lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
+lvim.lang.lua.formatters = { { exe = "stylua" } }
+formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
+
+-- disable default formatters for tsserver and jsonls
+lvim.lsp.on_attach_callback = function(client, _)
+  if client.name == "tsserver" or client.name == "jsonls" then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
+end
 
 -- Additional Plugins
 lvim.plugins = {
@@ -109,11 +121,6 @@ lvim.plugins = {
   },
   { "youdaniel/dracula" },
 }
-
--- formatters
-lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
-lvim.lang.lua.formatters = { { exe = "stylua" } }
-lvim.lang.vue.formatters = { { exe = "prettier" } }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 lvim.autocommands.custom_groups = {
