@@ -12,7 +12,7 @@ lvim.keys.visual_mode["<C-v>"] = 'c<ESC>"+p'
 lvim.keys.insert_mode["<C-v>"] = '<ESC>"+pa'
 
 -- LSP
-lvim.lsp.override = { "jdtls" }
+lvim.lsp.override = { "jdtls", "vuels" }
 lvim.lsp.diagnostics.virtual_text = true
 
 -- builtin
@@ -29,7 +29,7 @@ vim.g.vimtex_view_method = "zathura"
 -- treesitter
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java" } }
+lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.auto_resize = true
@@ -43,7 +43,7 @@ formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript",
 
 -- disable default formatters for tsserver and jsonls
 lvim.lsp.on_attach_callback = function(client, _)
-  if client.name == "tsserver" or client.name == "jsonls" then
+  if client.name == "tsserver" or client.name == "jsonls" or client.name == "volar" then
     client.resolved_capabilities.document_formatting = false
     client.resolved_capabilities.document_range_formatting = false
   end
@@ -77,6 +77,7 @@ lvim.plugins = {
       require "user.doge"
     end,
   },
+  { "leafOFTree/vim-vue-plugin" },
   {
     "lukas-reineke/indent-blankline.nvim",
     config = function()
