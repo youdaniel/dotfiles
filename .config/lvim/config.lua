@@ -39,6 +39,7 @@ lvim.builtin.nvimtree.setup.auto_close = false
 local formatters = require "lvim.lsp.null-ls.formatters"
 lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
 lvim.lang.lua.formatters = { { exe = "stylua" } }
+lvim.lang.rust.formatters = { { exe = "rustfmt" } }
 formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
 
 -- disable default formatters for tsserver and jsonls
