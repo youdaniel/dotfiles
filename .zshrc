@@ -1,16 +1,16 @@
 fpath=(~/.zsh $fpath)
 
-# add cargo to path
+# add cargo binaries to path
 if [ -d "/home/daniel/.cargo" ]; then
   export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
-# add poetry to path
+# add poetry binaries to path
 if [ -d "/home/daniel/.poetry" ]; then
   export PATH="$HOME/.poetry/bin:$PATH"
 fi
 
-# add yarn to path
+# add yarn binaries to path
 if [ -d "/home/daniel/.yarn" ]; then
   export PATH="$HOME/.yarn/bin:$PATH"
 fi
@@ -22,33 +22,6 @@ source $HOME/antigen.zsh
 
 # Load Antigen configuration
 antigen init $HOME/.antigenrc
-
-# ARCHIVE EXTRACTION
-# usage: ex <file>
-ex ()
-{
-  if [ -f $1 ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf $1   ;;
-      *.tar.gz)    tar xzf $1   ;;
-      *.bz2)       bunzip2 $1   ;;
-      *.rar)       unrar x $1   ;;
-      *.gz)        gunzip $1    ;;
-      *.tar)       tar xf $1    ;;
-      *.tbz2)      tar xjf $1   ;;
-      *.tgz)       tar xzf $1   ;;
-      *.zip)       unzip $1     ;;
-      *.Z)         uncompress $1;;
-      *.7z)        7z x $1      ;;
-      *.deb)       ar x $1      ;;
-      *.tar.xz)    tar xf $1    ;;
-      *.tar.zst)   unzstd $1    ;;      
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
 
 # NVIM as default editor
 if command -v lvim &> /dev/null
