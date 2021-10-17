@@ -30,6 +30,7 @@ vim.g.vimtex_view_method = "zathura"
 lvim.builtin.treesitter.ensure_installed = "maintained"
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
+lvim.builtin.treesitter.context_commentstring.enable = true
 
 -- nvimtree
 lvim.builtin.nvimtree.setup.view.auto_resize = true
@@ -68,6 +69,7 @@ lvim.plugins = {
     run = "cd app && npm install",
     ft = "markdown",
   },
+  { "JoosepAlviste/nvim-ts-context-commentstring" },
   {
     "kevinhwang91/nvim-bqf",
     event = "BufRead",

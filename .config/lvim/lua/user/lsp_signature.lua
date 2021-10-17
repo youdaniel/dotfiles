@@ -6,7 +6,9 @@ M.config = function()
     return
   end
 
-  lsp_signature.on_attach()
+  lsp_signature.setup {
+    toggle_key = "<C-x>",
+  }
 end
 
 return M
