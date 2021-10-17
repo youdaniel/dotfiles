@@ -36,6 +36,21 @@ lvim.builtin.treesitter.context_commentstring.enable = true
 lvim.builtin.nvimtree.setup.view.auto_resize = true
 lvim.builtin.nvimtree.setup.auto_close = false
 
+-- telescope
+local actions = require "telescope.actions"
+lvim.builtin.telescope.defaults.mappings = {
+  i = {
+    ["<C-j>"] = actions.move_selection_next,
+    ["<C-k>"] = actions.move_selection_previous,
+    ["<C-n>"] = actions.cycle_history_next,
+    ["<C-p>"] = actions.cycle_history_prev,
+  },
+  n = {
+    ["<C-j>"] = actions.move_selection_next,
+    ["<C-k>"] = actions.move_selection_previous,
+  },
+}
+
 -- formatters
 local formatters = require "lvim.lsp.null-ls.formatters"
 lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
