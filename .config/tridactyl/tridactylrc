@@ -11,6 +11,7 @@ blacklistadd https://leetcode.com/contest/
 blacklistadd https://app.codesignal.com/
 blacklistadd https://app.coderpad.io/
 blacklistadd https://monkeytype.com/
+blacklistadd https://www.hackerrank.com/
 
 set smoothscroll true
 
