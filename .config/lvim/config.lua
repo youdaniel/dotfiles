@@ -58,14 +58,6 @@ lvim.lang.lua.formatters = { { exe = "stylua" } }
 lvim.lang.rust.formatters = { { exe = "rustfmt" } }
 formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
 
--- disable default formatters for tsserver and jsonls
-lvim.lsp.on_attach_callback = function(client, _)
-  if client.name == "tsserver" or client.name == "jsonls" or client.name == "volar" then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
-  end
-end
-
 -- Additional Plugins
 lvim.plugins = {
   { "AndrewRadev/splitjoin.vim" },
