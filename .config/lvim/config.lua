@@ -83,6 +83,7 @@ lvim.plugins = {
   },
   {
     "kkoomen/vim-doge",
+    run = ":call doge#install()",
     config = function()
       require "user.doge"
     end,
