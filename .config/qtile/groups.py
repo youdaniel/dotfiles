@@ -33,6 +33,6 @@ for i, (name, kwargs) in enumerate(group_config, 1):
         ]
     )
 
-groups += [ScratchPad("SPD", dropdowns=[DropDown("python", "alacritty -e python")])]
+groups += [ScratchPad("SPD", dropdowns=[DropDown("python", "kitty -e python")])]
 
 keys.extend([Key(f"A-S-p", lazy.group["SPD"].dropdown_toggle("python"))])
