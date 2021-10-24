@@ -5,6 +5,7 @@ M.config = function()
   if not status_ok then
     return
   end
+
   spectre.setup {
 
     color_devicons = true,
@@ -59,13 +60,10 @@ M.config = function()
         cmd = "<cmd>lua require('spectre').change_options('hidden')<CR>",
         desc = "toggle search hidden",
       },
-      -- you can put your mapping here it only use normal mode
     },
     find_engine = {
-      -- rg is map with finder_cmd
       ["rg"] = {
         cmd = "rg",
-        -- default args
         args = {
           "--color=never",
           "--no-heading",
@@ -84,8 +82,6 @@ M.config = function()
             desc = "hidden file",
             icon = "[H]",
           },
-          -- you can put any option you want here it can toggle with
-          -- show_option function
         },
       },
       ["ag"] = {
@@ -111,7 +107,6 @@ M.config = function()
     replace_engine = {
       ["sed"] = {
         cmd = "sed",
-        args = nil,
       },
       options = {
         ["ignore-case"] = {
@@ -123,12 +118,10 @@ M.config = function()
     },
     default = {
       find = {
-        --pick one of item in find_engine
         cmd = "rg",
         options = { "ignore-case" },
       },
       replace = {
-        --pick one of item in replace_engine
         cmd = "sed",
       },
     },
