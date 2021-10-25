@@ -1,10 +1,52 @@
 local M = {}
 
 M.config = function()
-  lvim.builtin.dashboard.active = true
-  lvim.builtin.terminal.active = true
-  lvim.builtin.project.active = false
-  lvim.builtin.dap.active = true
+  local lb = lvim.builtin
+
+  -- CMP
+  local cmp = require "cmp"
+  local luasnip = require "luasnip"
+  local lccm = require("lvim.core.cmp").methods ---@diagnostic disable-line
+  lb.cmp.mapping["<Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_next_item()
+    elseif luasnip.expandable() then
+      luasnip.expand()
+    elseif lccm.jumpable() then
+      luasnip.jump(1)
+    elseif lccm.check_backspace() then
+      fallback()
+    elseif lccm.is_emmet_active() then
+      return vim.fn["cmp#complete"]()
+    elseif vim.b.doge_interactive then
+      lccm.feedkeys("<Plug>(doge-comment-jump-forward)", "")
+    else
+      fallback()
+    end
+  end, {
+    "i",
+    "s",
+  })
+  lb.cmp.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
+    if cmp.visible() then
+      cmp.select_prev_item()
+    elseif lccm.jumpable(-1) then
+      luasnip.jump(-1)
+    elseif vim.b.doge_interactive then
+      lccm.feedkeys("<Plug>(doge-comment-jump-backward)", "")
+    else
+      fallback()
+    end
+  end, {
+    "i",
+    "s",
+  })
+
+  -- Dashboard
+  lb.dashboard.active = true
+
+  -- DAP
+  lb.dap.active = true
 
   -- LSP
   local function indexOf(array, value)
@@ -16,7 +58,7 @@ M.config = function()
     return nil
   end
   table.remove(lvim.lsp.override, indexOf(lvim.lsp.override, "volar"))
-  vim.list_extend(lvim.lsp.override, { "vuels" })
+  vim.list_extend(lvim.lsp.override, { "jdtls", "vuels" })
   lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.automatic_servers_installation = false
 
@@ -28,12 +70,15 @@ M.config = function()
   formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
 
   -- NvimTree
-  lvim.builtin.nvimtree.setup.view.auto_resize = true
-  lvim.builtin.nvimtree.setup.auto_close = false
+  lb.nvimtree.setup.view.auto_resize = true
+  lb.nvimtree.setup.auto_close = false
+
+  -- Project
+  lb.project.active = false
 
   -- Telescope
   local actions = require "telescope.actions"
-  lvim.builtin.telescope.defaults.mappings = {
+  lb.telescope.defaults.mappings = {
     i = {
       ["<C-j>"] = actions.move_selection_next,
       ["<C-k>"] = actions.move_selection_previous,
@@ -46,17 +91,20 @@ M.config = function()
     },
   }
 
+  -- Terminal
+  lb.terminal.active = true
+
   -- Treesitter
-  lvim.builtin.treesitter.ensure_installed = "maintained"
-  lvim.builtin.treesitter.ignore_install = { "haskell" }
-  lvim.builtin.treesitter.highlight.disable = {}
-  lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
-  lvim.builtin.treesitter.context_commentstring.enable = true
-  lvim.builtin.treesitter.matchup = true
+  lb.treesitter.ensure_installed = "maintained"
+  lb.treesitter.ignore_install = { "haskell" }
+  lb.treesitter.highlight.disable = {}
+  lb.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
+  lb.treesitter.context_commentstring.enable = true
+  lb.treesitter.matchup = true
 
   -- WhichKey
-  lvim.builtin.which_key.mappings.y = { "<cmd>%y+<CR>", "Copy All" }
-  lvim.builtin.which_key.mappings["r"] = {
+  lb.which_key.mappings.y = { "<cmd>%y+<CR>", "Copy All" }
+  lb.which_key.mappings["r"] = {
     name = "Replace",
     r = { "<cmd>lua require('spectre').open()<cr>", "Replace" },
     w = { "<cmd>lua require('spectre').open_visual({select_word=true})<cr>", "Replace Word" },
