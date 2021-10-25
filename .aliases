@@ -19,6 +19,7 @@ fi
 
 # bare git repo alias for dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME" 
+alias lgc="lazygit --git-dir=$HOME/.cfg --work-tree=$HOME"
 
 alias pacman="sudo pacman"
 
