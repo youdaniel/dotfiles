@@ -122,7 +122,6 @@ end
 
 local default_colors = {
   bg = "#44475A",
-  bg_alt = "#44475A",
   fg = "#F8F8F2",
   yellow = "#F1FA8C",
   cyan = "#8BE9FD",
@@ -189,7 +188,7 @@ M.config = function()
         -- right section. Both are highlighted by c theme .  So we
         -- are just setting default looks o statusline
         normal = { c = { fg = colors.fg, bg = colors.bg } },
-        inactive = { c = { fg = colors.fg, bg = colors.bg_alt } },
+        inactive = { c = { fg = colors.fg, bg = colors.bg } },
       },
       disabled_filetypes = { "dashboard", "NvimTree", "Outline", "alpha" },
     },

@@ -10,6 +10,11 @@ M.config = function()
     },
     { "FileType", "markdown", "set nowrap" },
     { "FileType", "alpha", "nnoremap <silent> <buffer> q :q<CR>" },
+    {
+      "FileType",
+      "alpha",
+      "set laststatus=0 | set noruler | autocmd BufLeave <buffer> set laststatus=2",
+    },
   }
 end
 
