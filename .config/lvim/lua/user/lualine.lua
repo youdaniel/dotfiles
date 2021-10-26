@@ -196,7 +196,6 @@ M.config = function()
     sections = {
       -- these are to remove the defaults
       lualine_a = {},
-
       lualine_b = {},
       lualine_y = {},
       lualine_z = {},
@@ -210,25 +209,7 @@ M.config = function()
       lualine_v = {},
       lualine_y = {},
       lualine_z = {},
-      lualine_c = {
-        {
-          function()
-            vim.api.nvim_command(
-              "hi! LualineModeInactive guifg=" .. mode_color[vim.fn.mode()] .. " guibg=" .. colors.bg_alt
-            )
-            return ""
-            -- return mode()
-          end,
-          color = "LualineModeInactive",
-          padding = { left = 1, right = 0 },
-          -- left_padding = 1,
-        },
-        {
-          "filename",
-          cond = conditions.buffer_not_empty,
-          color = { fg = colors.blue, gui = "bold" },
-        },
-      },
+      lualine_c = {},
       lualine_x = {},
     },
   }
@@ -238,7 +219,7 @@ M.config = function()
     table.insert(config.sections.lualine_c, component)
   end
 
-  -- Inserts a component in lualine_x ot right section
+  -- Inserts a component in lualine_x at right section
   local function ins_right(component)
     table.insert(config.sections.lualine_x, component)
   end
@@ -369,8 +350,6 @@ M.config = function()
       return ""
     end,
     padding = 0,
-    -- left_padding = 0,
-    -- right_padding = 0,
     color = { fg = colors.green },
     cond = conditions.hide_in_width,
   }
@@ -436,8 +415,6 @@ M.config = function()
   ins_right {
     "location",
     padding = 0,
-    -- left_padding = 0,
-    -- right_padding = 0,
     color = { fg = colors.orange },
   }
 
@@ -451,8 +428,6 @@ M.config = function()
       return chars[index]
     end,
     padding = 0,
-    -- left_padding = 0,
-    -- right_padding = 0,
     color = { fg = colors.yellow, bg = colors.bg },
     cond = nil,
   }
