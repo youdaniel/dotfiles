@@ -89,7 +89,6 @@ M.config = function()
       button("e", "   New file", ":ene <BAR> startinsert <CR>"),
       button("s", "   Ripgrep", ":Telescope live_grep<CR>"),
       button("r", "   Recents", ":Telescope oldfiles<CR>"),
-      button("b", "   Buffers", ":Telescope buffers<CR>"),
       button("o", "   Options", ":e ~/.config/lvim/config.lua | :cd %:p:h | split . | q | pwd<CR>"),
     },
     opts = {
