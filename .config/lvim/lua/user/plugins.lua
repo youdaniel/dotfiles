@@ -17,11 +17,19 @@ M.config = function()
       end,
     },
     {
+      "goolord/alpha-nvim",
+      config = function()
+        require("user.dashboard").config()
+      end,
+      disable = not lvim.builtin.fancy_dashboard.active,
+    },
+    {
       "lervag/vimtex",
       config = function()
         vim.cmd "call vimtex#init()"
         require("user.vimtex").config()
       end,
+      ft = "tex",
     },
     {
       "iamcco/markdown-preview.nvim",

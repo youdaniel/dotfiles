@@ -43,7 +43,7 @@ M.config = function()
   })
 
   -- Dashboard
-  lb.dashboard.active = true
+  lb.dashboard.active = not lvim.builtin.fancy_dashboard.active
 
   -- DAP
   lb.dap.active = true
