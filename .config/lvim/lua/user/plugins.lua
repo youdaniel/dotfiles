@@ -8,6 +8,14 @@ M.config = function()
         require("user.neoclip").config()
       end,
     },
+    {
+      "akinsho/bufferline.nvim",
+      config = function()
+        require("user.bufferline").config()
+      end,
+      requires = "nvim-web-devicons",
+      disable = not lvim.builtin.fancy_bufferline.active,
+    },
     { "AndrewRadev/splitjoin.vim", event = "BufRead" },
     {
       "andymass/vim-matchup",

@@ -3,7 +3,14 @@ local M = {}
 M.config = function()
   local lb = lvim.builtin
 
+  -- Barbar
+  -- =========================================
+  if lb.fancy_bufferline.active then
+    lb.bufferline.active = false
+  end
+
   -- CMP
+  -- =========================================
   local cmp = require "cmp"
   local luasnip = require "luasnip"
   local lccm = require("lvim.core.cmp").methods ---@diagnostic disable-line
@@ -43,12 +50,15 @@ M.config = function()
   })
 
   -- Dashboard
+  -- =========================================
   lb.dashboard.active = not lvim.builtin.fancy_dashboard.active
 
   -- DAP
+  -- =========================================
   lb.dap.active = true
 
   -- LSP
+  -- =========================================
   local function indexOf(array, value)
     for i, v in ipairs(array) do
       if v == value then
@@ -63,6 +73,7 @@ M.config = function()
   lvim.lsp.automatic_servers_installation = false
 
   -- Formatters
+  -- =========================================
   local formatters = require "lvim.lsp.null-ls.formatters"
   lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
   lvim.lang.lua.formatters = { { exe = "stylua" } }
@@ -70,13 +81,16 @@ M.config = function()
   formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
 
   -- NvimTree
+  -- =========================================
   lb.nvimtree.setup.view.auto_resize = true
   lb.nvimtree.setup.auto_close = false
 
   -- Project
+  -- =========================================
   lb.project.active = false
 
   -- Telescope
+  -- =========================================
   local actions = require "telescope.actions"
   lb.telescope.defaults.mappings = {
     i = {
@@ -92,9 +106,11 @@ M.config = function()
   }
 
   -- Terminal
+  -- =========================================
   lb.terminal.active = true
 
   -- Treesitter
+  -- =========================================
   lb.treesitter.ensure_installed = "maintained"
   lb.treesitter.ignore_install = { "haskell" }
   lb.treesitter.highlight.disable = {}
@@ -103,6 +119,7 @@ M.config = function()
   lb.treesitter.matchup = true
 
   -- WhichKey
+  -- =========================================
   lb.which_key.mappings.y = { "<cmd>%y+<CR>", "Copy All" }
   lb.which_key.mappings["r"] = {
     name = "Replace",
