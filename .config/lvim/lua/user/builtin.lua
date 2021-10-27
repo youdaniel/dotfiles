@@ -15,7 +15,9 @@ M.config = function()
   local luasnip = require "luasnip"
   local lccm = require("lvim.core.cmp").methods ---@diagnostic disable-line
   lb.cmp.mapping["<Tab>"] = cmp.mapping(function(fallback)
-    if cmp.visible() then
+    if vim.b.doge_interactive then
+      lccm.feedkeys("<Plug>(doge-comment-jump-forward)", "")
+    elseif cmp.visible() then
       cmp.select_next_item()
     elseif luasnip.expandable() then
       luasnip.expand()
@@ -25,8 +27,6 @@ M.config = function()
       fallback()
     elseif lccm.is_emmet_active() then
       return vim.fn["cmp#complete"]()
-    elseif vim.b.doge_interactive then
-      lccm.feedkeys("<Plug>(doge-comment-jump-forward)", "")
     else
       fallback()
     end
@@ -35,12 +35,12 @@ M.config = function()
     "s",
   })
   lb.cmp.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
-    if cmp.visible() then
+    if vim.b.doge_interactive then
+      lccm.feedkeys("<Plug>(doge-comment-jump-backward)", "")
+    elseif cmp.visible() then
       cmp.select_prev_item()
     elseif lccm.jumpable(-1) then
       luasnip.jump(-1)
-    elseif vim.b.doge_interactive then
-      lccm.feedkeys("<Plug>(doge-comment-jump-backward)", "")
     else
       fallback()
     end
