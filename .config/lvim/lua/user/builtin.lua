@@ -70,7 +70,6 @@ M.config = function()
   table.remove(lvim.lsp.override, indexOf(lvim.lsp.override, "volar"))
   vim.list_extend(lvim.lsp.override, { "jdtls", "vuels" })
   lvim.lsp.diagnostics.virtual_text = true
-  lvim.lsp.automatic_servers_installation = false
 
   -- Formatters
   -- =========================================
