@@ -44,7 +44,6 @@ M.config = function()
       run = "cd app && npm install",
       ft = "markdown",
     },
-    { "JoosepAlviste/nvim-ts-context-commentstring", event = "BufRead" },
     {
       "kevinhwang91/nvim-bqf",
       event = "BufRead",

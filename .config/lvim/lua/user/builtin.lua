@@ -70,14 +70,21 @@ M.config = function()
   table.remove(lvim.lsp.override, indexOf(lvim.lsp.override, "volar"))
   vim.list_extend(lvim.lsp.override, { "jdtls", "vuels" })
   lvim.lsp.diagnostics.virtual_text = true
+  lvim.lsp.automatic_servers_installation = true
 
   -- Formatters
   -- =========================================
   local formatters = require "lvim.lsp.null-ls.formatters"
-  lvim.lang.python.formatters = { { exe = "black" }, { exe = "isort" } }
-  lvim.lang.lua.formatters = { { exe = "stylua" } }
-  lvim.lang.rust.formatters = { { exe = "rustfmt" } }
-  formatters.setup { { exe = "prettier", filetypes = { "javascript", "typescript", "vue" } } }
+  formatters.setup {
+    { exe = "black", filetypes = { "python" } },
+    { exe = "isort", filetypes = { "python" } },
+    { exe = "rustfmt", filetypes = { "rust" } },
+    { exe = "stylua", filetypes = { "lua" } },
+    {
+      exe = "prettier",
+      filetypes = { "javascript", "typescript", "vue" },
+    },
+  }
 
   -- NvimTree
   -- =========================================
