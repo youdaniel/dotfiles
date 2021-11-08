@@ -18,7 +18,7 @@ fi
 export CLASSPATH=".:/usr/share/java/:/usr/share/java/junit.jar:/usr/share/java/hamcrest-core.jar"
 
 # Load Antigen
-source $HOME/antigen.zsh
+source $HOME/.antigen.zsh
 
 # Load Antigen configuration
 antigen init $HOME/.antigenrc
@@ -33,7 +33,6 @@ then
 fi
 
 export BAT_THEME="Dracula"
-# export COLORTERM="truecolor"
 
 # vim keybindings
 bindkey -v
