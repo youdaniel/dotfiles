@@ -357,3 +357,17 @@ window,
 .urlbarView-row[selected] > .urlbarView-row-inner {
   background: var(--uc-hover-colour) !important;
 }
+
+/* transition to oneline */
+@media (min-width: 1000px) {
+  /* move tabs bar over */
+  #TabsToolbar {
+    margin-left: var(--uc-urlbar-width) !important;
+  }
+
+  /* move entire nav bar  */
+  #nav-bar {
+    margin: calc((var(--urlbar-min-height) * -1) - 8px)
+      calc(100vw - var(--uc-urlbar-width)) 0 0 !important;
+  }
+} /* end media query */
