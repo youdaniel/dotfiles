@@ -12,6 +12,7 @@ blacklistadd https://app.codesignal.com/
 blacklistadd https://app.coderpad.io/
 blacklistadd https://monkeytype.com/
 blacklistadd https://www.hackerrank.com/
+blacklistadd https://todoist.com/app/
 
 set smoothscroll true
 
