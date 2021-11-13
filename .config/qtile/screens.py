@@ -74,7 +74,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     widgets.append(
         widget.ThermalSensor(
             foreground=colors[2],
-            tag_sensor="Package id 0" if is_laptop else "Tdie",
+            tag_sensor="Package id 0" if is_laptop else "Tctl",
             threshold=90,
         )
     )
