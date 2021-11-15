@@ -22,7 +22,6 @@ h1 {
   font-size: 2em;
   grid-column: 1 / -1;
   margin: 0;
-  text-align: center;
   color: #ff79c6;
 }
 
@@ -38,25 +37,16 @@ a:hover {
 
 nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   min-width: 24em;
   padding: 2em 0;
 }
 
 nav > ul {
-  grid-column-end: span 2;
   list-style-type: none;
   margin: 0;
   padding: 0;
   white-space: nowrap;
-}
-
-nav > ul:last-child {
-  grid-column-start: 2;
-}
-
-li {
-  text-align: center;
 }
 
 li:first-child {
@@ -70,7 +60,7 @@ img {
   height: auto;
   object-fit: cover;
   object-position: 50% 100%;
-  width: 15em;
+  width: 10em;
 }
 
 input {
