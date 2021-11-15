@@ -28,7 +28,7 @@ groups = [Group(name, **kwargs) for name, kwargs in group_config]
 for i, (name, kwargs) in enumerate(group_config, 1):
     keys.extend(
         [
-            Key(f"A-{i}", lazy.group[name].toscreen()),
+            Key(f"A-{i}", lazy.group[name].toscreen(toggle=True)),
             Key(f"A-S-{i}", lazy.window.togroup(name)),
         ]
     )
