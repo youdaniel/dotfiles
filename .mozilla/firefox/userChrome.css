@@ -63,6 +63,11 @@
   display: none !important;
 }
 
+/* home icon */
+#home-button {
+  display: none !important;
+}
+
 /* bookmark icon */
 #star-button {
   display: none !important;
