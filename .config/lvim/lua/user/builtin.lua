@@ -82,7 +82,7 @@ M.config = function()
     { exe = "stylua", filetypes = { "lua" } },
     {
       exe = "prettier",
-      filetypes = { "javascript", "typescript", "vue" },
+      filetypes = { "html", "css", "javascript", "typescript", "vue" },
     },
   }
 
