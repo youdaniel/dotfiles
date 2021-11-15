@@ -25,15 +25,7 @@
     --inverted-colour:             #1E2021;
     */
 
-  /* Containter Tab Colours */
-  --uc-identity-color-blue: #7ed6df;
-  --uc-identity-color-turquoise: #55e6c1;
-  --uc-identity-color-green: #b8e994;
-  --uc-identity-color-yellow: #f7d794;
-  --uc-identity-color-orange: #f19066;
-  --uc-identity-color-red: #fc5c65;
-  --uc-identity-color-pink: #f78fb3;
-  --uc-identity-color-purple: #786fa6;
+  --uc-identity-color-purple: #bd93f9;
 
   /* URL colour in URL bar suggestions */
   --urlbar-popup-url-color: var(--uc-identity-color-purple) !important;
