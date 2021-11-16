@@ -23,18 +23,22 @@ widget_defaults = dict(font="UbuntuMono Nerd Font Bold", fontsize=14, padding=2)
 
 
 def currently_playing():
-    title = (
-        subprocess.run(["playerctl", "metadata", "title"], stdout=subprocess.PIPE)
-        .stdout.decode("utf-8")
-        .strip()
-    )
-    artist = (
-        subprocess.run(["playerctl", "metadata", "artist"], stdout=subprocess.PIPE)
-        .stdout.decode("utf-8")
-        .replace("- Topic", "")
-        .strip()
-    )
+    def get_metadata(metadata_type: str):
+        return (
+            subprocess.run(
+                ["playerctl", "metadata", metadata_type], stdout=subprocess.PIPE
+            )
+            .stdout.decode("utf-8")
+            .strip()
+        )
+
+    title = get_metadata("title")
+    title = (title[:25] + "..") if len(title) > 25 else title
+
+    artist = get_metadata("artist")
+    artist = (artist[:20] + "..") if len(artist) > 30 else artist
     artist = f" - {artist}" if artist else ""
+
     return f" ♪ {title}{artist}".rstrip() if title else ""
 
 
