@@ -5,22 +5,24 @@ from libqtile.lazy import lazy
 
 from keys import keys
 
+group_defaults = {"label": "", "layout": "columns"}
+
 group_config = [
-    ("I", {"layout": "columns"}),
+    ("1", group_defaults),
     (
-        "II",
+        "2",
         {
-            "layout": "columns",
+            **group_defaults,
             "matches": [Match(wm_class="discord"), Match(wm_class="slack")],
         },
     ),
-    ("III", {"layout": "columns"}),
-    ("IV", {"layout": "columns"}),
-    ("V", {"layout": "columns"}),
-    ("VI", {"layout": "columns"}),
-    ("VII", {"layout": "columns"}),
-    ("VIII", {"layout": "columns"}),
-    ("IX", {"layout": "columns", "matches": [Match(wm_class="obs")]}),
+    ("3", group_defaults),
+    ("4", group_defaults),
+    ("5", group_defaults),
+    ("6", group_defaults),
+    ("7", group_defaults),
+    ("8", group_defaults),
+    ("9", {**group_defaults, "matches": [Match(wm_class="obs")]}),
 ]
 
 groups = [Group(name, **kwargs) for name, kwargs in group_config]
