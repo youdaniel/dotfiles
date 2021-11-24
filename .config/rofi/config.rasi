@@ -1,12 +1,7 @@
 configuration {
-    modi: "drun";
-	font:                       	"Ubuntu 11";
-	show-icons:                		true;
-	fullscreen:                     false;
-	threads:                        0;
-	matching:                      "fuzzy";
-	scroll-method:                  0;
+  modi: "drun";
+  show-icons: true;
+  matching: "fuzzy";
 }
 
 @theme "dracula"
-
