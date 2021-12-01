@@ -98,6 +98,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
         )
     widgets.extend(bubble_widget(vol_music))
     widgets.append(transparent_separator())
+    widgets.append(widget.Systray(**widget_defaults, background=transparent))
     widgets.append(widget.Spacer())
     widgets.extend(
         bubble_widget(
