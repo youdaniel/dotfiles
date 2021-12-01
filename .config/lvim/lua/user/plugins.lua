@@ -19,10 +19,21 @@ M.config = function()
     { "AndrewRadev/splitjoin.vim", event = "BufRead" },
     {
       "andymass/vim-matchup",
-      event = "CursorMoved",
       config = function()
+        vim.g.matchup_enabled = 1
+        vim.g.matchup_surround_enabled = 1
+        vim.g.matchup_matchparen_deferred = 1
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
       end,
+    },
+    {
+      "danymat/neogen",
+      config = function()
+        require("neogen").setup {
+          enabled = true,
+        }
+      end,
+      requires = "nvim-treesitter/nvim-treesitter",
     },
     {
       "goolord/alpha-nvim",
@@ -48,13 +59,6 @@ M.config = function()
       "kevinhwang91/nvim-bqf",
       event = "BufRead",
     },
-    {
-      "kkoomen/vim-doge",
-      run = ":call doge#install()",
-      config = function()
-        require("user.doge").config()
-      end,
-    },
     { "leafOFTree/vim-vue-plugin", ft = "vue" },
     {
       "lukas-reineke/indent-blankline.nvim",
@@ -67,7 +71,6 @@ M.config = function()
       config = function()
         require("dap-python").setup "~/.local/share/nvim/dapinstall/python/bin/python"
       end,
-      ft = "python",
     },
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
@@ -91,7 +94,7 @@ M.config = function()
         require("user.quickscope").config()
       end,
     },
-    { "Vimjas/vim-python-pep8-indent", ft = "python" },
+    { "Vimjas/vim-python-pep8-indent" },
     { "wellle/targets.vim", event = "BufRead" },
     {
       "windwp/nvim-ts-autotag",

@@ -13,10 +13,11 @@ M.config = function()
   -- =========================================
   local cmp = require "cmp"
   local luasnip = require "luasnip"
+  local neogen = require "neogen"
   local lccm = require("lvim.core.cmp").methods ---@diagnostic disable-line
   lb.cmp.mapping["<Tab>"] = cmp.mapping(function(fallback)
-    if vim.b.doge_interactive then
-      lccm.feedkeys("<Plug>(doge-comment-jump-forward)", "")
+    if neogen.jumpable() then
+      lccm.feedkeys("<cmd>lua require('neogen').jump_next()<CR>", "")
     elseif cmp.visible() then
       cmp.select_next_item()
     elseif luasnip.expandable() then
@@ -27,20 +28,6 @@ M.config = function()
       fallback()
     elseif lccm.is_emmet_active() then
       return vim.fn["cmp#complete"]()
-    else
-      fallback()
-    end
-  end, {
-    "i",
-    "s",
-  })
-  lb.cmp.mapping["<S-Tab>"] = cmp.mapping(function(fallback)
-    if vim.b.doge_interactive then
-      lccm.feedkeys("<Plug>(doge-comment-jump-backward)", "")
-    elseif cmp.visible() then
-      cmp.select_prev_item()
-    elseif lccm.jumpable(-1) then
-      luasnip.jump(-1)
     else
       fallback()
     end
