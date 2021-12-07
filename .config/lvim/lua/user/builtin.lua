@@ -2,6 +2,7 @@ local M = {}
 
 M.config = function()
   local lb = lvim.builtin
+  local kind = require "user.lsp_kind"
 
   -- Barbar
   -- =========================================
@@ -35,6 +36,7 @@ M.config = function()
     "i",
     "s",
   })
+  lb.cmp.formatting.kind_icons = kind.cmp_kind
 
   -- Dashboard
   -- =========================================
@@ -77,6 +79,7 @@ M.config = function()
   -- =========================================
   lb.nvimtree.setup.view.auto_resize = true
   lb.nvimtree.setup.auto_close = false
+  lb.nvimtree.icons = kind.nvim_tree_icons
 
   -- Project
   -- =========================================

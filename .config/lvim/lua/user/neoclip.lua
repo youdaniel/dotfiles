@@ -7,6 +7,7 @@ M.config = function()
   end
 
   neoclip.setup {
+    history = 50,
     enable_persistant_history = false,
     keys = {
       i = { paste = "<CR>", paste_behind = "<c-P>" },

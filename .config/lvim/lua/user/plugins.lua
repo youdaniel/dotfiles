@@ -19,6 +19,7 @@ M.config = function()
     { "AndrewRadev/splitjoin.vim", event = "BufRead" },
     {
       "andymass/vim-matchup",
+      event = "BufReadPost",
       config = function()
         vim.g.matchup_enabled = 1
         vim.g.matchup_surround_enabled = 1
@@ -48,7 +49,7 @@ M.config = function()
         vim.cmd "call vimtex#init()"
         require("user.vimtex").config()
       end,
-      ft = "tex",
+      -- ft = "tex",
     },
     {
       "iamcco/markdown-preview.nvim",
@@ -80,20 +81,8 @@ M.config = function()
       end,
       event = "BufRead",
     },
-    {
-      "ray-x/lsp_signature.nvim",
-      event = "InsertEnter",
-      config = function()
-        require("user.lsp_signature").config()
-      end,
-    },
+    { "ray-x/lsp_signature.nvim", event = "InsertEnter" },
     { "tpope/vim-surround", event = "BufRead" },
-    {
-      "unblevable/quick-scope",
-      config = function()
-        require("user.quickscope").config()
-      end,
-    },
     { "Vimjas/vim-python-pep8-indent" },
     { "wellle/targets.vim", event = "BufRead" },
     {

@@ -1,12 +1,12 @@
 local M = {}
-M.config = function()
-  local fn = vim.fn
 
+M.config = function()
+  local icons = require("user.lsp_kind").icons
   local function is_ft(b, ft)
     return vim.bo[b].filetype == ft
   end
 
-  local symbols = { error = " ", warning = " ", info = " " }
+  local symbols = { error = icons.error, warning = icons.warn, info = icons.info }
 
   local function diagnostics_indicator(_, _, diagnostics)
     local result = {}
@@ -36,21 +36,8 @@ M.config = function()
     return (tab_num == last_tab and is_log) or (tab_num ~= last_tab and not is_log)
   end
 
-  ---@diagnostic disable-next-line: unused-function, unused-local
-  local function sort_by_mtime(a, b)
-    local astat = vim.loop.fs_stat(a.path)
-    local bstat = vim.loop.fs_stat(b.path)
-    local mod_a = astat and astat.mtime.sec or 0
-    local mod_b = bstat and bstat.mtime.sec or 0
-    return mod_a > mod_b
-  end
-
-  local groups = require "bufferline.groups"
-  local List = require "plenary.collections.py_list"
-
   require("bufferline").setup { ---@diagnostic disable-line
     options = {
-      -- sort_by = sort_by_mtime,
       sort_by = "id",
       right_mouse_command = "vert sbuffer %d",
       show_close_icon = false,
@@ -64,27 +51,10 @@ M.config = function()
       custom_filter = custom_filter,
       offsets = {
         {
-          filetype = "undotree",
-          text = "Undotree",
-          highlight = "PanelHeading",
-          padding = 1,
-        },
-        {
           filetype = "NvimTree",
           text = "Explorer",
           highlight = "PanelHeading",
           padding = 1,
-        },
-        {
-          filetype = "DiffviewFiles",
-          text = "Diff View",
-          highlight = "PanelHeading",
-          padding = 1,
-        },
-        {
-          filetype = "flutterToolsOutline",
-          text = "Flutter Outline",
-          highlight = "PanelHeading",
         },
         {
           filetype = "packer",

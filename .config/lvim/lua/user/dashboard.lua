@@ -6,6 +6,8 @@ M.config = function()
     return
   end
 
+  local kind = require "user.lsp_kind"
+
   local header = {
     type = "text",
     val = require("user.banners").dashboard(),
@@ -26,7 +28,7 @@ M.config = function()
 
   local plugin_count = {
     type = "text",
-    val = "└─   " .. plugins .. " plugins in total ─┘",
+    val = "└─ " .. kind.cmp_kind.Module .. " " .. plugins .. " plugins in total ─┘",
     opts = {
       position = "center",
       hl = "String",
@@ -35,7 +37,7 @@ M.config = function()
 
   local heading = {
     type = "text",
-    val = "┌─   Today is " .. date .. " ─┐",
+    val = "┌─ " .. kind.icons.calendar .. " Today is " .. date .. " ─┐",
     opts = {
       position = "center",
       hl = "String",
@@ -85,11 +87,14 @@ M.config = function()
   local buttons = {
     type = "group",
     val = {
-      button("f", "   Explore", ":Telescope find_files<CR>"),
-      button("e", "   New file", ":ene <BAR> startinsert <CR>"),
-      button("s", "   Ripgrep", ":Telescope live_grep<CR>"),
-      button("r", "   Recents", ":Telescope oldfiles<CR>"),
-      button("o", "   Options", ":e ~/.config/lvim/config.lua | :cd %:p:h | split . | q | pwd<CR>"),
+      button("f", " " .. kind.cmp_kind.Folder .. " Explore", ":Telescope find_files<CR>"),
+      button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
+      button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
+      button(
+        "c",
+        " " .. kind.icons.settings .. " Config",
+        ":e ~/.config/lvim/config.lua | :cd %:p:h | split . | q | pwd<CR>"
+      ),
     },
     opts = {
       spacing = 1,
