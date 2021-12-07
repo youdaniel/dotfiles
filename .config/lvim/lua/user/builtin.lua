@@ -101,9 +101,6 @@ M.config = function()
   -- Terminal
   -- =========================================
   lb.terminal.active = true
-  lb.terminal.execs = {
-    { "lazygit", "gg", "LazyGit" },
-  }
 
   -- Treesitter
   -- =========================================
