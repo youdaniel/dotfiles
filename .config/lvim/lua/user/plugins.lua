@@ -49,7 +49,7 @@ M.config = function()
         vim.cmd "call vimtex#init()"
         require("user.vimtex").config()
       end,
-      -- ft = "tex",
+      ft = "tex",
     },
     {
       "iamcco/markdown-preview.nvim",
@@ -72,6 +72,7 @@ M.config = function()
       config = function()
         require("dap-python").setup "~/.local/share/nvim/dapinstall/python/bin/python"
       end,
+      ft = "python",
     },
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
@@ -83,7 +84,7 @@ M.config = function()
     },
     { "ray-x/lsp_signature.nvim", event = "InsertEnter" },
     { "tpope/vim-surround", event = "BufRead" },
-    { "Vimjas/vim-python-pep8-indent" },
+    { "Vimjas/vim-python-pep8-indent", ft = "python" },
     { "wellle/targets.vim", event = "BufRead" },
     {
       "windwp/nvim-ts-autotag",
