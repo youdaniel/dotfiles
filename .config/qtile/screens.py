@@ -81,21 +81,20 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     vol_music = [
         widget.Volume(**widget_defaults, fmt="Vol: {}", background=colors["purple"])
     ]
-    if not is_laptop:
-        vol_music.append(
-            widget.GenPollText(
-                **widget_defaults,
-                update_interval=1,
-                func=currently_playing,
-                markup=False,
-                mouse_callbacks={
-                    "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
-                    "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
-                    "Button3": lambda: qtile.cmd_spawn("playerctl next"),
-                },
-                background=colors["purple"],
-            )
+    vol_music.append(
+        widget.GenPollText(
+            **widget_defaults,
+            update_interval=1,
+            func=currently_playing,
+            markup=False,
+            mouse_callbacks={
+                "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
+                "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
+                "Button3": lambda: qtile.cmd_spawn("playerctl next"),
+            },
+            background=colors["purple"],
         )
+    )
     widgets.extend(bubble_widget(vol_music))
     widgets.append(transparent_separator())
     widgets.append(widget.Systray(**widget_defaults, background=transparent))
