@@ -10,8 +10,10 @@ M.config = function()
     history = 50,
     enable_persistant_history = false,
     keys = {
-      i = { paste = "<CR>", paste_behind = "<c-P>" },
-      n = { paste = "<CR>", paste_behind = "P" },
+      telescope = {
+        i = { paste = "<CR>", paste_behind = "<c-P>" },
+        n = { paste = "<CR>", paste_behind = "P" },
+      },
     },
   }
   local function clip()
