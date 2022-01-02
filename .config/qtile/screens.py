@@ -156,7 +156,6 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
             [
                 widget.Net(
                     **widget_defaults,
-                    interface="wlp2s0" if is_laptop else "eno1",
                     format="{down} ↓↑{up}",
                     background=colors["pink"] if is_laptop else colors["purple"],
                 )
