@@ -67,6 +67,8 @@ keys = [
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
     Key("M-C-l", lazy.spawn("systemctl suspend")),
+    Key("A-c", lazy.spawn("dunstctl close")),
+    Key("A-<Escape>", lazy.spawn("dunstctl history-pop")),
     # Multimedia
     Key("<XF86AudioMute>", lazy.spawn("amixer -q set Master toggle")),
     Key("<XF86AudioLowerVolume>", lazy.spawn("amixer -q set Master 5%-")),
