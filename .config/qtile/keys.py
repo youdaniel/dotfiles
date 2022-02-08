@@ -75,7 +75,7 @@ keys = [
     Key("<XF86AudioNext>", lazy.spawn("playerctl next")),
     Key("<XF86AudioPrev>", lazy.spawn("playerctl previous")),
     Key("<XF86AudioStop>", lazy.spawn("playerctl stop")),
-    Key("A-C-m", lazy.spawn("toggle_microphone.sh")),
+    Key("A-C-m", lazy.spawn("microphone.sh toggle")),
     # Backlight
     Key("<XF86MonBrightnessUp>", lazy.spawn("set_backlight.sh inc")),
     Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),

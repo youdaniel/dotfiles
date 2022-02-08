@@ -22,6 +22,18 @@ transparent = "#00000000"
 widget_defaults = dict(font="UbuntuMono Nerd Font Bold", fontsize=14, padding=2)
 
 
+def mic_status():
+    mic_status = (
+        subprocess.run(
+            [f"{os.getenv('HOME')}/.local/bin/microphone.sh", "status"],
+            stdout=subprocess.PIPE,
+        )
+        .stdout.decode("utf-8")
+        .strip()
+    )
+    return " (M)" if mic_status == "off" else " (UM)"
+
+
 def currently_playing():
     def get_metadata(metadata_type: str):
         return (
@@ -78,10 +90,15 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     )
     widgets.append(transparent_separator())
 
-    vol_music = [
-        widget.Volume(**widget_defaults, fmt="Vol: {}", background=colors["purple"])
-    ]
-    vol_music.append(
+    audio_widgets = [
+        widget.Volume(**widget_defaults, fmt="Vol: {}", background=colors["purple"]),
+        widget.GenPollText(
+            **widget_defaults,
+            update_interval=1,
+            func=mic_status,
+            markup=False,
+            background=colors["purple"],
+        ),
         widget.GenPollText(
             **widget_defaults,
             update_interval=1,
@@ -93,9 +110,9 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                 "Button3": lambda: qtile.cmd_spawn("playerctl next"),
             },
             background=colors["purple"],
-        )
-    )
-    widgets.extend(bubble_widget(vol_music))
+        ),
+    ]
+    widgets.extend(bubble_widget(audio_widgets))
     widgets.append(transparent_separator())
     widgets.append(widget.Systray(**widget_defaults, background=transparent))
     widgets.append(widget.Spacer())
