@@ -8,14 +8,6 @@ M.config = function()
         require("user.neoclip").config()
       end,
     },
-    {
-      "akinsho/bufferline.nvim",
-      config = function()
-        require("user.bufferline").config()
-      end,
-      requires = "nvim-web-devicons",
-      disable = not lvim.builtin.fancy_bufferline.active,
-    },
     { "AndrewRadev/splitjoin.vim", event = "BufRead" },
     {
       "andymass/vim-matchup",
@@ -44,6 +36,11 @@ M.config = function()
       disable = not lvim.builtin.fancy_dashboard.active,
     },
     {
+      "iamcco/markdown-preview.nvim",
+      run = "cd app && npm install",
+      ft = "markdown",
+    },
+    {
       "lervag/vimtex",
       config = function()
         vim.cmd "call vimtex#init()"
@@ -52,9 +49,10 @@ M.config = function()
       ft = "tex",
     },
     {
-      "iamcco/markdown-preview.nvim",
-      run = "cd app && npm install",
-      ft = "markdown",
+      "j-hui/fidget.nvim",
+      config = function()
+        require("user.fidget_spinner").config()
+      end,
     },
     {
       "kevinhwang91/nvim-bqf",

@@ -8,7 +8,7 @@ M.config = function()
 
   neoclip.setup {
     history = 50,
-    enable_persistant_history = false,
+    enable_persistent_history = false,
     keys = {
       telescope = {
         i = { paste = "<CR>", paste_behind = "<c-P>" },

@@ -1,59 +1,5 @@
 local M = {}
 local kind = require "user.lsp_kind"
-local diag_source = "nvim_lsp"
-local ok, _ = pcall(require, "vim.diagnostic")
-if ok then
-  diag_source = "nvim_diagnostic"
-end
-
-local function lsp_progress()
-  local messages = vim.lsp.util.get_progress_messages()
-  if #messages == 0 then
-    return ""
-  end
-  local status = {}
-  for _, msg in pairs(messages) do
-    table.insert(status, (msg.percentage or 0) .. "%% " .. (msg.title or ""))
-  end
-  -- local spinners = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-  -- local spinners = { " ", " ", " ", " ", " ", " ", " ", " ", " ", " " }
-  -- local spinners = { " ", " ", " ", " ", " ", " ", " ", " ", " " }
-  local spinners = {
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-    " ",
-  }
-  local ms = vim.loop.hrtime() / 1000000
-  local frame = math.floor(ms / 60) % #spinners
-  return spinners[frame + 1] .. " " .. table.concat(status, " | ")
-end
-
-vim.cmd [[autocmd User LspProgressUpdate let &ro = &ro]]
 
 local function diff_source()
   local gitsigns = vim.b.gitsigns_status_dict
@@ -108,62 +54,6 @@ local mode = function()
     return replace_icons[selector]
   end
   return normal_icons[selector]
-end
-
-local file_icon_colors = {
-  Brown = "#905532",
-  Aqua = "#3AFFDB",
-  Blue = "#689FB6",
-  Darkblue = "#44788E",
-  Purple = "#834F79",
-  Red = "#AE403F",
-  Beige = "#F5C06F",
-  Yellow = "#F09F17",
-  Orange = "#D4843E",
-  Darkorange = "#F16529",
-  Pink = "#CB6F6F",
-  Salmon = "#EE6E73",
-  Green = "#8FAA54",
-  Lightgreen = "#31B53E",
-  White = "#FFFFFF",
-  LightBlue = "#5fd7ff",
-}
-
-local function get_file_info()
-  return vim.fn.expand "%:t", vim.fn.expand "%:e"
-end
-
-local function get_file_icon()
-  local icon
-  local _, devicons = pcall(require, "nvim-web-devicons")
-  if not ok then
-    print "No icon plugin found. Please install 'kyazdani42/nvim-web-devicons'"
-    return ""
-  end
-  local f_name, f_extension = get_file_info()
-  icon = devicons.get_icon(f_name, f_extension)
-  if icon == nil then
-    icon = kind.icons.question
-  end
-  return icon
-end
-
-local function get_file_icon_color()
-  local f_name, f_ext = get_file_info()
-  local has_devicons, devicons = pcall(require, "nvim-web-devicons")
-  if has_devicons then
-    local icon, iconhl = devicons.get_icon(f_name, f_ext)
-    if icon ~= nil then
-      return vim.fn.synIDattr(vim.fn.hlID(iconhl), "fg")
-    end
-  end
-
-  local icon = get_file_icon():match "%S+"
-  for k, _ in pairs(kind.file_icons) do
-    if vim.fn.index(kind.file_icons[k], icon) ~= -1 then
-      return file_icon_colors[k]
-    end
-  end
 end
 
 local default_colors = {
@@ -336,11 +226,6 @@ M.config = function()
     cond = conditions.hide_in_width,
   }
 
-  ins_left {
-    lsp_progress,
-    cond = conditions.hide_small,
-  }
-
   -- Insert mid section. You can make any number of sections in neovim :)
   -- for lualine it's any number greater then 2
   ins_left {
@@ -361,7 +246,7 @@ M.config = function()
 
   ins_right {
     "diagnostics",
-    sources = { diag_source },
+    sources = { "nvim_diagnostic" },
     symbols = { error = kind.icons.error, warn = kind.icons.warn, info = kind.icons.info, hint = kind.icons.hint },
     cond = conditions.hide_in_width,
   }

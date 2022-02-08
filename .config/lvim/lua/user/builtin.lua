@@ -4,12 +4,6 @@ M.config = function()
   local lb = lvim.builtin
   local kind = require "user.lsp_kind"
 
-  -- Barbar
-  -- =========================================
-  if lb.fancy_bufferline.active then
-    lb.bufferline.active = false
-  end
-
   -- CMP
   -- =========================================
   local cmp = require "cmp"

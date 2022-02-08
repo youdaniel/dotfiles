@@ -4,7 +4,6 @@ lvim.format_on_save = true
 lvim.colorscheme = "dracula"
 require("user.neovim").config()
 
-lvim.builtin.fancy_bufferline = { active = true }
 lvim.builtin.fancy_dashboard = { active = true }
 lvim.builtin.fancy_statusline = { active = true }
 
