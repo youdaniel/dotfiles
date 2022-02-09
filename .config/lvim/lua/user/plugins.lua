@@ -28,6 +28,7 @@ M.config = function()
       end,
       requires = "nvim-treesitter/nvim-treesitter",
     },
+    { "dracula/vim" },
     {
       "goolord/alpha-nvim",
       config = function()
@@ -110,7 +111,6 @@ M.config = function()
         require("user.spectre").config()
       end,
     },
-    { "youdaniel/dracula" },
   }
 end
 
