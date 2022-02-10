@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [[ "$IS_LAPTOP"=="true" ]]
+if [[ "$IS_LAPTOP" == "true" ]]
 then
   MIC="Front Left"
 else
