@@ -17,11 +17,29 @@ fi
 
 export CLASSPATH=".:/usr/share/java/:/usr/share/java/junit.jar:/usr/share/java/hamcrest-core.jar"
 
-# Load Antigen
-source $HOME/.antigen.zsh
+# Load zgenom
+source "${HOME}/.zgenom/zgenom.zsh"
 
-# Load Antigen configuration
-antigen init $HOME/.antigenrc
+zgenom autoupdate
+
+if ! zgenom saved; then
+  echo "Creating a zgenom save"
+
+  zgenom ohmyzsh
+
+  zgenom ohmyzsh plugins/git
+  zgenom ohmyzsh plugins/command-not-found
+  zgenom ohmyzsh plugins/docker
+
+  zgenom load zsh-users/zsh-syntax-highlighting
+  zgenom load zsh-users/zsh-autosuggestions
+  zgenom load zsh-users/zsh-completions
+  zgenom load rupa/z
+
+  zgenom save
+
+  zgenom compile "$HOME/.zshrc"
+fi
 
 # NVIM as default editor
 if command -v lvim &> /dev/null
@@ -39,13 +57,6 @@ bindkey -v
 
 # binding for zsh autosuggestions
 bindkey '^ ' autosuggest-accept
-
-# Speed up compinit
-autoload -Uz compinit
-for dump in ~/.zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
 
 # Fast node manager
 eval "$(fnm env)"
