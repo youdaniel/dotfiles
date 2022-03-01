@@ -91,13 +91,13 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     widgets.append(transparent_separator())
 
     audio_widgets = [
-        widget.Volume(**widget_defaults, fmt="Vol: {}", background=colors["purple"]),
+        widget.Volume(**widget_defaults, fmt="Vol: {}", background=colors["selection"]),
         widget.GenPollText(
             **widget_defaults,
             update_interval=1,
             func=mic_status,
             markup=False,
-            background=colors["purple"],
+            background=colors["selection"],
         ),
         widget.GenPollText(
             **widget_defaults,
@@ -109,7 +109,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                 "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
                 "Button3": lambda: qtile.cmd_spawn("playerctl next"),
             },
-            background=colors["purple"],
+            background=colors["selection"],
         ),
     ]
     widgets.extend(bubble_widget(audio_widgets))
@@ -142,14 +142,16 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                     **widget_defaults,
                     format="CPU {load_percent}%",
                     update_interval=1.0,
-                    background=colors["red"],
+                    background=colors["selection"],
                 ),
-                widget.TextBox(**widget_defaults, text="|", background=colors["red"]),
+                widget.TextBox(
+                    **widget_defaults, text="|", background=colors["selection"]
+                ),
                 widget.ThermalSensor(
                     **widget_defaults,
                     tag_sensor="Package id 0" if is_laptop else "Tctl",
                     threshold=90,
-                    background=colors["red"],
+                    background=colors["selection"],
                 ),
             ]
         )
@@ -160,7 +162,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
             [
                 widget.Memory(
                     **widget_defaults,
-                    background=colors["orange"],
+                    background=colors["selection"],
                     measure_mem="G",
                     format="{MemUsed:.2f} GB",
                 )
@@ -174,7 +176,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                 widget.Net(
                     **widget_defaults,
                     format="{down} ↓↑{up}",
-                    background=colors["pink"] if is_laptop else colors["purple"],
+                    background=colors["selection"],
                 )
             ]
         )
@@ -189,7 +191,7 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
                         charge_char="",
                         discharge_char="",
                         format="{char}{percent:2.0%} {hour:d}:{min:02d} left",
-                        background=colors["purple"],
+                        background=colors["selection"],
                     )
                 ]
             )
