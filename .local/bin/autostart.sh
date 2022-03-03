@@ -21,4 +21,6 @@ run slack
 
 if [ "$IS_LAPTOP" == "true" ]; then
   run libinput-gestures-setup start
+else
+  run gwe --hide-window
 fi

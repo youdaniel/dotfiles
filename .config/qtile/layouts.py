@@ -27,6 +27,7 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),
         Match(wm_class="gcr-prompter"),
         Match(wm_class="pavucontrol"),
+        Match(wm_class="Steam"),
         Match(title="branchdialog"),
         Match(title="pinentry"),
         Match(title="League of Legends"),
