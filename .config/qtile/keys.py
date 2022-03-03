@@ -15,33 +15,8 @@ def float_to_front():
     return __inner
 
 
-def window_to_previous_screen():
-    @lazy.function
-    def __inner(qtile):
-        i = qtile.screens.index(qtile.current_screen)
-        if i != 0:
-            group = qtile.screens[i - 1].group.name
-            qtile.current_window.togroup(group)
-
-    return __inner
-
-
-def window_to_next_screen():
-    @lazy.function
-    def __inner(qtile):
-        i = qtile.screens.index(qtile.current_screen)
-        if i + 1 != len(qtile.screens):
-            group = qtile.screens[i + 1].group.name
-            qtile.current_window.togroup(group)
-
-    return __inner
-
-
 keys = [
-    Key("A-w", lazy.to_screen(0)),
-    Key("A-e", lazy.to_screen(1)),
-    Key("A-S-w", window_to_previous_screen()),
-    Key("A-S-e", window_to_next_screen()),
+    # Qtile
     Key("A-k", lazy.layout.up()),
     Key("A-j", lazy.layout.down()),
     Key("A-h", lazy.layout.left()),
@@ -52,8 +27,8 @@ keys = [
     Key("A-S-l", lazy.layout.shuffle_right()),
     Key("A-C-S-h", lazy.layout.swap_column_left()),
     Key("A-C-S-l", lazy.layout.swap_column_right()),
-    Key("A-n", lazy.layout.normalize()),
     Key("A-<Tab>", lazy.layout.next()),
+    Key("A-S-<Tab>", lazy.layout.previous()),
     Key("A-<space>", lazy.next_layout()),
     Key("A-S-f", lazy.window.toggle_floating()),
     Key("A-S-c", lazy.window.kill()),
@@ -69,6 +44,8 @@ keys = [
     Key("M-C-l", lazy.spawn("systemctl suspend")),
     Key("A-c", lazy.spawn("dunstctl close")),
     Key("A-<Escape>", lazy.spawn("dunstctl history-pop")),
+    Key("A-m", lazy.spawn("Qminimize -m")),
+    Key("A-S-m", lazy.spawn("Qminimize -u")),
     # Multimedia
     Key("<XF86AudioMute>", lazy.spawn("amixer -q set Master toggle")),
     Key("<XF86AudioLowerVolume>", lazy.spawn("amixer -q set Master 5%-")),
