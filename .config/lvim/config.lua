@@ -1,6 +1,8 @@
 -- General
 lvim.leader = " "
-lvim.format_on_save = true
+lvim.format_on_save = {
+  pattern = "*.{py,rs,lua,html,css,js,ts,vue}",
+}
 lvim.colorscheme = "dracula"
 require("user.neovim").config()
 

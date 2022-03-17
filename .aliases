@@ -31,5 +31,5 @@ alias dce="docker-compose exec"
 # Clear without new line
 alias clear="unset NEW_LINE_BEFORE_PROMPT && clear"
 
-# CS 1332 Checkstyle
-alias 1332="java -jar ~/Documents/GT/Fall\ 2021/CS\ 1332/checkstyle-8.12-all.jar -c ~/Documents/GT/Fall\ 2021/CS\ 1332/CS1332-checkstyle.xml"
+# Start CS2110 docker
+alias cs2110="bash ~/Documents/GT/Spring_2022/CS_2110/cs2110docker.sh"
