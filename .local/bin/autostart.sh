@@ -14,7 +14,7 @@ run picom
 run xss-lock slock
 run dunst
 run nm-applet
-run blueman-applet
+# run blueman-applet
 run redshift
 run discord
 run slack
