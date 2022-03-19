@@ -1,6 +1,6 @@
 local M = {}
 
-M.setup = function()
+M.config = function()
   local status_ok, bl = pcall(require, "indent_blankline")
   if not status_ok then
     return

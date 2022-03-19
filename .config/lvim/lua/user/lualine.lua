@@ -1,4 +1,5 @@
 local M = {}
+
 local kind = require "user.lsp_kind"
 
 local function diff_source()
@@ -26,7 +27,7 @@ local mode = function()
   elseif mod == "i" or mod == "ic" or mod == "ix" then
     local insert_icons = {
       "  ",
-      "  ",
+      "  ",
       "  ",
     }
     return insert_icons[selector]
@@ -41,7 +42,7 @@ local mode = function()
     local command_icons = {
       "  ",
       "  ",
-      "  ",
+      "  ",
     }
 
     return command_icons[selector]
@@ -56,22 +57,20 @@ local mode = function()
   return normal_icons[selector]
 end
 
-local default_colors = {
-  bg = "#44475A",
-  fg = "#F8F8F2",
-  yellow = "#F1FA8C",
-  cyan = "#8BE9FD",
-  green = "#50FA7B",
-  orange = "#FFB86C",
-  violet = "#BD93F9",
-  pink = "#FF79C6",
-  blue = "#8BE9FD",
-  red = "#FF5555",
-  git = { change = "#FFB86C", add = "#50FA7B", delete = "#FF5555" },
-}
 M.config = function()
-  local colors = default_colors
-
+  local colors = {
+    bg = "#44475A",
+    fg = "#F8F8F2",
+    yellow = "#F1FA8C",
+    cyan = "#8BE9FD",
+    green = "#50FA7B",
+    orange = "#FFB86C",
+    violet = "#BD93F9",
+    pink = "#FF79C6",
+    blue = "#8BE9FD",
+    red = "#FF5555",
+    git = { change = "#FFB86C", add = "#50FA7B", delete = "#FF5555" },
+  }
   -- Color table for highlights
   local mode_color = {
     n = colors.git.delete,
@@ -126,12 +125,12 @@ M.config = function()
         normal = { c = { fg = colors.fg, bg = colors.bg } },
         inactive = { c = { fg = colors.fg, bg = colors.bg_alt } },
       },
-      disabled_filetypes = { "dashboard", "NvimTree", "Outline", "alpha" },
+      disabled_filetypes = { "NvimTree", "Outline", "alpha" },
+      globalstatus = lvim.builtin.global_statusline,
     },
     sections = {
       -- these are to remove the defaults
       lualine_a = {},
-
       lualine_b = {},
       lualine_y = {},
       lualine_z = {},
@@ -162,10 +161,11 @@ M.config = function()
 
   ins_left {
     function()
-      vim.api.nvim_command("hi! LualineMode guifg=" .. mode_color[vim.fn.mode()] .. " guibg=" .. colors.bg)
       return mode()
     end,
-    color = "LualineMode",
+    color = function()
+      return { fg = mode_color[vim.fn.mode()], bg = colors.bg }
+    end,
     padding = { left = 1, right = 0 },
   }
 
@@ -275,7 +275,11 @@ M.config = function()
       end
       local buf_ft = vim.bo.filetype
       local buf_client_names = {}
-      local trim = vim.fn.winwidth(0) < 120
+      local trim_width = 120
+      if lvim.builtin.global_statusline then
+        trim_width = 100
+      end
+      local trim = vim.fn.winwidth(0) < trim_width
 
       for _, client in pairs(buf_clients) do
         if client.name ~= "null-ls" then

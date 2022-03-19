@@ -34,11 +34,40 @@ M.config = function()
 
   -- Dashboard
   -- =========================================
-  lb.dashboard.active = not lvim.builtin.fancy_dashboard.active
+  lvim.builtin.alpha.mode = "custom"
+
+  local alpha_opts = require("user.dashboard").config()
+  lvim.builtin.alpha["custom"] = { config = alpha_opts }
 
   -- DAP
   -- =========================================
-  lb.dap.active = true
+  lb.dap.active = false
+
+  -- Formatters
+  -- =========================================
+  local formatters = require "lvim.lsp.null-ls.formatters"
+  formatters.setup {
+    { exe = "black", filetypes = { "python" } },
+    { exe = "isort", filetypes = { "python" } },
+    { exe = "rustfmt", filetypes = { "rust" } },
+    { exe = "stylua", filetypes = { "lua" } },
+    {
+      exe = "prettierd",
+      filetypes = {
+        "html",
+        "css",
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue",
+      },
+    },
+  }
+
+  -- LSP
+  -- =========================================
+  lvim.builtin.global_statusline = true
 
   -- LSP
   -- =========================================
@@ -54,20 +83,6 @@ M.config = function()
   vim.list_extend(lvim.lsp.override, { "jdtls" })
   lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.automatic_servers_installation = false
-
-  -- Formatters
-  -- =========================================
-  local formatters = require "lvim.lsp.null-ls.formatters"
-  formatters.setup {
-    { exe = "black", filetypes = { "python" } },
-    { exe = "isort", filetypes = { "python" } },
-    { exe = "rustfmt", filetypes = { "rust" } },
-    { exe = "stylua", filetypes = { "lua" } },
-    {
-      exe = "prettier",
-      filetypes = { "html", "css", "javascript", "typescript", "vue" },
-    },
-  }
 
   -- NvimTree
   -- =========================================

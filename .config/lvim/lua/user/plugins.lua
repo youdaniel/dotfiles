@@ -28,13 +28,11 @@ M.config = function()
       end,
       requires = "nvim-treesitter/nvim-treesitter",
     },
-    { "dracula/vim" },
     {
-      "goolord/alpha-nvim",
+      "dracula/vim",
       config = function()
-        require("user.dashboard").config()
+        vim.cmd [[colorscheme dracula]]
       end,
-      disable = not lvim.builtin.fancy_dashboard.active,
     },
     {
       "iamcco/markdown-preview.nvim",
@@ -63,15 +61,9 @@ M.config = function()
     {
       "lukas-reineke/indent-blankline.nvim",
       config = function()
-        require("user.indent_blankline").setup()
+        require("user.indent_blankline").config()
       end,
-    },
-    {
-      "mfussenegger/nvim-dap-python",
-      config = function()
-        require("dap-python").setup "~/.local/share/nvim/dapinstall/python/bin/python"
-      end,
-      ft = "python",
+      event = "BufRead",
     },
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
@@ -81,7 +73,7 @@ M.config = function()
       end,
       event = "BufRead",
     },
-    { "ray-x/lsp_signature.nvim", event = "InsertEnter" },
+    { "ray-x/lsp_signature.nvim", event = { "BufRead", "BufNew" } },
     { "tpope/vim-surround", event = "BufRead" },
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
     { "wellle/targets.vim", event = "BufRead" },
