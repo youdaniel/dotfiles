@@ -1,6 +1,9 @@
 #!/bin/bash
 
-if [[ "$IS_LAPTOP" == "true" ]]
+pactl list short cards | grep -q PnP_Audio
+exit_status=$?
+
+if [[ "$IS_LAPTOP" == "true" && $exit_status == 1 ]]
 then
   MIC="Front Left"
 else
