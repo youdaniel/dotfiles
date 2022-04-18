@@ -73,7 +73,12 @@ M.config = function()
       end,
       event = "BufRead",
     },
-    { "ray-x/lsp_signature.nvim", event = { "BufRead", "BufNew" } },
+    {
+      "ray-x/lsp_signature.nvim",
+      config = function()
+        require("user/lsp_signature").config()
+      end,
+    },
     { "tpope/vim-surround", event = "BufRead" },
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
     { "wellle/targets.vim", event = "BufRead" },

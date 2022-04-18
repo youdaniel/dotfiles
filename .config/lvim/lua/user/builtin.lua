@@ -79,8 +79,8 @@ M.config = function()
     end
     return nil
   end
-  table.remove(lvim.lsp.override, indexOf(lvim.lsp.override, "volar"))
-  vim.list_extend(lvim.lsp.override, { "jdtls" })
+  table.remove(lvim.lsp.automatic_configuration.skipped_servers, indexOf(lvim.lsp.override, "volar"))
+  vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
   lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.automatic_servers_installation = false
 
@@ -116,7 +116,7 @@ M.config = function()
 
   -- Treesitter
   -- =========================================
-  lb.treesitter.ensure_installed = "maintained"
+  lb.treesitter.ensure_installed = "all"
   lb.treesitter.ignore_install = { "haskell" }
   lb.treesitter.highlight.disable = {}
   lb.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
