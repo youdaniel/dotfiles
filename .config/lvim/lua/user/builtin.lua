@@ -86,8 +86,6 @@ M.config = function()
 
   -- NvimTree
   -- =========================================
-  lb.nvimtree.setup.view.auto_resize = true
-  lb.nvimtree.setup.auto_close = false
   lb.nvimtree.icons = kind.nvim_tree_icons
 
   -- Project
