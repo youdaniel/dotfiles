@@ -1,5 +1,0 @@
-live_config_reload: true
-
-import: 
-  - ~/.config/alacritty/base.yml
-  - ~/.local/share/alacritty/config.yml

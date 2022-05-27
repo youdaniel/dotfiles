@@ -1,0 +1,31 @@
+# open terminal
+cmd - return : /Applications/Kitty.app/Contents/MacOS/kitty --single-instance -d ~ &> /dev/null
+
+# close window 
+shift + cmd - c : $(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --close)
+
+# focus window
+cmd - h : yabai -m window --focus west
+cmd - j : yabai -m window --focus south
+cmd - k : yabai -m window --focus north
+cmd - l : yabai -m window --focus east
+
+# move window
+cmd + shift - h : yabai -m window --swap west
+cmd + shift - j : yabai -m window --swap south
+cmd + shift - k : yabai -m window --swap north
+cmd + shift - l : yabai -m window --swap east
+
+# warp window
+cmd + shift - a : yabai -m window --warp west
+cmd + shift - s : yabai -m window --warp south
+cmd + shift - w : yabai -m window --warp north
+cmd + shift - d : yabai -m window --warp east
+
+# toggle fullscreen
+cmd + shift - m : yabai -m window --toggle zoom-fullscreen
+
+# send window to space
+cmd + shift - 1 : yabai -m window --space 1
+cmd + shift - 2 : yabai -m window --space 2
+cmd + shift - 3 : yabai -m window --space 3
