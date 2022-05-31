@@ -3,7 +3,8 @@ lvim.leader = " "
 lvim.format_on_save = {
   pattern = "*.{py,rs,lua,html,css,js,jsx,ts,tsx,vue,c}",
 }
-lvim.colorscheme = "dracula"
+vim.g.catppuccin_flavour = "mocha"
+lvim.colorscheme = "catppuccin"
 require("user.neovim").config()
 
 -- Plugins

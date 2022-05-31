@@ -20,6 +20,13 @@ M.config = function()
       end,
     },
     {
+      "catppuccin/nvim",
+      as = "catppuccin",
+      config = function()
+        require("user.catppuccin").config()
+      end,
+    },
+    {
       "danymat/neogen",
       config = function()
         require("neogen").setup {
@@ -27,12 +34,6 @@ M.config = function()
         }
       end,
       requires = "nvim-treesitter/nvim-treesitter",
-    },
-    {
-      "dracula/vim",
-      config = function()
-        vim.cmd [[colorscheme dracula]]
-      end,
     },
     {
       "iamcco/markdown-preview.nvim",
