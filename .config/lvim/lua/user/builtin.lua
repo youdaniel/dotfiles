@@ -79,6 +79,7 @@ M.config = function()
     end
     return nil
   end
+
   table.remove(lvim.lsp.automatic_configuration.skipped_servers, indexOf(lvim.lsp.override, "volar"))
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
   lvim.lsp.diagnostics.virtual_text = true
