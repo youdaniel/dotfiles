@@ -26,9 +26,14 @@ cmd + shift - w : yabai -m window --warp north
 cmd + shift - d : yabai -m window --warp east
 
 # toggle fullscreen
-cmd + shift - m : yabai -m window --toggle zoom-fullscreen
+cmd - space : yabai -m window --toggle zoom-fullscreen
+cmd + shift - m : yabai -m window --toggle native-fullscreen
+
+# toggle float
+cmd + shift - f : yabai -m window --toggle float && yabai -m window --grid 4:4:1:1:2:2
 
 # send window to space
 cmd + shift - 1 : yabai -m window --space 1
 cmd + shift - 2 : yabai -m window --space 2
 cmd + shift - 3 : yabai -m window --space 3
+cmd + shift - 4 : yabai -m window --space 4
