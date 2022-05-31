@@ -8,10 +8,10 @@ cmd - b : /Applications/Firefox.app/Contents/MacOS/firefox
 shift + cmd - c : $(yabai -m window $(yabai -m query --windows --window | jq -re ".id") --close)
 
 # focus window
-cmd - h : yabai -m window --focus west
-cmd - j : yabai -m window --focus south
-cmd - k : yabai -m window --focus north
-cmd - l : yabai -m window --focus east
+lcmd - h : yabai -m window --focus west
+lcmd - j : yabai -m window --focus south
+lcmd - k : yabai -m window --focus north
+lcmd - l : yabai -m window --focus east
 
 # move window
 cmd + shift - h : yabai -m window --swap west
