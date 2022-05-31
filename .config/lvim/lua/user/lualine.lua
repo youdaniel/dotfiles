@@ -59,17 +59,35 @@ end
 
 M.config = function()
   local colors = {
-    bg = "#44475A",
-    fg = "#F8F8F2",
-    yellow = "#F1FA8C",
-    cyan = "#8BE9FD",
-    green = "#50FA7B",
-    orange = "#FFB86C",
-    violet = "#BD93F9",
-    pink = "#FF79C6",
-    blue = "#8BE9FD",
-    red = "#FF5555",
-    git = { change = "#FFB86C", add = "#50FA7B", delete = "#FF5555" },
+    rosewater = "#F5E0DC",
+    flamingo = "#F2CDCD",
+    violet = "#DDB6F2",
+    pink = "#F5C2E7",
+    red = "#F28FAD",
+    maroon = "#E8A2AF",
+    orange = "#F8BD96",
+    yellow = "#FAE3B0",
+    green = "#ABE9B3",
+    blue = "#96CDFB",
+    cyan = "#89DCEB",
+    teal = "#B5E8E0",
+    lavender = "#C9CBFF",
+    white = "#D9E0EE",
+    gray2 = "#C3BAC6",
+    gray1 = "#988BA2",
+    gray0 = "#6E6C7E",
+    black4 = "#575268",
+    bg_br = "#302D41",
+    bg = "#1A1826",
+    bg_alt = "#1E1E2E",
+    fg = "#D9E0EE",
+    black = "#1A1826",
+    git = {
+      add = "#ABE9B3",
+      change = "#96CDFB",
+      delete = "#F28FAD",
+      conflict = "#FAE3B0",
+    },
   }
   -- Color table for highlights
   local mode_color = {
@@ -342,6 +360,7 @@ M.config = function()
         end
         return string.format("%.1f%s", size, sufixes[i])
       end
+
       local file = vim.fn.expand "%:p"
       if string.len(file) == 0 then
         return ""
