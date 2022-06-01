@@ -1,8 +1,9 @@
 # floating rules
-yabai -m rule --add app="^System Preferences$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Karabiner-Elements$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Karabiner-EventViewer$" sticky=on layer=above manage=off
-yabai -m rule --add app="^Finder$" sticky=on layer=above manage=off
+yabai -m rule --add app="^System Preferences$" manage=off layer=above
+yabai -m rule --add app="^Karabiner-Elements$" manage=off layer=above
+yabai -m rule --add app="^Karabiner-EventViewer$" manage=off layer=above
+yabai -m rule --add app="^Finder$" manage=off layer=above
+yabai -m rule --add app="^Activity Monitor$" manage=off layer=above
 
 # general space settings
 yabai -m config layout                       bsp
