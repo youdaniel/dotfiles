@@ -12,8 +12,8 @@ if [ -d "$HOME/.cargo" ]; then
 fi
 
 # add poetry binaries to path
-if [ -d "$HOME/.poetry" ]; then
-  export PATH="$HOME/.poetry/bin:$PATH"
+if [ -d "$HOME/Library/Python/3.9/bin" ]; then
+  export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 fi
 
 # add yarn binaries to path
@@ -41,6 +41,7 @@ if ! zgenom saved; then
   zgenom load zsh-users/zsh-autosuggestions
   zgenom load zsh-users/zsh-completions
   zgenom load rupa/z
+  zgenom load darvid/zsh-poetry
 
   zgenom save
 
