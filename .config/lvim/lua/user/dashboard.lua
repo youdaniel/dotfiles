@@ -85,11 +85,7 @@ M.config = function()
       button("f", " " .. kind.cmp_kind.Folder .. " Explore", ":Telescope find_files<CR>"),
       button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
-      button(
-        "c",
-        " " .. kind.icons.settings .. " Config",
-        ":e ~/.config/lvim/config.lua | :cd %:p:h | split . | q | pwd<CR>"
-      ),
+      button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/lvim/config.lua | :cd %:p:h<CR>"),
     },
     opts = {
       spacing = 1,
