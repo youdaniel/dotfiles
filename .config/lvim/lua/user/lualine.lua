@@ -226,15 +226,22 @@ M.config = function()
 
   ins_left {
     function()
+      local function trim(s)
+        if string.len(s) > 10 and vim.fn.winwidth(0) < 120 then
+          return string.sub(s, 0, 10) .. "..."
+        end
+        return s
+      end
+
       local utils = require "lvim.core.lualine.utils"
       if vim.bo.filetype == "python" then
         local venv = os.getenv "CONDA_DEFAULT_ENV"
         if venv then
-          return string.format("  (%s)", utils.env_cleanup(venv))
+          return string.format("  (%s)", trim(utils.env_cleanup(venv)))
         end
         venv = os.getenv "VIRTUAL_ENV"
         if venv then
-          return string.format("  (%s)", utils.env_cleanup(venv))
+          return string.format("  (%s)", trim(utils.env_cleanup(venv)))
         end
         return ""
       end
