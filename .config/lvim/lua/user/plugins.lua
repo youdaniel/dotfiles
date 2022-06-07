@@ -83,9 +83,9 @@ M.config = function()
         require("user/lsp_signature").config()
       end,
     },
-    { "tpope/vim-surround", event = "BufRead" },
+    { "tpope/vim-surround" },
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
-    { "wellle/targets.vim", event = "BufRead" },
+    { "wellle/targets.vim" },
     {
       "windwp/nvim-ts-autotag",
       config = function()
