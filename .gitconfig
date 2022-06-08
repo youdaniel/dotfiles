@@ -3,7 +3,5 @@
 	name = Daniel You
 [core]
 	editor = nvim
-[credential]
-	helper = osxkeychain
 [pull]
 	ff = only
