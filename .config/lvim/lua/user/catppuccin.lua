@@ -5,6 +5,10 @@ M.config = function()
   catppuccin.setup {
     integrations = {
       which_key = true,
+      nvimtree = {
+        enabled = true,
+        show_root = true,
+      },
     },
   }
 end
