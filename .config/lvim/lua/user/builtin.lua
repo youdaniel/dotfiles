@@ -86,6 +86,7 @@ M.config = function()
 
   -- NvimTree
   -- =========================================
+  lb.nvimtree.setup.actions.open_file.resize_window = true
   lb.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
   lb.nvimtree.setup.renderer.icons.show = {
     git = true,
