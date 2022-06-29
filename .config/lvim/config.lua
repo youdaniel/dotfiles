@@ -1,7 +1,7 @@
 -- General
 lvim.leader = " "
 lvim.format_on_save = {
-  pattern = "*.{py,rs,lua,html,css,js,jsx,ts,tsx,vue,c}",
+  pattern = "*.{py,rs,lua,html,css,java,js,jsx,ts,tsx,vue,c}",
 }
 vim.g.catppuccin_flavour = "mocha"
 lvim.colorscheme = "catppuccin"
