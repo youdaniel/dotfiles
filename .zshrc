@@ -31,10 +31,13 @@ if ! zgenom saved; then
   zgenom ohmyzsh plugins/command-not-found
   zgenom ohmyzsh plugins/docker
 
-  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-autosuggestions
+  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-completions
+
   zgenom load rupa/z
+  zgenom load darvid/zsh-poetry
+  zgenom load softmoth/zsh-vim-mode
 
   zgenom save
 
@@ -92,4 +95,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
