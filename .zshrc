@@ -37,11 +37,12 @@ if ! zgenom saved; then
   zgenom ohmyzsh plugins/command-not-found
   zgenom ohmyzsh plugins/docker
 
-  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-autosuggestions
+  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-completions
   zgenom load rupa/z
   zgenom load darvid/zsh-poetry
+  zgenom load softmoth/zsh-vim-mode
 
   zgenom save
 
@@ -84,3 +85,7 @@ function precmd() {
 
 # starship prompt
 eval "$(starship init zsh)"
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
