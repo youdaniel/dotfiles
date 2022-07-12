@@ -4,9 +4,8 @@ M.config = function()
   local catppuccin = require "catppuccin"
   catppuccin.setup {
     integrations = {
-      which_key = true,
+      telescope = false,
       nvimtree = {
-        enabled = true,
         show_root = true,
       },
     },
