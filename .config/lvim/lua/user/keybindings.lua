@@ -5,6 +5,9 @@ M.config = function()
   lvim.keys.visual_mode["<C-v>"] = 'c<ESC>"+p'
   lvim.keys.insert_mode["<C-v>"] = '<ESC>"+pa'
 
+  lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
+  lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
+
   lvim.builtin.which_key.mappings["n"] = {
     name = "Neogen",
     c = { "<cmd>lua require('neogen').generate({ type = 'class'})<CR>", "Class Documentation" },

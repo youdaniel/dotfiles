@@ -50,7 +50,6 @@ M.config = function()
     {
       "lervag/vimtex",
       config = function()
-        vim.cmd "call vimtex#init()"
         require("user.vimtex").config()
       end,
       ft = "tex",
