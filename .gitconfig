@@ -3,7 +3,5 @@
 	name = Daniel You
 [core]
 	editor = nvim
-[credential]
-	helper = /usr/lib/git-core/git-credential-libsecret
 [pull]
 	ff = only
