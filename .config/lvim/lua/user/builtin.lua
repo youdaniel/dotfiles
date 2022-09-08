@@ -82,7 +82,7 @@ M.config = function()
   table.remove(lvim.lsp.automatic_configuration.skipped_servers, indexOf(lvim.lsp.override, "volar"))
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
   lvim.lsp.diagnostics.virtual_text = true
-  lvim.lsp.automatic_servers_installation = false
+  lvim.lsp.installer.setup.automatic_installation = false
 
   -- NvimTree
   -- =========================================
