@@ -1,6 +1,8 @@
 set window-title-basename "true"
 set selection-clipboard "clipboard"
 
+set guioptions none
+
 map <C-i> recolor
 
 # Dracula color theme for Zathura
