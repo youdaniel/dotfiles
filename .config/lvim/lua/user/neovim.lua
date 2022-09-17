@@ -4,6 +4,7 @@ M.config = function()
   vim.opt.clipboard = "unnamed"
   vim.opt.relativenumber = true
   vim.opt.hlsearch = false
+  vim.opt.laststatus = 3
   vim.opt.fillchars = {
     eob = " ", -- suppress ~ at EndOfBuffer
   }

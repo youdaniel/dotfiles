@@ -26,7 +26,7 @@ M.config = function()
         vim.g.catppuccin_flavour = "mocha"
       end,
       config = function()
-        require("user.catppuccin").config()
+        require("user.colorscheme").config()
         vim.cmd [[colorscheme catppuccin]]
       end,
     },

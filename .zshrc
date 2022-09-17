@@ -1,17 +1,17 @@
 fpath=(~/.zsh $fpath)
 
 # add cargo binaries to path
-if [ -d "/home/daniel/.cargo" ]; then
+if [ -d "$HOME/.cargo" ]; then
   export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # add poetry binaries to path
-if [ -d "/home/daniel/.poetry" ]; then
+if [ -d "$HOME/.poetry" ]; then
   export PATH="$HOME/.poetry/bin:$PATH"
 fi
 
 # add yarn binaries to path
-if [ -d "/home/daniel/.yarn" ]; then
+if [ -d "$HOME/.yarn" ]; then
   export PATH="$HOME/.yarn/bin:$PATH"
 fi
 
@@ -83,14 +83,14 @@ eval "$(starship init zsh)"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/daniel/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('$HOME/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/daniel/.miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/daniel/.miniconda3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/.miniconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/home/daniel/.miniconda3/bin:$PATH"
+        export PATH="$HOME/.miniconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup

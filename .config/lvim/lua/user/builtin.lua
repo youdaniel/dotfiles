@@ -66,10 +66,6 @@ M.config = function()
 
   -- LSP
   -- =========================================
-  lvim.builtin.global_statusline = true
-
-  -- LSP
-  -- =========================================
   local function indexOf(array, value)
     for i, v in ipairs(array) do
       if v == value then

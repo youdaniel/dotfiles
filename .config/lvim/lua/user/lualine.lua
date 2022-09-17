@@ -131,21 +131,6 @@ M.config = function()
 
   -- Config
   local config = {
-    options = {
-      icons_enabled = true,
-      -- Disable sections and component separators
-      component_separators = { left = "", right = "" },
-      section_separators = { left = "", right = "" },
-      theme = {
-        -- We are going to use lualine_c an lualine_x as left and
-        -- right section. Both are highlighted by c theme .  So we
-        -- are just setting default looks o statusline
-        normal = { c = { fg = colors.fg, bg = colors.bg } },
-        inactive = { c = { fg = colors.fg, bg = colors.bg_alt } },
-      },
-      disabled_filetypes = { "NvimTree", "Outline", "alpha" },
-      globalstatus = lvim.builtin.global_statusline,
-    },
     sections = {
       -- these are to remove the defaults
       lualine_a = {},
@@ -300,10 +285,7 @@ M.config = function()
       end
       local buf_ft = vim.bo.filetype
       local buf_client_names = {}
-      local trim_width = 120
-      if lvim.builtin.global_statusline then
-        trim_width = 100
-      end
+      local trim_width = 100
       local trim = vim.fn.winwidth(0) < trim_width
 
       for _, client in pairs(buf_clients) do
@@ -392,7 +374,6 @@ M.config = function()
   }
 
   -- Now don't forget to initialize lualine
-  lvim.builtin.lualine.options = config.options
   lvim.builtin.lualine.sections = config.sections
   lvim.builtin.lualine.inactive_sections = config.inactive_sections
 end
