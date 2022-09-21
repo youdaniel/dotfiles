@@ -15,14 +15,12 @@ M.config = function()
       lccm.feedkeys("<cmd>lua require('neogen').jump_next()<CR>", "")
     elseif cmp.visible() then
       cmp.select_next_item()
-    elseif luasnip.expandable() then
-      luasnip.expand()
-    elseif lccm.jumpable() then
+    elseif luasnip.expand_or_locally_jumpable() then
+      luasnip.expand_or_jump()
+    elseif lccm.jumpable(1) then
       luasnip.jump(1)
-    elseif lccm.check_backspace() then
-      fallback()
-    elseif lccm.is_emmet_active() then
-      return vim.fn["cmp#complete"]()
+    elseif lccm.has_words_before() then
+      cmp.complete()
     else
       fallback()
     end
@@ -63,6 +61,11 @@ M.config = function()
       },
     },
   }
+
+  -- Indent Blankline
+  -- =========================================
+  lb.indentlines.active = true
+  require("user.indent_blankline").config()
 
   -- LSP
   -- =========================================

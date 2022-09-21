@@ -65,13 +65,6 @@ M.config = function()
       event = "BufRead",
     },
     { "leafOFTree/vim-vue-plugin", ft = "vue" },
-    {
-      "lukas-reineke/indent-blankline.nvim",
-      config = function()
-        require("user.indent_blankline").config()
-      end,
-      event = "BufRead",
-    },
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
       "norcalli/nvim-colorizer.lua",
