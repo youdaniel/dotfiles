@@ -82,7 +82,7 @@ def main():
         icons = parse_icons()
         minimized_icons = icons_active_windows(icons, window_class)
         string = minimized_windows_list(minimized_icons)
-        command = "echo -en '{}'| rofi -dmenu -multi-select".format(string)
+        command = "echo -en '{}'| rofi -dmenu".format(string)
         result = Popen(command, universal_newlines=True, shell=True, stdout=PIPE).stdout.read()
         result = list(result[:-1].split("\n"))
         result = list(map(int,([ result[i].rsplit(None, 1)[-1] for i in range(0, len(result))])))
