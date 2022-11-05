@@ -5,3 +5,6 @@
 	editor = nvim
 [pull]
 	ff = only
+
+[includeIf "gitdir:~/Documents/GT/"]
+  path = ~/Documents/GT/.gitconfig
