@@ -50,7 +50,6 @@ then
     export EDITOR=lvim
     export GIT_EDITOR=lvim
     export VISUAL=lvim
-    export MANPAGER="$EDITOR -c +Man!"
 fi
 
 export BAT_THEME="Dracula"
