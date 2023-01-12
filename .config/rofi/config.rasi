@@ -1,7 +1,0 @@
-configuration {
-  modi: "drun,run";
-  show-icons: true;
-  matching: "normal";
-}
-
-@theme "dracula"

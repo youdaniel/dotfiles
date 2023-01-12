@@ -1,0 +1,35 @@
+;; string literal widgets as variables are possible but not efficient
+
+;; seperate sidebar for each possible primary monitor
+(defwindow sidebar0
+  :geometry (geometry
+    :x "0px"
+    :width "1px"
+    ; :height "100%"
+  :anchor "top right")
+  :stacking "fg"
+  :monitor 0
+  (sidebar))
+
+(defwidget sidebar []
+  (eventbox
+    :halign "start"
+    :onhover "${EWW_CMD} update side=true"
+    :onhoverlost "${EWW_CMD} update side=false"
+    (revealer
+      :transition "slideleft"
+      :reveal side
+      :duration "550ms"
+      (side))))
+(defvar side false)
+
+;; background
+(defwidget side []
+  (box
+    :class "side"
+    :orientation "v"
+    :space-evenly "false"
+    :spacing "15"
+    :vexpand "true"
+    (music-side))
+)
