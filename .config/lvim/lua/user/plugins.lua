@@ -21,13 +21,10 @@ M.config = function()
     },
     {
       "catppuccin/nvim",
-      as = "catppuccin",
-      setup = function()
-        vim.g.catppuccin_flavour = "mocha"
-      end,
+      name = "catppuccin",
       config = function()
         require("user.colorscheme").config()
-        vim.cmd [[colorscheme catppuccin]]
+        lvim.colorscheme = "catppuccin-mocha"
       end,
     },
     {
@@ -37,12 +34,12 @@ M.config = function()
           enabled = true,
         }
       end,
-      requires = "nvim-treesitter/nvim-treesitter",
+      dependencies = "nvim-treesitter/nvim-treesitter",
     },
     {
       "iamcco/markdown-preview.nvim",
-      run = "cd app && npm install",
-      setup = function()
+      build = "cd app && npm install",
+      init = function()
         vim.g.mkdp_filetypes = { "markdown" }
       end,
       ft = { "markdown" },
