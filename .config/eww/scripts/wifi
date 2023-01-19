@@ -6,18 +6,17 @@ essid=$(nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2)
 if [ $status ] ; then
     icon="睊"
     text=""
-    col="#575268"
-
 else
     icon=""
     text="${essid}"
-    col="#a1bdce"
 fi
 
 
-case $1 in
-	--COL) echo $col;;
-	--ESSID) echo $text;;
-	--ICON) echo $icon;;
-esac
+while true; do
+  case $1 in
+    --essid) echo $text;;
+    --icon) echo $icon;;
+  esac
+  sleep 30
+done
 

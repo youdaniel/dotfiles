@@ -4,17 +4,18 @@
 (include "yuck/sidebar/sidebar.yuck")
 
 ;; Variables
-(defpoll clock_time :interval "5s" "date '+\%H:\%M'")
-(defpoll clock_date :interval "1h" "date '+%b %d, %Y'")
+(defpoll clock_time :interval "20s" "date '+\%H:\%M'")
+(defpoll clock_date :interval "2h" "date '+%b %d, %Y'")
 (defpoll calendar_day :interval "2h" "date '+%d'")
 (defpoll calendar_year :interval "2h" "date '+%Y'")
-(defpoll volume_percent :interval "1s"  "scripts/sbvol --get")
-; (defpoll mic_percent :interval "3s" "amixer get Capture | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%' | head -n 1")
-(defpoll mic_percent :interval "3s" "amixer get Capture | grep 'Mono:' | awk -F'[][]' '{ print $2 }' | tr -d '%' | head -n 1")
-(defpoll brightness_percent :interval "5s" "light")
-(defpoll COL_WLAN :interval "1m" "scripts/wifi --COL")
-(defpoll ESSID_WLAN :interval "1m" "scripts/wifi --ESSID")
-(defpoll WLAN_ICON :interval "1m" "scripts/wifi --ICON")
+
+(deflisten volume_percent "scripts/audio --get-vol")
+(deflisten volume_icon "scripts/audio --get-vol-icon")
+(deflisten mic_percent "scripts/audio --get-mic")
+(deflisten mic_icon "scripts/audio --get-mic-icon")
+(deflisten brightness_percent "scripts/backlight --get")
+(deflisten essid_wlan "scripts/wifi --essid")
+(deflisten wlan_icon "scripts/wifi --icon")
 (deflisten workspace "scripts/workspace")
 (deflisten appname "scripts/appname")
 
@@ -111,8 +112,11 @@
           :tooltip "${volume_percent}%"
           :max 100
           :min 0
-        :onchange "amixer -q set Master {}%" ))
-      (button :class "volume_icon" "墳"))))
+        :onchange "scripts/audio --set-vol {}" ))
+      (button 
+        :class "volume_icon" 
+        :onclick "scripts/audio --toggle-vol"
+      volume_icon))))
 
 (defwidget wifi []
   (eventbox
@@ -128,12 +132,11 @@
         :duration "350ms"
         (label
           :class "module_essid"
-          :text ESSID_WLAN
+          :text essid_wlan
         ))
       (button
         :class "module-wif"
-        :onclick "~/.config/hypr/scripts/exec_wofi wifi"
-      WLAN_ICON))))
+      wlan_icon))))
 
 (defwidget bat []
   (box

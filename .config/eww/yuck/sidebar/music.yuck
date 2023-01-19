@@ -63,12 +63,12 @@
                           :min 0 
                           :max 101 
                           :value volume_percent 
-                          :onchange "amixer -q set Master {}%" )
-                        (label  
-                          :text "墳" 
+                          :onchange "scripts/audio --set-vol {}")
+                        (button  
                           :vexpand false
-                          :class "sidebar_vol_icon")
-                      )
+                          :class "sidebar_vol_icon"
+                          :onclick "scripts/audio --toggle-vol"
+                          volume_icon))
       (box 
         :class "sidebar_mic_bar" 
         :orientation "v" 
@@ -80,11 +80,12 @@
                           :min 0 
                           :max 101 
                           :value mic_percent 
-                          :onchange "amixer -D pulse sset Capture {}%")
-                        (label  
-                          :text "" 
+                          :onchange "scripts/audio --set-mic {}")
+                        (button  
                           :vexpand false
-                          :class "sidebar_mic_icon"))
+                          :class "sidebar_mic_icon"
+                          :onclick "scripts/audio --toggle-mic"
+                          mic_icon))
         (box 
         :class "sidebar_spotify_bar" 
         :orientation "v" 
