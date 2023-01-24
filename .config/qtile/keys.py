@@ -37,7 +37,7 @@ keys = [
     Key("M-S-f", float_to_front()),
     # Application Hotkeys
     Key("A-<Return>", lazy.spawn("kitty")),
-    Key("A-S-<Return>", lazy.spawn("rofi -show drun")),
+    Key("A-S-<Return>", lazy.spawn(["~/.config/rofi/launcher.sh"])),
     Key("A-S-e", lazy.spawn("rofimoji.sh")),
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
