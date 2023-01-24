@@ -13,7 +13,7 @@ fi
 hyprctl dispatch focusmonitor "$focusmon"
 
 ## Open sidebar
-${EWW} open "sidebar$focusmon"
+## ${EWW} open "sidebar$focusmon"
 
 ## Open standard widgets and bar
 NB_MONITORS=($(hyprctl monitors -j | jq -r '.[] | .id'))

@@ -1,10 +1,10 @@
 ;; Music Variables
-(deflisten song	"scripts/music title")
-(deflisten song_artist "scripts/music artist")
-(deflisten song_status "scripts/music status")
-(deflisten song_perc "scripts/music percent")
-(deflisten cover_art "scripts/music coverloc")
-(deflisten playpause "scripts/music statusicon")
-(deflisten player_volume 'bc <<< "$(playerctl volume)*100"')
+(defpoll song :interval "5s" "scripts/music title")
+(defpoll song_artist :interval "5s" "scripts/music artist")
+(defpoll song_status :interval "5s" "scripts/music status")
+(defpoll song_perc :interval "1s" "scripts/music percent")
+(defpoll cover_art :interval "5s" "scripts/music coverloc")
+(defpoll playpause :interval "2s" "scripts/music statusicon")
+(defpoll player_volume :interval "10s" 'bc <<< "$(playerctl volume)*100"')
 
 (defvar music_reveal false)

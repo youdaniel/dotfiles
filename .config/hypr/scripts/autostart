@@ -2,14 +2,16 @@
 
 scripts=$HOME/.config/hypr/scripts
 
+hyprpaper &
+
 # notification daemon
 dunst &
 
 # screenlock when idle
 $scripts/idle_handler &
 
-# KDE auth
-/usr/lib/polkit-kde-authentication-agent-1 &
+# auth agent
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
-/usr/bin/prime-run /usr/bin/discord --enable-features=UseOzonePlatform --ozone-platform=wayland
-/usr/bin/prime-run /usr/bin/slack --enable-features=UseOzonePlatform --ozone-platform=wayland
+gtk-launch discord &
+gtk-launch slack &

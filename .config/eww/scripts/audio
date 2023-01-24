@@ -43,32 +43,25 @@ get_icon() {
 
 
 # Execute accordingly
-if [[ "$1" == "--get-vol" ]]; then
-  while true; do
-    get_volume "Master"
-    sleep 1
-  done
-elif [[ "$1" == "--get-vol-icon" ]]; then
-  while true; do
-    get_icon "Master"
-    sleep 1
-  done
-elif [[ "$1" == "--set-vol" ]]; then
+if [[ "$1" == "--set-vol" ]]; then
 	set_volume "Master" "$2"
 elif [[ "$1" == "--toggle-vol" ]]; then
 	toggle_vol "Master"
-elif [[ "$1" == "--get-mic" ]]; then
-  while true; do
-    get_volume "Capture"
-    sleep 1
-  done
-elif [[ "$1" == "--get-mic-icon" ]]; then
-  while true; do
-    get_icon "Capture"
-    sleep 1
-  done
 elif [[ "$1" == "--set-mic" ]]; then
 	set_volume "Capture" "$2"
 elif [[ "$1" == "--toggle-mic" ]]; then
 	toggle_vol "Capture"
 fi
+
+while true; do
+  if [[ "$1" == "--get-vol" ]]; then
+    get_volume "Master"
+  elif [[ "$1" == "--get-vol-icon" ]]; then
+    get_icon "Master"
+  elif [[ "$1" == "--get-mic" ]]; then
+    get_volume "Capture"
+  elif [[ "$1" == "--get-mic-icon" ]]; then
+    get_icon "Capture"
+  fi
+  sleep 3
+done

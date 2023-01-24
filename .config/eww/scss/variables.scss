@@ -1,20 +1,18 @@
-$background-bar: rgba(11, 10, 16, 1);
-$background: rgba(11, 10, 16, 1);
-$widget-background: rgba(17, 16, 25, 1);
-$shadow: rgba(0, 0, 0, 0.3);
-$grey: rgba(105, 101, 124, 0.7);
+$background-bar: #1e1e2e;
+$background: #1e1e2e;
+$widget-background: #1e1e2e;
+$shadow: rgba(49, 50, 68, 0.4);
+$grey: #6c7086;
 
 $black: #282a36;
-$red: #e97193; // #F37F97;
-$green: #aac5a0; // #5ADECD;
-$yellow: #f6d6b3; // #F2A272;
-$orange: #f2c798; // #F2A272;
-$blue: #a8c5e6; // #BAB4D9; //#8897F4;
-$purple: #dfa7e7; // #C574DD;
-$purple2: #ecdbee; // #C574DD;
-$teal: #72b69c; // #79E6F3;
-$white: #eae9f0; // #FDFDFD;
+$red: #f38ba8;
+$green: #a5e3a1;
+$yellow: #f9e2af;
+$orange: #fab387;
+$blue: #89b4fa;
+$purple: #cba6f7;
+$purple2: #b4befe;
+$teal: #94e2d5;
+$white: #cdd6f4;
 
-$primary: #eacded; // #F37F97;
-$secondary: #71e9c2; // #F37F97;
-$tertiary: #f0db93;
+$primary: $purple;

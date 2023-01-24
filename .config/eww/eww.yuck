@@ -21,13 +21,12 @@
 
 ; https://github.com/elkowar/eww/issues/382#issuecomment-1281693594
 
-(defvar eww "eww -c $HOME/.config/eww/bar")
-
 (defvar vol_reveal false)
 (defvar br_reveal false)
 (defvar control_reveal false)
 (defvar wifi_rev false)
 (defvar time_rev false)
+(defvar bar_hover false)
 
 
 ;; widgets
@@ -241,13 +240,15 @@
   ))
 
 (defwidget bar_layout []
-  (centerbox
-    :class "bar_class"
-    :orientation "h"
-    (left)
-    (center)
-    (right)
-  ))
+  (eventbox
+    :class "bar_ebox"
+    (centerbox
+      :class "bar_class"
+      :orientation "h"
+      (left)
+      (center)
+      (right)
+    )))
 
 ;; bars for your 3 screens (one for each)
 (defwindow bar0

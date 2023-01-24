@@ -1,12 +1,20 @@
 /** EWW.SCSS
 Created by saimoom **/
 /** General **/
+
+.bar_ebox:hover .bar_class {
+  opacity: 1;
+  transition: opacity 0.4s ease-in;
+}
+
 .bar_class {
   background-color: $background-bar;
-  border-radius: 12px;
   margin: 8px 15px 15px 15px;
   padding: 4px;
+  border-radius: 12px;
   box-shadow: 0 6px 5px 2px $shadow;
+  opacity: 0.85;
+  transition: opacity 0.4s ease-out;
 }
 
 .module {
@@ -345,7 +353,7 @@ calendar:indeterminate {
 
 .app-button {
   color: $purple2;
-  font-size: 32px;
+  font-size: 24px;
   font-weight: bold;
   margin: 0px 12px 0px 12px;
 }

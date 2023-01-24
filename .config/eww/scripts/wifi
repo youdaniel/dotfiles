@@ -8,8 +8,8 @@ if [ $status ] ; then
     text=""
 else
     icon=""
-    text="${essid}"
 fi
+text="${essid}"
 
 
 while true; do
@@ -17,6 +17,6 @@ while true; do
     --essid) echo $text;;
     --icon) echo $icon;;
   esac
-  sleep 30
+  sleep 15
 done
 
