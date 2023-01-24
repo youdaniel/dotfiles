@@ -21,7 +21,7 @@ M.config = function()
     },
     {
       "catppuccin/nvim",
-      name = "catppuccin",
+      as = "catppuccin",
       config = function()
         require("user.colorscheme").config()
         lvim.colorscheme = "catppuccin-mocha"

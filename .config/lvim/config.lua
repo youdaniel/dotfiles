@@ -1,9 +1,7 @@
 -- General
 lvim.leader = " "
-lvim.format_on_save = {
-  pattern = "*.{py,rs,lua,html,css,java,js,jsx,ts,tsx,vue,c}",
-}
-lvim.colorscheme = "pablo"
+lvim.format_on_save = true
+lvim.colorscheme = "catppuccin-mocha"
 require("user.neovim").config()
 
 -- Plugins
