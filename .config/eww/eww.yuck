@@ -4,7 +4,7 @@
 (include "yuck/sidebar/sidebar.yuck")
 
 ;; Variables
-(defpoll clock_time :interval "20s" "date '+\%H:\%M'")
+(defpoll clock_time :interval "20s" "date '+\%l:\%M %p'")
 (defpoll clock_date :interval "2h" "date '+%b %d, %Y'")
 (defpoll calendar_day :interval "2h" "date '+%d'")
 (defpoll calendar_year :interval "2h" "date '+%Y'")
@@ -19,14 +19,11 @@
 (deflisten workspace "scripts/workspace")
 (deflisten appname "scripts/appname")
 
-; https://github.com/elkowar/eww/issues/382#issuecomment-1281693594
-
 (defvar vol_reveal false)
 (defvar br_reveal false)
 (defvar control_reveal false)
 (defvar wifi_rev false)
 (defvar time_rev false)
-(defvar bar_hover false)
 
 
 ;; widgets
