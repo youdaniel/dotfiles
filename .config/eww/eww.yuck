@@ -18,6 +18,7 @@
 (deflisten wlan_icon "scripts/wifi --icon")
 (deflisten workspace "scripts/workspace")
 (deflisten appname "scripts/appname")
+(deflisten battery_est "scripts/battery")
 
 (defvar vol_reveal false)
 (defvar br_reveal false)
@@ -298,7 +299,7 @@
           :class "sys_text_bat_sub"
           :limit-width 22
         :wrap false)
-        (label :text "${EWW_BATTERY["BAT0"].status}"
+        (label :text battery_est
           :halign "start"
           :class "sys_text_bat_sub"
           :limit-width 22
