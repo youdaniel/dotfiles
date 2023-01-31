@@ -1,0 +1,34 @@
+#!/bin/bash
+
+
+down() {
+amixer -q set Master 5%-
+volume=$(amixer get Master | tail -n1 | awk -F ' ' '{print $5}' | tr -d '[%]')
+[$volume -gt 0 ] && volume=`expr $volume`  
+dunstify -a "VOLUME" "Decreasing to $volume%" -h int:value:"$volume" -i audio-volume-low-symbolic -r 2593 -u normal
+canberra-gtk-play -i audio-volume-change -d "changevolume"
+}
+
+up() {
+amixer -q set Master 5%+
+volume=$(amixer get Master | tail -n1 | awk -F ' ' '{print $5}' | tr -d '[%]')
+[ $volume -lt 100 ] && volume=`expr $volume`  
+dunstify -a "VOLUME" "Increasing to $volume%" -h int:value:"$volume" -i audio-volume-high-symbolic -r 2593 -u normal
+canberra-gtk-play -i audio-volume-change -d "changevolume"
+}
+
+mute() {
+amixer -q set Master toggle
+status="$(amixer get Master | tail -n1 | grep -wo 'on')"
+if [[ "$status" == "on" ]]; then
+  dunstify -a "VOLUME" "UNMUTED" -i audio-volume-high-symbolic -r 2593 -u normal
+else 
+  dunstify -a "VOLUME" "MUTED" -i audio-volume-muted-symbolic -r 2593 -u normal
+fi
+}
+
+case "$1" in
+  up) up;;
+  down) down;;
+  mute) mute;;
+esac
