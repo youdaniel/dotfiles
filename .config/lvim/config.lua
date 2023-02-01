@@ -1,7 +1,6 @@
 -- General
 lvim.leader = " "
 lvim.format_on_save = true
-lvim.colorscheme = "catppuccin-mocha"
 require("user.neovim").config()
 
 -- Plugins

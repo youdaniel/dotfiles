@@ -21,7 +21,7 @@ M.config = function()
     },
     {
       "catppuccin/nvim",
-      as = "catppuccin",
+      name = "catppuccin",
       config = function()
         require("user.colorscheme").config()
         lvim.colorscheme = "catppuccin-mocha"
@@ -48,6 +48,7 @@ M.config = function()
       "lervag/vimtex",
       config = function()
         require("user.vimtex").config()
+        vim.cmd "call vimtex#init()"
       end,
       ft = "tex",
     },

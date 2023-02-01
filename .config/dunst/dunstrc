@@ -3,7 +3,7 @@
     title = Dunst
     class = Dunst
 
-    width = 300
+    width = 350
     height = 100
     offset = 15x65
 
@@ -16,9 +16,11 @@
     frame_width = 0
     corner_radius = 10
     progress_bar_frame_width = 0
+    progress_bar_max_width = 350
     highlight = "#94e2d5"
 
     markup = full
+    word_wrap = true
 
     icon_position = left
     max_icon_size = 24
