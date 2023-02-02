@@ -19,7 +19,7 @@ colors = {
     "yellow": "#f1fa8c",
 }
 transparent = "#00000000"
-widget_defaults = dict(font="UbuntuMono Nerd Font Bold", fontsize=14, padding=2)
+widget_defaults = dict(font="UbuntuMono Nerd Font Mono", fontsize=14, padding=2)
 
 
 def mic_status():
@@ -116,21 +116,17 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     widgets.append(transparent_separator())
     widgets.append(widget.Systray(**widget_defaults, background=transparent))
     widgets.append(widget.Spacer())
-    widgets.extend(
-        bubble_widget(
-            [
-                widget.GroupBox(
-                    **widget_defaults,
-                    borderwidth=0,
-                    active=colors["white"],
-                    inactive=colors["selection"],
-                    rounded=True,
-                    highlight_color=transparent,
-                    block_highlight_text_color=colors["green"],
-                    disable_drag=True,
-                    background=transparent,
-                )
-            ]
+    widgets.append(
+        widget.GroupBox(
+            **widget_defaults,
+            borderwidth=0,
+            active=colors["white"],
+            inactive=colors["selection"],
+            rounded=True,
+            highlight_color=transparent,
+            block_highlight_text_color=colors["green"],
+            disable_drag=True,
+            background=transparent,
         )
     )
 
