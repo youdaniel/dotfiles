@@ -1,12 +1,7 @@
 local M = {}
 
 M.config = function()
-  local status_ok, bl = pcall(require, "indent_blankline")
-  if not status_ok then
-    return
-  end
-
-  bl.setup {
+  lvim.builtin.indentlines.options = {
     enabled = true,
     bufname_exclude = { "README.md" },
     buftype_exclude = { "terminal", "nofile" },
@@ -38,7 +33,7 @@ M.config = function()
       "help",
       "startify",
       "dashboard",
-      "packer",
+      "lazy",
       "neogitstatus",
       "Outline",
       "Trouble",
@@ -47,6 +42,14 @@ M.config = function()
     },
     -- char = "▏",
     char_list = { "", "┊", "┆", "¦", "|", "¦", "┆", "┊", "" },
+    char_highlight_list = {
+      "IndentBlanklineIndent1",
+      "IndentBlanklineIndent1",
+      "IndentBlanklineIndent1",
+      "IndentBlanklineIndent1",
+      "IndentBlanklineIndent1",
+      "IndentBlanklineIndent1",
+    },
     show_trailing_blankline_indent = false,
     show_first_indent_level = false,
     space_char_blankline = " ",
