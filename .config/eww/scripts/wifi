@@ -17,6 +17,6 @@ while true; do
     --essid) echo $text;;
     --icon) echo $icon;;
   esac
-  sleep 15
+  sleep 10
 done
 
