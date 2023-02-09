@@ -1,7 +1,5 @@
 #!/bin/bash
 
-bat=$(ls /sys/class/power_supply | grep -m 1 "BAT")
-
-swayidle -w \
-  timeout 600 "swaylock & if [[ \"$(cat /sys/class/power_supply/$bat/status)\" == \"Discharging\" ]]; then systemctl suspend; else hyprctl dispatch dpms off; fi" resume "hyprctl dispatch dpms on"\
+exec swayidle -w \
+  timeout 600 "swaylock & systemctl suspend" \
   before-sleep "swaylock"
