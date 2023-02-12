@@ -1,387 +1,57 @@
-;; includes
-(include "yuck/variables.yuck")
-(include "yuck/sidebar/music.yuck")
-(include "yuck/sidebar/sidebar.yuck")
+(include "./modules/bluetooth.yuck")
+(include "./modules/bright.yuck")
+(include "./modules/clock.yuck")
+(include "./modules/music.yuck")
+(include "./modules/net.yuck")
+(include "./modules/sys.yuck")
+(include "./modules/variables.yuck")
+(include "./modules/volume.yuck")
+(include "./modules/workspaces.yuck")
 
-;; Variables
-(defpoll clock_time :interval "20s" "date '+\%l:\%M %p'")
-(defpoll clock_date :interval "2h" "date '+%b %d, %Y'")
-(defpoll calendar_day :interval "2h" "date '+%d'")
-(defpoll calendar_year :interval "2h" "date '+%Y'")
+(include "./windows/calendar.yuck")
+(include "./windows/music.yuck")
+(include "./windows/osd.yuck")
+(include "./windows/system-menu.yuck")
 
-(deflisten volume_percent "scripts/audio --get-vol")
-(deflisten volume_icon "scripts/audio --get-vol-icon")
-(deflisten mic_percent "scripts/audio --get-mic")
-(deflisten mic_icon "scripts/audio --get-mic-icon")
-(deflisten brightness_percent "scripts/backlight --get")
-(deflisten essid_wlan "scripts/wifi --essid")
-(deflisten wlan_icon "scripts/wifi --icon")
-(deflisten workspace "scripts/workspace")
-(deflisten appname "scripts/appname")
-(deflisten battery_est "scripts/battery")
-
-(defvar vol_reveal false)
-(defvar br_reveal false)
-(defvar control_reveal false)
-(defvar wifi_rev false)
-(defvar time_rev false)
-
-
-;; widgets
-
-(defwidget workspaces []
-  (literal
-    :content workspace
-  :valign "center"))
-
-(defwidget appnames []
-  (eventbox
-    :onhover "${EWW_CMD} update control_reveal=true"
-    :onhoverlost "${EWW_CMD} update control_reveal=false"
-    (box
-      :orientation "h"
-      :space-evenly "false"
-      :vexpand "false"
-      :hexpand "false"
-      (literal
-      :content appname)
-      (revealer
-        :transition "slideright"
-        :reveal control_reveal
-        :duration "350ms"
-        (box
-          :vexpand "false"
-          :hexpand "false"
-          :orientation "h"
-          :space-evenly "true"
-          (button
-            :class "app-button"
-            :onclick "hyprctl dispatch togglefloating 1" "")
-          (button
-            :class "app-button"
-            :onclick "hyprctl dispatch fullscreen 1" "")
-          (button
-            :class "app-button color-var3"
-            :onclick "hyprctl dispatch killactive 1" ""))))))
-
-(defwidget bright []
-  (eventbox
-    :onhover "${EWW_CMD} update br_reveal=true"
-    :onhoverlost "${EWW_CMD} update br_reveal=false"
-    (box
-      :class "module"
-      :space-evenly "false"
-      :orientation "h"
-      :spacing "3"
-      (revealer
-        :transition "slideright"
-        :reveal br_reveal
-        :duration "350ms"
-        (scale    :class "brightbar"
-          :value brightness_percent
-          :orientation "h"
-          :tooltip "${brightness_percent}%"
-          :max 100
-          :min 0
-        :onchange "light -S {}" ))
-      (label
-        :text ""
-        :class "bright_icon"
-      :tooltip "brightness"))))
-
-(defwidget volume []
-  (eventbox
-    :onhover "${EWW_CMD} update vol_reveal=true"
-    :onhoverlost "${EWW_CMD} update vol_reveal=false"
-    (box
-      :class "module-2"
-      :space-evenly "false"
-      :orientation "h"
-      :spacing "3"
-      (revealer
-        :transition "slideright"
-        :reveal vol_reveal
-        :duration "350ms"
-        (scale
-          :class "volbar"
-          :value volume_percent
-          :orientation "h"
-          :tooltip "${volume_percent}%"
-          :max 100
-          :min 0
-        :onchange "scripts/audio --set-vol {}" ))
-      (button 
-        :class "volume_icon" 
-        :onclick "scripts/audio --toggle-vol"
-      volume_icon))))
-
-(defwidget wifi []
-  (eventbox
-    :onhover "${EWW_CMD} update wifi_rev=true"
-    :onhoverlost "${EWW_CMD} update wifi_rev=false"
-    (box
-      :vexpand "false"
-      :hexpand "false"
-      :space-evenly "false"
-      (revealer
-        :transition "slideright"
-        :reveal wifi_rev
-        :duration "350ms"
-        (label
-          :class "module_essid"
-          :text essid_wlan
-        ))
-      (button
-        :class "module-wif"
-      wlan_icon))))
-
-(defwidget bat []
-  (box
-    :class "bat_module"
-    :vexpand "false"
-    :hexpand "false"
-    (circular-progress
-      :value {EWW_BATTERY["BAT0"].capacity}
-      :class "batbar"
-      :thickness 4
-      (button
-        :onclick "scripts/pop system"
-        :class "iconbat"
-        :tooltip "battery on ${EWW_BATTERY["BAT0"].capacity}%"
-      ""))))
-
-(defwidget mem []
-  (box
-    :class "mem_module"
-    :vexpand "false"
-    :hexpand "false"
-    (circular-progress
-      :value {EWW_RAM.used_mem_perc}
-      :class "membar"
-      :thickness 4
-      (button
-        :onclick "scripts/pop system"
-        :class "iconmem"
-        :tooltip "using ${round(EWW_RAM.used_mem_perc, 2)}% ram"
-        :show_truncated false
-        :wrap false
-      ""))))
-
-(defwidget clock_module []
-  (eventbox
-    :onhover "${EWW_CMD} update time_rev=true"
-    :onhoverlost "${EWW_CMD} update time_rev=false"
-    (box
-      :class "module"
-      :space-evenly "false"
-      :orientation "h"
-      :spacing "0"
-      (label
-        :text clock_time
-      :class "clock_time_class" )
-      (revealer :transition "slideleft"
-        :reveal time_rev
-        :duration "350ms"
-        (button
-          :class "clock_date_class"
-        :onclick "scripts/pop calendar" clock_date)))))
-
-(defwidget sep []
-  (box
-    :class "module-2"
-    :vexpand "false"
-    :hexpand "false"
-    :valign "center"
-    (label
-      :class "separ"
-      :valign "center"
-      :text "|"
-    )))
-
-(defwidget gap []
-  (box
-    :orientation "h"
-    :hexpand "false"
-    :visible "true"
-  :width "150"))
-
-
-;;define widget groups
 (defwidget left []
   (box
-    :orientation "h"
     :space-evenly false
     :halign "start"
-    :class "left_modules"
     (workspaces)))
-(defwidget center []
-  (box
-    :orientation "h"
-    :space-evenly false
-    :halign "center"
-    :class "center_modules"
-    (appnames)))
+
 (defwidget right []
   (box
-    :orientation "h"
     :space-evenly false
     :halign "end"
-    :class "right_modules"
-    (volume)
     (bright)
-    (wifi)
-    (sep)
-    (bat)
-    (mem)
-    (sep)
-    (clock_module)
-  ))
+    (volume-module)
+    (bluetooth)
+    (net)
+    (label :class "seperator" :text "|")
+    (sys)
+    (label :class "seperator" :text "|")
+    (clock_module)))
 
-(defwidget bar_layout []
-  (eventbox
-    :class "bar_ebox"
-    (centerbox
-      :class "bar_class"
-      :orientation "h"
-      (left)
-      (center)
-      (right)
-    )))
-
-;; bars for your 3 screens (one for each)
-(defwindow bar0
-  :monitor 0
-  :exclusive false
-  :geometry (geometry
-    :width "100%"
-    :height "50px"
-  :anchor "top center")
-  :stacking "fg"
-  :windowtype "dock"
-  (bar_layout))
-
-;;Define System widget
-(defwidget system []
+(defwidget center []
   (box
-    :class "sys_win"
-    :orientation "v"
-    :space-evenly "false"
-    :hexpand "false"
-    :vexpand "false"
-    :spacing 0
-    (box
-      :class "sys_bat_box"
-      :orientation "h"
-      :space-evenly "false"
-      (circular-progress
-        :value {EWW_BATTERY["BAT0"].capacity}
-        :class "sys_bat"
-        :thickness 9
-        (label :text ""
-          :class "sys_icon_bat"
-          :limit-width 2
-        :wrap false))
-      (box
-        :orientation "v"
-        :space-evenly "false"
-        :spacing 0
-        :hexpand "false"
-        :vexpand "false"
-        (label
-          :text "battery"
-          :halign "start"
-          :class "sys_text_bat"
-          :limit-width 9
-        :wrap false)
-        (label
-          :text "${EWW_BATTERY["BAT0"].capacity}%"
-          :halign "start"
-          :class "sys_text_bat_sub"
-          :limit-width 22
-        :wrap false)
-        (label :text battery_est
-          :halign "start"
-          :class "sys_text_bat_sub"
-          :limit-width 22
-        :wrap false)))
-    (label
-      :text "____________________________________"
-      :class "sys_sep"
-    :halign "center")
-    (box
-      :class "sys_mem_box"
-      :orientation "h"
-      :space-evenly "false"
-      :halign "start"
-      (circular-progress
-        :value {EWW_RAM.used_mem_perc}
-        :class "sys_mem"
-        :thickness 9
-        (label
-          :text ""
-          :class "sys_icon_mem"
-          :limit-width 2
-          :wrap false
-        :angle 0.0))
-      (box
-        :orientation "v"
-        :space-evenly "false"
-        :spacing 0
-        :hexpand "false"
-        :vexpand "false"
-        (label
-          :text "memory"
-          :halign "start"
-          :class "sys_text_mem"
-          :limit-width 9
-        :wrap false)
-        (label
-          :text "${round((EWW_RAM.used_mem/(1024*1024*1024)), 2)} | ${round((EWW_RAM.total_mem/(1024*1024*1024)), 2)}gb"
-          :halign "start"
-          :class "sys_text_mem_sub"
-          :limit-width 22
-        :wrap false)
-        (label :text "${round((EWW_RAM.available_mem/(1024*1024*1024)), 2)}gb free"
-          :halign "start"
-          :class "sys_text_mem_sub"
-          :limit-width 22
-        :wrap false)
-      ))))
+    :space-evenly false
+    :halign "center"
+    (music-module)))
 
-(defwindow system0
-  :stacking "fg"
-  :focusable "false"
-  :screen 1
-  :monitor 0
-  :geometry
-  (geometry
-    :x "20"
-    :y "65px"
-    :anchor "top right"
-    :width "290px"
-  :height "120px")
-  (system))
+(defwidget bar []
+  (centerbox
+    :class "bar"
+    (left)
+    (center)
+    (right)))
 
-;;Calendar Widget
-(defwidget cal []
-  (box
-    :class "cal"
-    :orientation "v"
-    (box
-      :class "cal-in"
-      (calendar
-        :day calendar_day
-        :year calendar_year))))
-
-(defwindow calendar0
-  :stacking "fg"
-  :focusable "false"
-  :screen 1
-  :monitor 0
-  :geometry (geometry
-    :x "20"
-    :y "65px"
-    :anchor "top right"
-    :width "270px"
-    :height "60px")
-  (cal))
+(defwindow bar
+    :monitor 0
+    :geometry (geometry :x "0%"
+      :y "1%"
+      :width "98%"
+      :height "40px"
+      :anchor "top center")
+    :stacking "fg"
+    :exclusive true
+  (bar))
