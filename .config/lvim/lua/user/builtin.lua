@@ -53,6 +53,7 @@ M.config = function()
       filetypes = {
         "html",
         "css",
+        "scss",
         "javascript",
         "javascriptreact",
         "typescript",
