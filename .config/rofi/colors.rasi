@@ -1,10 +1,12 @@
-/* COLORS */
-
 * {
-  background:             #0c0c0c;
-  background-transparent: #0c0c0cBB; 
-  background-alt:         #282B31FF;
-  foreground:             #FFFFFFFF;
-  foreground-alt:         #010101FF;
-  selected:               #7c94bfBB;	
+    BG:    #1E1D2Fff;
+    BGA:   #cba6f7ff;
+    FG:    #D9E0EEff;
+    FGA:   #cba6f7ff;
+    BDR:   #cba6f7ff;
+    SEL:   #1E1E2Eff;
+    UGT:   #F28FADff;
+    IMG:   #cba6f7ff;
+    OFF:   #575268ff;
+    ON:    #ABE9B3ff;
 }
