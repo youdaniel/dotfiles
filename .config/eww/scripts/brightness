@@ -52,11 +52,11 @@ else
   icon=${icons[$(awk -v n="$(light)" 'BEGIN{print int(n/34)}')]}
   echo '{ "percent": '"$(light)"', "icon": "'"$icon"'" }'
 
+  osd_handler &
+
   udevadm monitor | rg --line-buffered "backlight" | while read -r _; do
     icon="${icons[$(awk -v n="$(light)" 'BEGIN{print int(n/34)}')]}"
 
     echo '{ "percent": '"$(light)"', "icon": "'"$icon"'" }'
   done
-
-  osd_handler &
 fi

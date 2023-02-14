@@ -12,7 +12,6 @@
 (deflisten battery "scripts/battery")
 (deflisten bluetooth "scripts/bluetooth")
 (deflisten brightness "scripts/brightness")
-(deflisten memory "scripts/memory")
 (deflisten music "scripts/music")
 (deflisten net "scripts/net")
 (deflisten volume "scripts/volume")
