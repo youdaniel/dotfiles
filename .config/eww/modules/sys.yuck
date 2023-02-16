@@ -27,6 +27,6 @@
       :style "color: ${battery.color};"
       :thickness 3
       (button
-        :tooltip "battery on ${EWW_BATTERY["BAT0"].capacity}%"
+        :tooltip "battery on ${EWW_BATTERY["BAT0"].capacity}%, ${battery.status}"
         :onclick "${EWW_CMD} open --toggle system-menu"
         (label :class "icon-text" :text "")))))
