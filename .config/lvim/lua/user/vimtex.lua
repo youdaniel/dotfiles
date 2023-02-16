@@ -1,6 +1,6 @@
 local M = {}
 
-M.config = function()
+M.init = function()
   vim.g.vimtex_view_method = "zathura"
 end
 

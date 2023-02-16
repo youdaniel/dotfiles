@@ -12,18 +12,30 @@ M.config = function()
     },
   }
 
-  local handle = io.popen 'fd -d 2 . $HOME"/.local/share/lunarvim/site/pack/lazy" | grep pack | wc -l | tr -d "\n" '
-  local plugins = handle:read "*a"
-  handle:close()
+  local plugins = ""
+  local date = os.date "%a %d %b"
+  if vim.fn.has "linux" == 1 or vim.fn.has "mac" == 1 then
+    local handle = io.popen 'fd -d 2 . $HOME"/.local/share/lunarvim/site/pack/lazy" | grep pack | wc -l | tr -d "\n" '
+    plugins = handle:read "*a"
+    handle:close()
 
-  local thingy = io.popen 'echo "$(date +%a) $(date +%d) $(date +%b)" | tr -d "\n"'
-  local date = thingy:read "*a"
-  thingy:close()
-  plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+    plugins = plugins:gsub("^%s*(.-)%s*$", "%1")
+  else
+    plugins = "N/A"
+  end
 
   local plugin_count = {
     type = "text",
-    val = "└─ " .. kind.cmp_kind.Module .. " " .. plugins .. " plugins in total ─┘",
+    val = "└─ "
+      .. kind.cmp_kind.Module
+      .. string.format("% 4d", plugins)
+      .. " plugins   "
+      .. vim.version().major
+      .. "."
+      .. vim.version().minor
+      .. "."
+      .. vim.version().patch
+      .. " ─┘",
     opts = {
       position = "center",
       hl = "String",
@@ -82,10 +94,11 @@ M.config = function()
   local buttons = {
     type = "group",
     val = {
-      button("f", " " .. kind.cmp_kind.Folder .. " Explore", ":Telescope find_files<CR>"),
+      button("f", " " .. kind.cmp_kind.Folder .. " Explore", "<CMD>Telescope find_files<CR>"),
       button("e", " " .. kind.cmp_kind.File .. " New file", ":ene <BAR> startinsert <CR>"),
       button("r", " " .. kind.icons.clock .. " Recents", ":Telescope oldfiles<CR>"),
       button("c", " " .. kind.icons.settings .. " Config", ":e ~/.config/lvim/config.lua | :cd %:p:h<CR>"),
+      button("q", " " .. kind.icons.exit .. " Quit", ":q<CR>"),
     },
     opts = {
       spacing = 1,

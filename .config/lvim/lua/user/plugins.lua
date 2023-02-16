@@ -8,7 +8,6 @@ M.config = function()
         require("user.neoclip").config()
       end,
     },
-    { "AndrewRadev/splitjoin.vim", event = "BufRead" },
     {
       "andymass/vim-matchup",
       event = "BufReadPost",
@@ -30,9 +29,7 @@ M.config = function()
     {
       "danymat/neogen",
       config = function()
-        require("neogen").setup {
-          enabled = true,
-        }
+        require("neogen").setup {}
       end,
       dependencies = "nvim-treesitter/nvim-treesitter",
     },
@@ -43,11 +40,14 @@ M.config = function()
     },
     {
       "lervag/vimtex",
+      init = function()
+        require("user.vimtex").init()
+      end,
       config = function()
-        require("user.vimtex").config()
         vim.cmd "call vimtex#init()"
       end,
       ft = "tex",
+      event = "VeryLazy",
     },
     {
       "j-hui/fidget.nvim",
@@ -57,7 +57,14 @@ M.config = function()
     },
     {
       "kevinhwang91/nvim-bqf",
-      event = "BufRead",
+      event = "WinEnter",
+    },
+    {
+      "kylechui/nvim-surround",
+      event = "BufReadPost",
+      config = function()
+        require("nvim-surround").setup()
+      end,
     },
     { "leafOFTree/vim-vue-plugin", ft = "vue" },
     { "mfussenegger/nvim-jdtls", ft = "java" },
@@ -74,9 +81,7 @@ M.config = function()
         require("user/lsp_signature").config()
       end,
     },
-    { "tpope/vim-surround" },
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
-    { "wellle/targets.vim" },
     {
       "windwp/nvim-ts-autotag",
       config = function()

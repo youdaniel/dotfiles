@@ -1,5 +1,11 @@
 local M = {}
 
+M.mason = {
+  package_pending = " ",
+  package_installed = " ",
+  package_uninstalled = " ﮊ",
+}
+
 M.cmp_kind = {
   Class = " ",
   Color = " ",
@@ -15,18 +21,18 @@ M.cmp_kind = {
   Function = " ",
   Interface = " ",
   Keyword = " ",
-  Method = "ƒ ",
-  Module = " ",
+  Method = "",
+  Module = "",
   Operator = " ",
   Property = " ",
   Reference = "",
-  Snippet = " ", -- " "," "
+  Snippet = "", -- ""," "," "
   Struct = "פּ ",
   Text = " ",
   TypeParameter = "  ",
   Unit = "塞",
   Value = " ",
-  Variable = " ",
+  Variable = "",
 }
 
 M.icons = {
@@ -35,6 +41,7 @@ M.icons = {
   info = "",
   hint = " ",
   code_action = "",
+  code_lens_action = "",
   test = "",
   docs = "",
   clock = " ",
@@ -43,25 +50,31 @@ M.icons = {
   settings = " ",
   ls_inactive = "轢",
   ls_active = "歷",
-  question = "",
+  question = " ",
   screen = "冷",
   dart = " ",
   config = " ",
-  git = "",
+  git = " ",
   magic = " ",
+  exit = " ",
+  repo = "",
+  term = " ",
 }
 
 M.nvim_tree_icons = {
   default = "",
   symlink = "",
   git = {
-    unstaged = "",
-    staged = "",
     unmerged = "",
-    renamed = "➜",
+    added = "",
+    deleted = "",
+    modified = "",
+    renamed = "",
     untracked = "",
-    deleted = "",
-    ignored = "◌",
+    ignored = "",
+    unstaged = "",
+    staged = "",
+    conflict = "",
   },
   folder = {
     arrow_closed = "",
@@ -73,6 +86,47 @@ M.nvim_tree_icons = {
     symlink = "",
     symlink_open = "",
   },
+}
+
+M.symbols_outline = {
+  File = "",
+  Module = "",
+  Namespace = "",
+  Package = "",
+  Class = "",
+  Method = "ƒ",
+  Property = "",
+  Field = "",
+  Constructor = "",
+  Enum = "練",
+  Interface = "ﰮ",
+  Function = "",
+  Variable = "",
+  Constant = "",
+  String = "𝓐",
+  Number = "#",
+  Boolean = "⊨",
+  Array = "",
+  Object = "⦿",
+  Key = "",
+  Null = "NULL",
+  EnumMember = "",
+  Struct = "פּ",
+  Event = "",
+  Operator = "",
+  TypeParameter = "𝙏",
+}
+
+M.todo_comments = {
+  FIX = "律",
+  TODO = "璘",
+  HACK = " ",
+  WARN = "裂",
+  PERF = "龍",
+  NOTE = " ",
+  ERROR = " ",
+  REFS = "",
+  SHIELD = "",
 }
 
 M.numbers = {

@@ -24,10 +24,7 @@ M.config = function()
     else
       fallback()
     end
-  end, {
-    "i",
-    "s",
-  })
+  end, { "i", "s" })
   lb.cmp.formatting.kind_icons = kind.cmp_kind
 
   -- Dashboard
@@ -63,36 +60,20 @@ M.config = function()
     },
   }
 
-  -- Indent Blankline
-  -- =========================================
-  lb.indentlines.active = true
-  require("user.indent_blankline").config()
-
   -- LSP
   -- =========================================
-  local function indexOf(array, value)
-    for i, v in ipairs(array) do
-      if v == value then
-        return i
-      end
-    end
-    return nil
-  end
-
-  table.remove(lvim.lsp.automatic_configuration.skipped_servers, indexOf(lvim.lsp.override, "volar"))
-  vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
   lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.installer.setup.automatic_installation = false
 
   -- NvimTree
   -- =========================================
-  lb.nvimtree.setup.actions.open_file.resize_window = true
-  lb.nvimtree.setup.renderer.icons.glyphs = kind.nvim_tree_icons
-  lb.nvimtree.setup.renderer.icons.show = {
-    git = true,
-    folder = true,
-    file = true,
-    folder_arrow = true,
+  lvim.builtin.nvimtree.setup.diagnostics = {
+    icons = {
+      hint = kind.icons.hint,
+      info = kind.icons.info,
+      warning = kind.icons.warn,
+      error = kind.icons.error,
+    },
   }
 
   -- Project
