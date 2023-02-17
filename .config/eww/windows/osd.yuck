@@ -3,6 +3,9 @@
     :class "osd-part osd-${class}"
     :orientation "v"
     :space-evenly false
+    (label
+      :class "osd-value"
+      :text value)
     (scale
       :flipped true
       :orientation "v"
