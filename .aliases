@@ -17,6 +17,11 @@ then
     alias cat="bat"
 fi
 
+if command -v micromamba &> /dev/null
+then
+    alias conda="micromamba"
+fi
+
 # bare git repo alias for dotfiles
 alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME" 
 alias lgc="lazygit --git-dir=$HOME/.cfg --work-tree=$HOME"
