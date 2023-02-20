@@ -47,7 +47,6 @@ M.config = function()
         vim.cmd "call vimtex#init()"
       end,
       ft = "tex",
-      event = "VeryLazy",
     },
     {
       "j-hui/fidget.nvim",
