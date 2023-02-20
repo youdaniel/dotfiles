@@ -2,9 +2,8 @@
 
 # define colors
 #        red       peach     green     blue
-colors=("#f38ba8" "#fab387" "#a6e3a1" "#89b4fa")
-#        pink      yellow    teal      lavender
-dimmed=("#f5c2e7" "#f9e2af" "#94e2d5" "#b4befe")
+active="#f38ba8"
+inactive="#cdd6f4"
 empty="#313244"
 
 # get initial focused workspace
@@ -20,9 +19,9 @@ status() {
     mon=${monitormap[${workspaces[$1]}]}
 
     if [ "$focusedws" -eq "$1" ]; then
-      echo -n "${colors[$mon]}"
+      echo -n "$active"
     else
-      echo -n "${dimmed[$mon]}"
+      echo -n "$inactive"
     fi
   else
     echo -n "$empty"
