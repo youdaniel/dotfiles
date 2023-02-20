@@ -8,6 +8,7 @@ M.config = function()
   vim.opt.fillchars = {
     eob = " ", -- suppress ~ at EndOfBuffer
   }
+  vim.g.markdown_recommended_style = 0 -- tab = 2 in markdown
 
   -- Cursorline highlighting control
   --  Only have it on in the active buffer
