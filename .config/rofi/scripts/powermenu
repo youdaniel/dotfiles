@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+rofi_command="rofi -theme $HOME/.config/rofi/powermenu.rasi"
+
+uptime=$(uptime -p | sed -e 's/up //g')
+
+# Buttons
+layout=$(cat $HOME/.config/rofi/powermenu.rasi | grep BUTTON | cut -d'=' -f2 | tr -d '[:blank:],*/')
+if [[ "$layout" == "TRUE" ]]; then
+	shutdown="襤"
+	reboot="ﰇ"
+	lock=""
+	suspend="鈴"
+	logout=""
+
+else
+	shutdown="襤Shutdown"
+	reboot="ﰇ Restart"
+	lock=" Lock"
+	suspend="鈴Sleep"
+	logout=" Logout"
+fi
+ddir="$HOME/.config/rofi"
+
+# Ask for confirmation
+rdialog() {
+	rofi -dmenu -i -no-fixed-num-lines -p "Are You Sure? : " \
+		-theme "$ddir/confirm.rasi"
+}
+
+# Variable passed to rofi
+options="$lock\n$suspend\n$logout\n$reboot\n$shutdown"
+
+chosen="$(echo -e "$options" | $rofi_command -p "UP - $uptime" -dmenu -selected-row 0)"
+case $chosen in
+$shutdown)
+	ans=$(rdialog &)
+	if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+		systemctl poweroff
+	elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+		exit
+	fi
+	;;
+$reboot)
+	ans=$(rdialog &)
+	if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+		systemctl reboot
+	elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+		exit
+	fi
+	;;
+$lock)
+  sleep 1 && ~/.config/hypr/scripts/lock
+	;;
+$suspend)
+	ans=$(rdialog &)
+	if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+		systemctl suspend
+	elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+		exit
+	fi
+	;;
+$logout)
+	ans=$(rdialog &)
+	if [[ $ans == "yes" ]] || [[ $ans == "YES" ]] || [[ $ans == "y" ]]; then
+		hyprctl dispatch exit
+	elif [[ $ans == "no" ]] || [[ $ans == "NO" ]] || [[ $ans == "n" ]]; then
+		exit
+	fi
+	;;
+esac
