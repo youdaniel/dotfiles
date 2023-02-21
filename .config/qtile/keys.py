@@ -41,7 +41,7 @@ keys = [
     Key("A-<Return>", lazy.spawn("kitty")),
     Key(
         "A-S-<Return>",
-        lazy.spawn([f"{os.path.expanduser('~')}/.config/rofi/launcher.sh"]),
+        lazy.spawn([f"{os.path.expanduser('~')}/.config/rofi/scripts/launcher"]),
     ),
     Key("A-S-e", lazy.spawn("rofimoji.sh")),
     Key("A-b", lazy.spawn("firefox -new-window")),
