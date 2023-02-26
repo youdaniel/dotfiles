@@ -4,25 +4,20 @@ if not status_ok then
 end
 
 -- Determine OS
-local home = os.getenv "HOME"
-local launcher_path = vim.fn.glob(
-  home .. "/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_*.jar"
-)
+local home = vim.env.HOME
+local mason_path = vim.fn.glob(vim.fn.stdpath "data" .. "/mason")
+local launcher_path = vim.fn.glob(mason_path .. "/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
 if #launcher_path == 0 then
-  launcher_path = vim.fn.glob(
-    home .. "/.local/share/nvim/lsp_servers/jdtls/plugins/org.eclipse.equinox.launcher_*.jar",
-    1,
-    1
-  )[1]
+  launcher_path = vim.fn.glob(mason_path .. "/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar", true, true)[1]
 end
+local CONFIG = "linux"
 if vim.fn.has "mac" == 1 then
-  WORKSPACE_PATH = home .. "/.workspace/"
+  WORKSPACE_PATH = home .. "/workspace/"
   CONFIG = "mac"
 elseif vim.fn.has "unix" == 1 then
-  WORKSPACE_PATH = home .. "/.workspace/"
-  CONFIG = "linux"
+  WORKSPACE_PATH = home .. "/workspace/"
 else
-  print "Unsupported system"
+  vim.notify("Unsupported system", vim.log.levels.ERROR)
 end
 
 -- Find root of project
@@ -36,7 +31,6 @@ local extendedClientCapabilities = jdtls.extendedClientCapabilities
 extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-
 local workspace_dir = WORKSPACE_PATH .. project_name
 
 local config = {
@@ -47,7 +41,7 @@ local config = {
     "-Declipse.product=org.eclipse.jdt.ls.core.product",
     "-Dlog.protocol=true",
     "-Dlog.level=ALL",
-    "-javaagent:" .. home .. "/.local/share/nvim/lsp_servers/jdtls/lombok.jar",
+    "-javaagent:" .. mason_path .. "/packages/jdtls/lombok.jar",
     "-Xms1g",
     "--add-modules=ALL-SYSTEM",
     "--add-opens",
@@ -57,7 +51,7 @@ local config = {
     "-jar",
     launcher_path,
     "-configuration",
-    home .. "/.local/share/nvim/lsp_servers/jdtls/config_" .. CONFIG,
+    mason_path .. "/packages/jdtls/config_" .. CONFIG,
     "-data",
     workspace_dir,
   },

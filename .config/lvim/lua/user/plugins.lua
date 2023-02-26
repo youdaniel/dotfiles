@@ -11,9 +11,8 @@ M.config = function()
     {
       "andymass/vim-matchup",
       event = "BufReadPost",
-      config = function()
+      init = function()
         vim.g.matchup_enabled = 1
-        vim.g.matchup_surround_enabled = 1
         vim.g.matchup_matchparen_deferred = 1
         vim.g.matchup_matchparen_offscreen = { method = "popup" }
       end,
@@ -65,7 +64,6 @@ M.config = function()
         require("nvim-surround").setup()
       end,
     },
-    { "leafOFTree/vim-vue-plugin", ft = "vue" },
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
       "norcalli/nvim-colorizer.lua",

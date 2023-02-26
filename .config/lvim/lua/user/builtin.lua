@@ -64,6 +64,7 @@ M.config = function()
   -- =========================================
   lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.installer.setup.automatic_installation = false
+  vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
 
   -- NvimTree
   -- =========================================
