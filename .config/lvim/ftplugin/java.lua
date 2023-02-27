@@ -12,10 +12,10 @@ if #launcher_path == 0 then
 end
 local CONFIG = "linux"
 if vim.fn.has "mac" == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
+  WORKSPACE_PATH = home .. "/.workspace/"
   CONFIG = "mac"
 elseif vim.fn.has "unix" == 1 then
-  WORKSPACE_PATH = home .. "/workspace/"
+  WORKSPACE_PATH = home .. "/.workspace/"
 else
   vim.notify("Unsupported system", vim.log.levels.ERROR)
 end

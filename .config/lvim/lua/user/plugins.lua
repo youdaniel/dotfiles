@@ -4,6 +4,8 @@ M.config = function()
   lvim.plugins = {
     {
       "AckslD/nvim-neoclip.lua",
+      lazy = true,
+      keys = "<leader>Y",
       config = function()
         require("user.neoclip").config()
       end,
@@ -27,6 +29,7 @@ M.config = function()
     },
     {
       "danymat/neogen",
+      lazy = true,
       config = function()
         require("neogen").setup {}
       end,
@@ -53,10 +56,7 @@ M.config = function()
         require("user.fidget_spinner").config()
       end,
     },
-    {
-      "kevinhwang91/nvim-bqf",
-      event = "WinEnter",
-    },
+    { "kevinhwang91/nvim-bqf", event = "WinEnter" },
     {
       "kylechui/nvim-surround",
       event = "BufReadPost",
@@ -67,27 +67,23 @@ M.config = function()
     { "mfussenegger/nvim-jdtls", ft = "java" },
     {
       "norcalli/nvim-colorizer.lua",
+      event = "BufReadPre",
       config = function()
         require("user.colorizer").config()
       end,
-      event = "BufRead",
     },
     {
       "ray-x/lsp_signature.nvim",
+      event = { "BufRead", "BufNew" },
       config = function()
         require("user/lsp_signature").config()
       end,
     },
     { "Vimjas/vim-python-pep8-indent", ft = "python" },
-    {
-      "windwp/nvim-ts-autotag",
-      config = function()
-        require("nvim-ts-autotag").setup()
-      end,
-    },
+    { "windwp/nvim-ts-autotag", event = "BufReadPost" },
     {
       "windwp/nvim-spectre",
-      event = "BufRead",
+      lazy = true,
       config = function()
         require("user.spectre").config()
       end,

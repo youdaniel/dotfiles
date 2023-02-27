@@ -62,7 +62,6 @@ M.config = function()
 
   -- LSP
   -- =========================================
-  lvim.lsp.diagnostics.virtual_text = true
   lvim.lsp.installer.setup.automatic_installation = false
   vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "jdtls" })
 
@@ -113,11 +112,10 @@ M.config = function()
     { "teal", "toml", "tsx", "typescript", "vim", "vue", "yaml", "zig" },
   }
   lb.treesitter.ensure_installed = languages
-  lb.treesitter.ignore_install = { "haskell" }
-  lb.treesitter.highlight.disable = {}
-  lb.treesitter.indent = { enable = true, disable = { "yaml", "python", "java", "vue" } }
+  lb.treesitter.ignore_install = { "haskell", "norg" }
   lb.treesitter.context_commentstring.enable = true
   lb.treesitter.matchup.enable = true
+  lb.treesitter.autotag.enable = true
 end
 
 return M
