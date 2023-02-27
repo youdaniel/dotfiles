@@ -60,6 +60,15 @@ M.config = function()
     },
   }
 
+  -- Gitsigns
+  -- =========================================
+  lb.gitsigns.opts.worktrees = {
+    {
+      toplevel = vim.env.HOME,
+      gitdir = vim.env.HOME .. "/.cfg",
+    },
+  }
+
   -- LSP
   -- =========================================
   lvim.lsp.installer.setup.automatic_installation = false
