@@ -12,3 +12,5 @@
 	required = true
 [includeIf "gitdir:~/Documents/GT/"]
   path = ~/Documents/GT/.gitconfig
+[init]
+	defaultBranch = main
