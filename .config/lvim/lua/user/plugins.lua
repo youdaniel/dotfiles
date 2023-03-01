@@ -59,7 +59,7 @@ M.config = function()
     { "kevinhwang91/nvim-bqf", event = "WinEnter" },
     {
       "kylechui/nvim-surround",
-      event = "BufReadPost",
+      event = { "BufReadPost", "BufNew" },
       config = function()
         require("nvim-surround").setup()
       end,
