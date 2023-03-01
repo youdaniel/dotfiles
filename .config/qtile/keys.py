@@ -5,6 +5,8 @@ from libqtile.config import EzDrag as Drag
 from libqtile.config import EzKey as Key
 from libqtile.lazy import lazy
 
+SCRIPTS = os.path.expanduser("~/.config/qtile/scripts")
+
 
 def float_to_front():
     @lazy.function
@@ -35,22 +37,22 @@ keys = [
     Key("A-S-f", lazy.window.toggle_floating()),
     Key("A-S-c", lazy.window.kill()),
     Key("A-S-r", lazy.restart()),
-    Key("A-S-q", lazy.shutdown()),
+    Key("A-C-S-q", lazy.shutdown()),
     Key("M-S-f", float_to_front()),
     # Application Hotkeys
     Key("A-<Return>", lazy.spawn("kitty")),
     Key(
         "A-S-<Return>",
-        lazy.spawn([f"{os.path.expanduser('~')}/.config/rofi/scripts/launcher"]),
+        lazy.spawn(os.path.expanduser("~/.config/rofi/scripts/launcher")),
     ),
-    Key("A-S-e", lazy.spawn("rofimoji.sh")),
+    Key("A-S-e", lazy.spawn(f"{SCRIPTS}/rofimoji.sh")),
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
     Key("M-C-l", lazy.spawn("systemctl suspend")),
     Key("A-c", lazy.spawn("dunstctl close")),
     Key("A-<Escape>", lazy.spawn("dunstctl history-pop")),
-    Key("A-m", lazy.spawn("Qminimize -m")),
-    Key("A-S-m", lazy.spawn("Qminimize -u")),
+    Key("A-m", lazy.spawn(f"{SCRIPTS}/Qminimize -m")),
+    Key("A-S-m", lazy.spawn(f"{SCRIPTS}/Qminimize -u")),
     # Multimedia
     Key("<XF86AudioMute>", lazy.spawn("amixer -q set Master toggle")),
     Key("<XF86AudioLowerVolume>", lazy.spawn("amixer -q set Master 5%-")),
@@ -59,14 +61,12 @@ keys = [
     Key("<XF86AudioNext>", lazy.spawn("playerctl next")),
     Key("<XF86AudioPrev>", lazy.spawn("playerctl previous")),
     Key("<XF86AudioStop>", lazy.spawn("playerctl stop")),
-    Key("A-C-m", lazy.spawn("microphone.sh toggle")),
+    Key("A-C-m", lazy.spawn(f"{SCRIPTS}/microphone.sh toggle")),
     # Backlight
     Key("<XF86MonBrightnessUp>", lazy.spawn("set_backlight.sh inc")),
     Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),
     # Scripts
-    Key("<Print>", lazy.spawn("screenshot.sh select_no_save")),
-    Key("S-<Print>", lazy.spawn("screenshot.sh select")),
-    Key("C-<Print>", lazy.spawn("screenshot.sh select_window")),
+    Key("M-S-s", lazy.spawn(f"{SCRIPTS}/screenshot.sh select_no_save")),
 ]
 
 mouse = [
@@ -81,7 +81,5 @@ mouse = [
         start=lazy.window.get_size(),
     ),
     Click("M-2", lazy.window.bring_to_front()),
-    Click("A-1", lazy.spawn("screenshot.sh select_no_save")),
-    Click("A-S-1", lazy.spawn("screenshot.sh select")),
-    Click("A-C-1", lazy.spawn("screenshot.sh select_window")),
+    Click("A-1", lazy.spawn(f"{SCRIPTS}/screenshot.sh select_no_save")),
 ]
