@@ -33,7 +33,7 @@ keys = [
     Key("A-C-S-l", lazy.layout.swap_column_right()),
     Key("A-<Tab>", lazy.layout.next()),
     Key("A-S-<Tab>", lazy.layout.previous()),
-    Key("A-<space>", lazy.next_layout()),
+    Key("A-<space>", lazy.layout.toggle_split()),
     Key("A-S-f", lazy.window.toggle_floating()),
     Key("A-S-c", lazy.window.kill()),
     Key("A-S-r", lazy.restart()),
@@ -51,8 +51,6 @@ keys = [
     Key("M-C-l", lazy.spawn("systemctl suspend")),
     Key("A-c", lazy.spawn("dunstctl close")),
     Key("A-<Escape>", lazy.spawn("dunstctl history-pop")),
-    Key("A-m", lazy.spawn(f"{SCRIPTS}/Qminimize -m")),
-    Key("A-S-m", lazy.spawn(f"{SCRIPTS}/Qminimize -u")),
     # Multimedia
     Key("<XF86AudioMute>", lazy.spawn("amixer -q set Master toggle")),
     Key("<XF86AudioLowerVolume>", lazy.spawn("amixer -q set Master 5%-")),

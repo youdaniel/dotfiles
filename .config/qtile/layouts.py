@@ -4,17 +4,18 @@ from libqtile import layout
 from libqtile.config import Match
 
 layout_defaults = {
-    "border_width": 0,
+    "border_width": 2,
     "margin": 5,
-    "border_focus": "#f8f8f2",
+    "border_focus": "#cba6f7",
+    "border_focus_stack": "#f5c2e7",
     "border_normal": "#282a36",
+    "border_normal_stack": "#282a36",
 }
 
 layouts = [
     layout.Columns(
         **layout_defaults, num_columns=(3 if not os.getenv("IS_LAPTOP") else 2)
-    ),
-    layout.Max(),
+    )
 ]
 
 
