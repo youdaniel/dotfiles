@@ -38,3 +38,6 @@ alias clear="unset NEW_LINE_BEFORE_PROMPT && clear"
 
 # Start CS2110 docker
 alias cs2110="bash ~/Documents/GT/Spring_2022/CS_2110/cs2110docker.sh"
+
+# GT VPN
+alias gtvpn="sudo openconnect --protocol=gp --background --authgroup dc vpn.gatech.edu"
