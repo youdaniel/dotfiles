@@ -45,11 +45,11 @@ if ! zgenom saved; then
 fi
 
 # NVIM as default editor
-if command -v lvim &> /dev/null
+if command -v nvim &> /dev/null
 then
-    export EDITOR=lvim
-    export GIT_EDITOR=lvim
-    export VISUAL=lvim
+    export EDITOR=nvim
+    export GIT_EDITOR=nvim
+    export VISUAL=nvim
 fi
 
 export BAT_THEME="Dracula"

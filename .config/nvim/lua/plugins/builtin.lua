@@ -29,23 +29,6 @@ return {
     },
   },
 
-  -- navic
-  {
-    "SmiteshP/nvim-navic",
-    config = function()
-      local function get_filename()
-        local filename = vim.fn.expand("%:t")
-        local extension = vim.fn.expand("%:e")
-        local file_icon, hl_group = require("nvim-web-devicons").get_icon(filename, extension)
-
-        return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
-      end
-      vim.o.winbar = get_filename() .. "  %{%v:lua.require'nvim-navic'.get_location()%}"
-      local navic_text = vim.api.nvim_get_hl(0, { name = "Normal" })
-      vim.api.nvim_set_hl(0, "Winbar", { fg = navic_text.foreground })
-    end,
-  },
-
   -- neo-tree
   {
     "nvim-neo-tree/neo-tree.nvim",

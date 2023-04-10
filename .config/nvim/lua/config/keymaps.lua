@@ -12,4 +12,18 @@ local function map(mode, lhs, rhs, opts)
   end
 end
 
-map("n", "<leader>y", "<cmd>%y+<cr>", { desc = "Copy All" })
+-- Copy Paste
+map("n", "<leader>y", "<CMD>%y+<CR>", { desc = "Copy All" })
+
+map("v", "<C-c>", '"+yi')
+map("v", "<C-v>", 'c<ESC>"+p')
+map("i", "<C-v>", '<ESC>"+pa')
+
+-- Move code in visual mode
+map("v", "J", ":move '>+1<CR>gv-gv", { desc = "Move down" })
+map("v", "K", ":move '<-2<CR>gv-gv", { desc = "Move up" })
+for _, mode in ipairs({ "n", "i", "v" }) do
+  for _, lhs in ipairs({ "<A-j>", "<A-k>" }) do
+    vim.api.nvim_del_keymap(mode, lhs)
+  end
+end
