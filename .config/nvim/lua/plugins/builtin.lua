@@ -52,6 +52,8 @@ return {
       }
       opts.defaults.mappings.i = vim.tbl_extend("force", opts.defaults.mappings.i, m)
       opts.defaults.mappings.n = vim.tbl_extend("force", opts.defaults.mappings.n, m)
+      opts.defaults.layout_strategy = "flex"
+      opts.defaults.layout_config = { horizontal = { preview_cutoff = 0 } }
     end,
   },
 
