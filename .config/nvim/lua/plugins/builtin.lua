@@ -71,14 +71,6 @@ return {
     end,
   },
 
-  -- treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      opts.ignore_install = { "help" }
-    end,
-  },
-
   -- Use <tab> for completion and snippets (supertab)
   -- first: disable default <tab> and <s-tab> behavior in LuaSnip
   {
