@@ -5,6 +5,20 @@ return {
   { "ggandor/flit.nvim", enabled = false },
   { "ggandor/leap.nvim", enabled = false },
 
+  -- comment
+  { "echasnovski/mini.comment", enabled = false },
+  {
+    "numToStr/Comment.nvim",
+    event = "VeryLazy",
+    keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
+    opts = {
+      pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+    },
+    config = function(_, opts)
+      require("Comment").setup(opts)
+    end,
+  },
+
   -- dashboard
   {
     "goolord/alpha-nvim",
