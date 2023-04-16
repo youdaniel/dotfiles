@@ -1,29 +1,26 @@
 #!/bin/bash
 
-if command -v nvim &> /dev/null
-then
-    alias vim="nvim"
+if command -v nvim &>/dev/null; then
+	alias vim="nvim"
 fi
 
 # exa instead of ls
-if command -v exa &> /dev/null
-then
-    alias ls="exa --color=always --group-directories-first"
-    alias la="exa -la --color=always --group-directories-first"
+if command -v exa &>/dev/null; then
+	alias ls="exa --color=always --group-directories-first"
+	alias la="exa -la --color=always --group-directories-first"
 fi
 
-if command -v bat &> /dev/null
-then
-    alias cat="bat"
+if command -v bat &>/dev/null; then
+	alias cat="bat"
 fi
 
-if command -v micromamba &> /dev/null
-then
-    alias conda="micromamba"
+if command -v micromamba &>/dev/null; then
+	alias conda="micromamba"
 fi
 
 # bare git repo alias for dotfiles
-alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME" 
+alias config="/usr/bin/git --git-dir=$HOME/.cfg --work-tree=$HOME"
+alias lg="lazygit"
 alias lgc="lazygit --git-dir=$HOME/.cfg --work-tree=$HOME"
 
 alias pacman="sudo pacman"
