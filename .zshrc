@@ -37,7 +37,7 @@ if ! zgenom saved; then
 
   zgenom load rupa/z
   zgenom load darvid/zsh-poetry
-  zgenom load softmoth/zsh-vim-mode
+  zgenom load jeffreytse/zsh-vi-mode
 
   zgenom save
 
