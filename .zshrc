@@ -32,8 +32,8 @@ if ! zgenom saved; then
   zgenom ohmyzsh plugins/docker
 
   zgenom load zsh-users/zsh-autosuggestions
-  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-completions
+  zgenom load zdharma-continuum/fast-syntax-highlighting
 
   zgenom load rupa/z
   zgenom load darvid/zsh-poetry
