@@ -13,7 +13,7 @@ $scripts/idle_handler &
 
 # wallpaper
 wallpapers=(~/Pictures/Wallpapers/*)
-sleep 1 && swww init && swww img ${wallpapers[($RANDOM % ${#wallpapers[@]})]}
+swww init &
 
 gtk-launch discord &
 gtk-launch slack &
