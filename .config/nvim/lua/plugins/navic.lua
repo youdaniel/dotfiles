@@ -12,7 +12,7 @@ return {
         local file_icon, hl_group = "", "Normal"
         local devicons_ok, devicons = pcall(require, "nvim-web-devicons")
         if devicons_ok then
-          file_icon, hl_group = devicons.get_icon(filename, extension)
+          file_icon, hl_group = devicons.get_icon(filename, extension, { default = true })
         end
 
         return " " .. "%#" .. hl_group .. "#" .. file_icon .. "%*" .. " " .. "%#Winbar#" .. filename .. "%*"
