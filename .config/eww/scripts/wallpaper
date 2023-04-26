@@ -1,22 +1,22 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 TEMP=/tmp/current_wall
 files=(~/Pictures/Wallpapers/*)
 
 cycle() {
-  if [ ! -f "$TEMP" ]; then
-    echo 0 > "$TEMP"
-  fi
+	if [ ! -f "$TEMP" ]; then
+		echo 0 >"$TEMP"
+	fi
 
-  index=$(cat $TEMP)
-  index=$((index+1))
-  if [ $index -ge ${#files[@]} ]; then
-      index=0
-  fi
-  echo $index > $TEMP
-  swww img "${files[$index]}" --transition-step 120 --transition-type grow --transition-pos 0.95,0.86
+	index=$(cat $TEMP)
+	index=$((index + 1))
+	if [ $index -ge ${#files[@]} ]; then
+		index=0
+	fi
+	echo $index >$TEMP
+	swww img "${files[$index]}" --transition-step 120 --transition-type grow --transition-pos 0.95,0.86
 }
 
 if [ "$1" = "cycle" ]; then
-  cycle
+	cycle
 fi

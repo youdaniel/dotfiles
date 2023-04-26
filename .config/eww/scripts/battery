@@ -3,7 +3,7 @@
 icons=("\uEDBC" "\uEBD9" "\uEBE0" "\uEBDD" "\uEBE2" "\uEBD4" "\uEBD2" "\uE1A4")
 
 geticon() {
-  level=$(awk -v n="$CAPACITY" 'BEGIN{print int(n/12) - 1}')
+	level=$(awk -v n="$CAPACITY" 'BEGIN{print int(n/12) - 1}')
 	if [ "$STATE" = "Charging" ]; then
 		echo "\uE1A3"
 	else
@@ -36,8 +36,8 @@ color() {
 }
 
 wattage() {
-  R=$(($(cat /sys/class/power_supply/BAT0/current_now) * $(cat /sys/class/power_supply/BAT0/voltage_now)))
-	echo "$(bc -l <<< "scale=1; $R / 1000000000000") W"
+	R=$(($(cat /sys/class/power_supply/BAT0/current_now) * $(cat /sys/class/power_supply/BAT0/voltage_now)))
+	echo "$(bc -l <<<"scale=1; $R / 1000000000000") W"
 }
 
 gettime() {
@@ -50,12 +50,12 @@ gettime() {
 		else
 			EX="($FULL - $NOW) / $RATE"
 		fi
-		date -u -d@"$(bc -l <<< "$EX * 3600")" +%H:%M
+		date -u -d@"$(bc -l <<<"$EX * 3600")" +%H:%M
 	fi
 }
 
 while true; do
-  RATE=$(cat /sys/class/power_supply/BAT0/current_now)
+	RATE=$(cat /sys/class/power_supply/BAT0/current_now)
 	CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
 	STATE=$(cat /sys/class/power_supply/BAT0/status)
 

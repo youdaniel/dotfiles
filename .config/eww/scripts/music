@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ ! "$XDG_CACHE_HOME" ]; then
-  XDG_CACHE_HOME="$HOME/.local/cache"
+	XDG_CACHE_HOME="$HOME/.local/cache"
 fi
 
 get_status() {
@@ -18,14 +18,14 @@ get_length_sec() {
 	if [ -z "$len" ]; then
 		echo 0
 	else
-		bc <<< "$len / 1000000"
+		bc <<<"$len / 1000000"
 	fi
 }
 
 get_length_time() {
 	len=$1
 	if [ -n "$len" ]; then
-		len=$(bc <<< "$len / 1000000 + 1")
+		len=$(bc <<<"$len / 1000000 + 1")
 		date -d@"$len" +%M:%S
 	else
 		echo ""
@@ -36,7 +36,7 @@ get_position() {
 	pos=$1
 	len=$2
 	if [ -n "$pos" ]; then
-		bc -l <<< "$pos / $len * 100"
+		bc -l <<<"$pos / $len * 100"
 	else
 		echo 0
 	fi
@@ -46,7 +46,7 @@ get_position_time() {
 	pos=$1
 	len=$2
 	if [ -n "$pos" ]; then
-		date -d@"$(bc <<< "$pos / 1000000")" +%M:%S
+		date -d@"$(bc <<<"$pos / 1000000")" +%M:%S
 	else
 		echo ""
 	fi
