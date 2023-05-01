@@ -75,7 +75,7 @@ def bubble_widget(middle_widget: List):
     return widgets
 
 
-def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
+def init_widgets_list(systray=True, is_laptop=os.getenv("IS_LAPTOP")):
     widgets = []
     widgets.extend(
         bubble_widget(
@@ -114,7 +114,8 @@ def init_widgets_list(is_laptop=os.getenv("IS_LAPTOP")):
     ]
     widgets.extend(bubble_widget(audio_widgets))
     widgets.append(transparent_separator())
-    widgets.append(widget.Systray(**widget_defaults, background=transparent))
+    if systray:
+        widgets.append(widget.Systray(**widget_defaults, background=transparent))
     widgets.append(widget.Spacer())
     widgets.append(
         widget.GroupBox(
@@ -211,6 +212,19 @@ screens = [
     Screen(
         top=bar.Bar(
             widgets=init_widgets_list(),
+            opacity=1,
+            size=25,
+            margin=[10, 10, 5, 10],
+            background=transparent,
+            foreground=colors["white"],
+        ),
+        bottom=bar.Gap(5),
+        left=bar.Gap(5),
+        right=bar.Gap(5),
+    ),
+    Screen(
+        top=bar.Bar(
+            widgets=init_widgets_list(systray=False),
             opacity=1,
             size=25,
             margin=[10, 10, 5, 10],

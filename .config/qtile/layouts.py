@@ -14,7 +14,8 @@ layout_defaults = {
 
 layouts = [
     layout.Columns(
-        **layout_defaults, num_columns=(3 if not os.getenv("IS_LAPTOP") else 2)
+        **layout_defaults,
+        num_columns=(2 if os.getenv("IS_LAPTOP") or os.getenv("DUAL_MONITOR") else 3)
     )
 ]
 

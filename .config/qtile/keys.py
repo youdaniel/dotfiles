@@ -19,8 +19,19 @@ def float_to_front():
     return __inner
 
 
+def window_to_screen(qtile, prev=False):
+    i = qtile.screens.index(qtile.current_screen)
+    if prev and i != 0 or not prev and i != len(qtile.screens) + 1:
+        group = qtile.screens[i - 1 if prev else i + 1].group.name
+        qtile.current_window.togroup(group)
+
+
 keys = [
     # Qtile
+    Key("A-w", lazy.to_screen(0)),
+    Key("A-e", lazy.to_screen(1)),
+    Key("A-S-w", lazy.function(window_to_screen, prev=True)),
+    Key("A-S-e", lazy.function(window_to_screen, prev=False)),
     Key("A-k", lazy.layout.up()),
     Key("A-j", lazy.layout.down()),
     Key("A-h", lazy.layout.left()),
@@ -29,6 +40,8 @@ keys = [
     Key("A-S-j", lazy.layout.shuffle_down()),
     Key("A-S-h", lazy.layout.swap_column_left()),
     Key("A-S-l", lazy.layout.swap_column_right()),
+    Key("A-C-S-h", lazy.layout.shuffle_left()),
+    Key("A-C-S-l", lazy.layout.shuffle_right()),
     Key("A-<Tab>", lazy.layout.next()),
     Key("A-S-<Tab>", lazy.layout.previous()),
     Key("A-<space>", lazy.layout.toggle_split()),
@@ -43,7 +56,6 @@ keys = [
         "A-S-<Return>",
         lazy.spawn(os.path.expanduser("~/.config/rofi/scripts/launcher")),
     ),
-    Key("A-S-e", lazy.spawn(f"{SCRIPTS}/rofimoji.sh")),
     Key("A-b", lazy.spawn("firefox -new-window")),
     Key("M-l", lazy.spawn("xset dpms force off")),
     Key("M-C-l", lazy.spawn("systemctl suspend")),
