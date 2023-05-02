@@ -16,7 +16,7 @@ local mode = function()
   local _time = os.date("*t")
   local selector = math.floor(_time.hour / 8) + 1
   local normal_icons = {
-    "  ",
+    " 󰊠 ",
     "  ",
     "  ",
   }
@@ -24,21 +24,21 @@ local mode = function()
     return normal_icons[selector]
   elseif mod == "i" or mod == "ic" or mod == "ix" then
     local insert_icons = {
-      "  ",
+      " 󰏒 ",
       "  ",
       "  ",
     }
     return insert_icons[selector]
   elseif mod == "V" or mod == "v" or mod == "vs" or mod == "Vs" or mod == "cv" then
     local verbose_icons = {
-      " 勇",
+      " 󰕷",
       "  ",
       "  ",
     }
     return verbose_icons[selector]
   elseif mod == "c" or mod == "ce" then
     local command_icons = {
-      "  ",
+      " 󰱫 ",
       "  ",
       "  ",
     }
@@ -46,7 +46,7 @@ local mode = function()
     return command_icons[selector]
   elseif mod == "r" or mod == "rm" or mod == "r?" or mod == "R" or mod == "Rc" or mod == "Rv" or mod == "Rv" then
     local replace_icons = {
-      "  ",
+      " 󰉼 ",
       "  ",
       "  ",
     }
@@ -192,7 +192,7 @@ ins_left({
     if #cwd > 0 and #ftype > 0 then
       show_name = fname:sub(#cwd + 2)
     end
-    return show_name .. "%{&readonly?'  ':''}" .. "%{&modified?'  ':''}"
+    return show_name .. "%{&readonly?' 󰏮 ':''}" .. "%{&modified?'  ':''}"
   end,
   cond = conditions.buffer_not_empty,
   padding = { left = 1, right = 1 },
@@ -311,10 +311,10 @@ ins_right({
       end
     end
 
-    msg = msg or "轢LS Inactive"
+    msg = msg or "󰒎 LS Inactive"
     local clients = vim.lsp.get_active_clients({ bufnr = 0 })
     if next(clients) == nil then
-      return (type(msg) == "boolean" or #msg == 0) and "轢LS Inactive" or msg
+      return (type(msg) == "boolean" or #msg == 0) and "󰒎 LS Inactive" or msg
     end
 
     local client_names = {}
@@ -324,7 +324,7 @@ ins_right({
     add_clients(client_names, providers[null_ls.methods.FORMATTING] or {}, false)
     add_clients(client_names, providers[null_ls.methods.DIAGNOSTICS] or {}, false)
 
-    return "歷" .. table.concat(client_names, ", ")
+    return "󰒍 " .. table.concat(client_names, ", ")
   end,
   color = { fg = colors.fg },
 })
