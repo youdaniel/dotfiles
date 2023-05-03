@@ -16,6 +16,7 @@ cmd open ${{
 }}
 
 cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+cmd touch $touch -p "$(echo $* | tr ' ' '\ ')"
 
 cmd trash %trash-put $fx
 
@@ -25,5 +26,8 @@ map "'"
 map '"'
 
 map D trash
-map mkd push :mkdir<space>
+map x cut
+map y copy
+map af push :touch<space>
+map ad push :mkdir<space>
 map <enter> open
