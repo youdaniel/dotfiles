@@ -93,8 +93,10 @@ return {
   -- treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    dependencies = { { "windwp/nvim-ts-autotag" } },
     opts = function(_, opts)
       opts.ensure_installed = vim.list_extend(opts.ensure_installed, { "svelte" })
+      opts.autotag = { enable = true }
     end,
   },
 
