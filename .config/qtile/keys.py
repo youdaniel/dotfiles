@@ -45,6 +45,7 @@ keys = [
     Key("A-<Tab>", lazy.layout.next()),
     Key("A-S-<Tab>", lazy.layout.previous()),
     Key("A-<space>", lazy.layout.toggle_split()),
+    Key("A-S-m", lazy.window.toggle_maximize()),
     Key("A-S-f", lazy.window.toggle_floating()),
     Key("A-S-c", lazy.window.kill()),
     Key("A-S-r", lazy.restart()),
@@ -69,7 +70,6 @@ keys = [
     Key("<XF86AudioNext>", lazy.spawn("playerctl next")),
     Key("<XF86AudioPrev>", lazy.spawn("playerctl previous")),
     Key("<XF86AudioStop>", lazy.spawn("playerctl stop")),
-    Key("A-C-m", lazy.spawn(f"{SCRIPTS}/microphone.sh toggle")),
     # Backlight
     Key("<XF86MonBrightnessUp>", lazy.spawn("set_backlight.sh inc")),
     Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),

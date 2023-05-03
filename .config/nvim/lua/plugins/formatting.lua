@@ -2,6 +2,7 @@ local nls = require("null-ls")
 local formatters = {
   black = nls.builtins.formatting.black,
   isort = nls.builtins.formatting.isort,
+  prettierd = nls.builtins.formatting.prettierd,
 }
 
 return {
