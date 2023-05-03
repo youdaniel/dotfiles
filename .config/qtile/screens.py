@@ -118,9 +118,9 @@ def audio(vol_fg=colors["teal"], music_fg=colors["green"]) -> list:
             func=currently_playing,
             markup=False,
             mouse_callbacks={
-                "Button2": lambda: qtile.cmd_spawn("playerctl play-pause"),
-                "Button1": lambda: qtile.cmd_spawn("playerctl previous"),
-                "Button3": lambda: qtile.cmd_spawn("playerctl next"),
+                "Button2": lambda: qtile.cmd_spawn("playerctl play-pause -p spotify"),
+                "Button1": lambda: qtile.cmd_spawn("playerctl previous -p spotify"),
+                "Button3": lambda: qtile.cmd_spawn("playerctl next -p spotify"),
             },
         ),
     )
