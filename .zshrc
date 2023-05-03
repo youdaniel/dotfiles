@@ -52,7 +52,7 @@ then
     export VISUAL=nvim
 fi
 
-export BAT_THEME="Dracula"
+export BAT_THEME="Catppuccin-mocha"
 
 # vim keybindings
 bindkey -v
