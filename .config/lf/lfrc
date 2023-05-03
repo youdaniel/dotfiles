@@ -1,0 +1,29 @@
+set shell bash
+set shellopts '-eu'
+set ifs "\n"
+set icons true
+
+set previewer ctpv
+set cleaner ctpvclear
+&ctpv -s $id
+&ctpvquit $id
+
+cmd open ${{
+    case $(file --mime-type "$f" -bL) in
+        text/*|application/json) $EDITOR "$f";;
+        *) xdg-open "$f" ;;
+    esac
+}}
+
+cmd mkdir $mkdir -p "$(echo $* | tr ' ' '\ ')"
+
+cmd trash %trash-put $fx
+
+# Remove default bindings
+map m
+map "'"
+map '"'
+
+map D trash
+map mkd push :mkdir<space>
+map <enter> open
