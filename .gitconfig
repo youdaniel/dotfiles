@@ -1,7 +1,0 @@
-[user]
-	email = danielyou416@gmail.com
-	name = Daniel You
-[core]
-	editor = nvim
-[pull]
-	ff = only

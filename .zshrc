@@ -3,8 +3,10 @@ fpath=(~/.zsh $fpath)
 # setup homebrew
 eval $(/opt/homebrew/bin/brew shellenv)
 
-# add .local/bin to path
-export PATH="$HOME/.local/bin:$PATH"
+# add toolbox binaries to path
+if [ -d "$HOME/.toolbox" ]; then
+  export PATH="$HOME/.toolbox/bin:$PATH"
+fi
 
 # add cargo binaries to path
 if [ -d "$HOME/.cargo" ]; then
@@ -12,8 +14,8 @@ if [ -d "$HOME/.cargo" ]; then
 fi
 
 # add poetry binaries to path
-if [ -d "$HOME/Library/Python/3.9/bin" ]; then
-  export PATH="$HOME/Library/Python/3.9/bin:$PATH"
+if [ -d "$HOME/.poetry" ]; then
+  export PATH="$HOME/.poetry/bin:$PATH"
 fi
 
 # add yarn binaries to path
@@ -38,11 +40,12 @@ if ! zgenom saved; then
   zgenom ohmyzsh plugins/docker
 
   zgenom load zsh-users/zsh-autosuggestions
-  zgenom load zsh-users/zsh-syntax-highlighting
   zgenom load zsh-users/zsh-completions
+  zgenom load zdharma-continuum/fast-syntax-highlighting
+
   zgenom load rupa/z
   zgenom load darvid/zsh-poetry
-  zgenom load softmoth/zsh-vim-mode
+  zgenom load jeffreytse/zsh-vi-mode
 
   zgenom save
 
@@ -50,24 +53,20 @@ if ! zgenom saved; then
 fi
 
 # NVIM as default editor
-if command -v lvim &> /dev/null
+if command -v nvim &> /dev/null
 then
-    export EDITOR=lvim
-    export GIT_EDITOR=lvim
-    export VISUAL=lvim
-    export MANPAGER="$EDITOR -c +Man!"
+    export EDITOR=nvim
+    export GIT_EDITOR=nvim
+    export VISUAL=nvim
 fi
 
-export BAT_THEME="Dracula"
+export BAT_THEME="Catppuccin-mocha"
 
 # vim keybindings
 bindkey -v
 
 # binding for zsh autosuggestions
 bindkey '^ ' autosuggest-accept
-
-# Fast node manager
-eval "$(fnm env)"
 
 # Load aliases
 [[ -f ~/.aliases ]] && . ~/.aliases
@@ -85,7 +84,3 @@ function precmd() {
 
 # starship prompt
 eval "$(starship init zsh)"
-
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
