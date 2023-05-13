@@ -28,10 +28,13 @@ return {
   { "echasnovski/mini.comment", enabled = false },
   {
     "numToStr/Comment.nvim",
+    dependencies = { "JoosepAlviste/nvim-ts-context-commentstring" },
     event = "VeryLazy",
     keys = { { "gc", mode = { "n", "v" } }, { "gb", mode = { "n", "v" } } },
     opts = {
-      pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
+      pre_hook = function()
+        require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook()
+      end,
     },
     config = function(_, opts)
       require("Comment").setup(opts)
