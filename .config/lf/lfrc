@@ -20,14 +20,37 @@ cmd touch $touch -p "$(echo $* | tr ' ' '\ ')"
 
 cmd trash %trash-put $fx
 
+cmd unarchive ${{
+    set -f
+    case $f in
+        *.tar.bz|*.tar.bz2|*.tbz|*.tbz2) tar xjvf $f;;
+        *.tar.gz|*.tgz) tar xzvf $f;;
+        *.tar.xz|*.txz) tar xJvf $f;;
+        *.zip) unzip $f;;
+        *.rar) unrar x $f;;
+        *.7z) 7z x $f;;
+    esac
+}}
+
+cmd zip %zip -r "$f" "$f"
+cmd tar %tar cvf "$f.tar" "$f"
+cmd targz %tar cvzf "$f.tar.gz" "$f"
+cmd tarbz2 %tar cjvf "$f.tar.bz2" "$f"
+
 # Remove default bindings
 map m
 map "'"
 map '"'
 
 map D trash
-map x cut
-map y copy
 map af push :touch<space>
 map ad push :mkdir<space>
+
+# Archive bindings
+map az zip
+map at tar
+map ag targz
+map ab targz
+map au unarchive
+
 map <enter> open

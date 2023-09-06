@@ -46,6 +46,7 @@ keys = [
     Key("A-S-<Tab>", lazy.layout.previous()),
     Key("A-<space>", lazy.layout.toggle_split()),
     Key("A-S-m", lazy.window.toggle_maximize()),
+    Key("A-C-S-m", lazy.window.toggle_fullscreen()),
     Key("A-S-f", lazy.window.toggle_floating()),
     Key("A-S-c", lazy.window.kill()),
     Key("A-S-r", lazy.restart()),
@@ -75,6 +76,7 @@ keys = [
     Key("<XF86MonBrightnessDown>", lazy.spawn("set_backlight.sh dec")),
     # Scripts
     Key("M-S-s", lazy.spawn(f"{SCRIPTS}/screenshot.sh select_no_save")),
+    Key("C-M-S-s", lazy.spawn(f"{SCRIPTS}/screenshot.sh select")),
 ]
 
 mouse = [
