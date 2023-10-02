@@ -16,4 +16,4 @@ wallpapers=(~/Pictures/Wallpapers/*)
 swww init &
 
 gtk-launch discord &
-gtk-launch slack &
+# gtk-launch slack &

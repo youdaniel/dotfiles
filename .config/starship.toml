@@ -3,3 +3,6 @@ add_newline = false
 
 [conda]
 ignore_base = false
+
+[gcloud]
+disabled = true
