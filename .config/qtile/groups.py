@@ -13,7 +13,7 @@ group_config = [
         "2",
         {
             **group_defaults,
-            "matches": [Match(wm_class="discord"), Match(wm_class="slack")],
+            "matches": [Match(wm_class="discord"), Match(wm_class="spotify")],
         },
     ),
     ("3", group_defaults),

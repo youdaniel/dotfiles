@@ -1,10 +1,9 @@
 #!/bin/bash
 
 function run {
-  if ! pgrep $1 ;
-  then
-    $@ &
-  fi
+	if ! pgrep $1; then
+		$@ &
+	fi
 }
 
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -17,10 +16,10 @@ run nm-applet
 run blueman-applet
 run redshift
 run discord
-run slack
+run spotify
 
 if [ "$IS_LAPTOP" == "true" ]; then
-  run libinput-gestures-setup start
+	run libinput-gestures-setup start
 else
-  run gwe --hide-window
+	run gwe --hide-window
 fi
