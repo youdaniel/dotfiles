@@ -1,5 +1,0 @@
-#!/bin/bash
-
-exec swayidle -w \
-  timeout 600 "swaylock & systemctl suspend" \
-  before-sleep "swaylock"
