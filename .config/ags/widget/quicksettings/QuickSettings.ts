@@ -16,12 +16,12 @@ const { bar, quicksettings } = options;
 const media = (await Service.import("mpris")).bind("players");
 const layout = Utils.derive(
   [bar.position, quicksettings.position],
-  (bar, qs) => `${bar}-${qs}` as const
+  (bar, qs) => `${bar}-${qs}` as const,
 );
 
 const Row = (
   toggles: Array<() => Gtk.Widget> = [],
-  menus: Array<() => Gtk.Widget> = []
+  menus: Array<() => Gtk.Widget> = [],
 ) =>
   Widget.Box({
     vertical: true,
@@ -52,7 +52,7 @@ const Settings = () =>
         ],
       }),
       Row([NetworkToggle, BluetoothToggle], [WifiSelection, BluetoothDevices]),
-      Row([ProfileToggle, DarkModeToggle], [ProfileSelector]),
+      Row([ProfileToggle, DarkModeToggle]),
       Row([MicMute, DND]),
       Widget.Box({
         visible: media.as((l) => l.length > 0),
