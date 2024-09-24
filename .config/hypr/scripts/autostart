@@ -3,7 +3,9 @@
 scripts=$HOME/.config/hypr/scripts
 
 # notification daemon
-# dunst &
+dunst &
+
+waybar &
 
 # screenlock when idle
 $scripts/idle_handler &
@@ -17,5 +19,3 @@ swww init &
 
 gtk-launch discord &
 # gtk-launch slack &
-
-ags &
