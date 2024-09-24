@@ -33,7 +33,6 @@ if ! zgenom saved; then
   zgenom load zsh-users/zsh-completions
   zgenom load zdharma-continuum/fast-syntax-highlighting
 
-  zgenom load rupa/z
   zgenom load darvid/zsh-poetry
   zgenom load jeffreytse/zsh-vi-mode
 
@@ -60,6 +59,19 @@ bindkey '^ ' autosuggest-accept
 
 # Fast node manager
 eval "$(fnm env)"
+
+# yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# zoxide
+eval "$(zoxide init zsh)"
 
 # Load aliases
 [[ -f ~/.aliases ]] && . ~/.aliases
