@@ -6,5 +6,7 @@ set selection-clipboard "clipboard"
 set guioptions none
 
 map <C-i> recolor
+map <Left> navigate previous
+map <Right> navigate next
 
 set recolor false
