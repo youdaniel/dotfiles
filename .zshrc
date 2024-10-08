@@ -49,7 +49,9 @@ then
     export VISUAL=nvim
 fi
 
-export BAT_THEME="Catppuccin-mocha"
+export BAT_THEME="Catppuccin Mocha"
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export MANROFFOPT="-c"
 
 # vim keybindings
 bindkey -v
