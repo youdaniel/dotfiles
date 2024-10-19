@@ -193,7 +193,9 @@ def battery():
 def net(fg: str = colors["mauve"]):
     return wrap_widgets(
         modify(widget.TextBox, **icon_font(fg=fg), text=" "),
-        modify(widget.Net, **base(fg=fg), format="{down} ↓↑{up}"),
+        modify(
+            widget.Net, **base(fg=fg), format="{down}{down_suffix} ↓↑ {up}{up_suffix}"
+        ),
     )
 
 
