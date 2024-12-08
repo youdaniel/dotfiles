@@ -4,8 +4,8 @@
     class = Dunst
 
     width = 350
-    height = 100
-    offset = 15x15
+    height = (0,100)
+    offset = (15,40)
 
     monitor = 0
     follow = mouse
