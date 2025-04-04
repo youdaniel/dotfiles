@@ -40,7 +40,6 @@ if ! zgenom saved; then
   zgenom load zsh-users/zsh-completions
   zgenom load zdharma-continuum/fast-syntax-highlighting
 
-  zgenom load darvid/zsh-poetry
   zgenom load jeffreytse/zsh-vi-mode
 
   zgenom save
