@@ -59,7 +59,7 @@ keys = [
         lazy.spawn(os.path.expanduser("~/.config/rofi/scripts/launcher")),
     ),
     Key("A-b", lazy.spawn("firefox -new-window")),
-    Key("M-l", lazy.spawn("xset dpms force off")),
+    Key("M-l", lazy.spawn(f"{SCRIPTS}/sleep.sh")),
     Key("M-C-l", lazy.spawn("systemctl suspend")),
     Key("A-c", lazy.spawn("dunstctl close")),
     Key("A-<Escape>", lazy.spawn("dunstctl history-pop")),
@@ -92,4 +92,5 @@ mouse = [
     ),
     Click("M-2", lazy.window.bring_to_front()),
     Click("A-1", lazy.spawn(f"{SCRIPTS}/screenshot.sh select_no_save")),
+    Click("C-A-1", lazy.spawn(f"{SCRIPTS}/screenshot.sh select")),
 ]

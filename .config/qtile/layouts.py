@@ -12,12 +12,7 @@ layout_defaults = {
     "border_normal_stack": "#282a36",
 }
 
-layouts = [
-    layout.Columns(
-        **layout_defaults,
-        num_columns=(2 if os.getenv("IS_LAPTOP") or os.getenv("DUAL_MONITOR") else 3)
-    )
-]
+layouts = [layout.Columns(**layout_defaults, num_columns=4)]
 
 
 floating_layout = layout.Floating(
@@ -30,9 +25,9 @@ floating_layout = layout.Floating(
         Match(wm_class="gcr-prompter"),
         Match(wm_class="pavucontrol"),
         Match(wm_class="steam"),
+        Match(wm_class="battle.net.exe"),
         Match(title="branchdialog"),
         Match(title="pinentry"),
-        Match(title="League of Legends"),
     ],
     **layout_defaults
 )

@@ -6,3 +6,6 @@ ignore_base = false
 
 [gcloud]
 disabled = true
+
+[aws]
+disabled = true
