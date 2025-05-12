@@ -119,15 +119,8 @@
 	},
 	"temperature": {
 		"critical-threshold": 80,
-		"format": ""
-	},
-	"custom/colorpicker": {
-		"format": "{}",
-		"return-type": "json",
-		"interval": "once",
-		"exec": "~/.config/waybar/scripts/Colorpicker.sh -j",
-		"on-click": "~/.config/waybar/scripts/Colorpicker.sh",
-		"signal": 1
+		"format": "",
+    "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input"
 	},
 
 	"idle_inhibitor": {
@@ -160,6 +153,7 @@
 			"memory",
 			"temperature",
 			"custom/pacman",
+			"idle_inhibitor",
 			"custom/colorpicker"
 		]
 	},
