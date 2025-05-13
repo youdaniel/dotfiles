@@ -229,6 +229,7 @@
 		},
 		"format-muted": "󰝟",
 		"on-click": "pavucontrol",
+		"on-click-right": "~/.config/waybar/scripts/cycle_sinks.sh",
 		"scroll-step": 5
 	},
 

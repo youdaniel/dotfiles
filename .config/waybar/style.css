@@ -9,6 +9,7 @@
 /*------------Importing Matugen Colors---------------*/
 @import "matugen/matugen-waybar.css";
 
+@define-color deep_black #000000;
 
 /*------------Global Properties-----------------*/
 * {
@@ -21,7 +22,7 @@
 
 /*------------Window--------------------*/
 #window{
-    background: @surface;
+    background: @deep_black;
     padding-left: 15px;
     padding-right: 15px;
     border-radius: 16px;
@@ -38,7 +39,7 @@ window#waybar {
 
 /*-----------Tooltip--------------*/
 tooltip {
-  background: @surface;
+  background: @deep_black;
   border: 2px solid @tertiary;
   border-radius: 12px;
 }
@@ -49,7 +50,7 @@ tooltip label {
 
 /*---------Workspaces-----------------*/
 #workspaces {
-    background: @surface;
+    background: @deep_black;
     margin: 5px 5px;
     padding: 8px 5px;
     border-radius: 16px;
@@ -98,7 +99,7 @@ tooltip label {
 /*-----------SwayNC & Weather------------*/
 #custom-swaync, #custom-weather {
     font-weight: bold;
-    background: @surface;
+    background: @deep_black;
     margin: 5px; 
     padding: 8px 16px;
     color: @on_surface;
@@ -113,7 +114,7 @@ tooltip label {
 /*---------------Tray, Clock, Playerctl, Battery, Cpu, Temperature, Colorpicker, Memory, Idle_inhibitor----------------------*/
 #tray, #pulseaudio, #network, #battery, #cpu, #temperature, #custom-colorpicker, #memory, #custom-pacman, #idle_inhibitor,
 #custom-playerctl.backward, #custom-playerctl.play, #custom-playerctl.foward{
-    background: @surface;
+    background: @deep_black;
     font-weight: bold;
     margin: 5px 0px;
 }
@@ -125,7 +126,7 @@ tooltip label {
 }
 #clock {
     color: @on_surface;
-    background: @surface;
+    background: @deep_black;
     border-radius: 0px 0px 0px 40px;
     padding: 10px 10px 15px 25px;
     margin-left: 7px;
@@ -146,7 +147,7 @@ tooltip label {
 
 /*-----------Playerctl-------------------*/
 #custom-playerctl.backward, #custom-playerctl.play, #custom-playerctl.foward {
-    background: @surface;
+    background: @deep_black;
     font-size: 22px;
 }
 #custom-playerctl.backward:hover, #custom-playerctl.play:hover, #custom-playerctl.foward:hover{
@@ -169,7 +170,7 @@ tooltip label {
     margin-right: 7px
 }
 #custom-playerlabel {
-    background: @surface;
+    background: @deep_black;
     color: @on_surface;
     padding: 0 20px;
     border-radius: 24px 10px 24px 10px;
@@ -188,7 +189,7 @@ tooltip label {
 /*-------------Launcher--------------*/
 #custom-launcher {
     color: @on_tertiary_container;
-    background: @surface;
+    background: @deep_black;
     margin: 0px 5px 0px 0px;
     padding: 0px 35px 0px 15px;
     border-radius: 0px 0px 40px 0px;
@@ -197,7 +198,7 @@ tooltip label {
 
 /*--------------Cpu, Termperature, Colorpicker, Memory, Idle_inhibitor----------------*/
 #custom-colorpicker, #cpu, #temperature, #memory, #custom-pacman,#idle_inhibitor {
-    background: @surface;
+    background: @deep_black;
     font-size: 16px;
 }
 
