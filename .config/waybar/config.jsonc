@@ -164,14 +164,16 @@
 		"on-click": "playerctl previous",
 		"on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 5%-",
 		"on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 5%+",
-		"tooltip": false
+		"tooltip": false,
+    "exec-if": "playerctl status"
 	},
 	"custom/playerctl#foward": {
 		"format": "󰙡 ",
 		"on-click": "playerctl next",
 		"on-scroll-down": "wpctl set-volume @DEFAULT_SINK@ 5%-",
 		"on-scroll-up": "wpctl set-volume @DEFAULT_SINK@ 5%+",
-		"tooltip": false
+		"tooltip": false,
+    "exec-if": "playerctl status"
 	},
 	"custom/playerctl#play": {
 		"exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} - {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
