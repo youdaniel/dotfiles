@@ -2,6 +2,11 @@ fpath=(~/.zsh $fpath)
 
 setopt IGNOREEOF
 
+# source local zshrc w/ env vars if present
+if [ -f "$HOME/.zshrc_local" ]; then
+    source "$HOME/.zshrc_local"
+fi
+
 if command -v go &> /dev/null
 then
   export PATH="$(go env GOPATH)/bin:$PATH"
