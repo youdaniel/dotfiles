@@ -1,10 +1,21 @@
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    starship init fish | source
-    enable_transience
+    if type -q starship
+        starship init fish | source
+        enable_transience
+    end
 
-    zoxide init fish | source
-    fzf --fish | source
+    if type -q zoxide
+        zoxide init fish | source
+    end
+
+    if type -q fzf
+        fzf --fish | source
+    end
+
+    if type -q fnm
+        fnm env --use-on-cd --shell fish | source
+    end
 
     if type -q nvim
         alias vim nvim
