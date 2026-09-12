@@ -25,21 +25,13 @@
     "custom/playerlabel"
   ],
   /*----------Modules Center--------------*/
-  "modules-center": ["custom/weather", "hyprland/workspaces", "custom/swaync"],
+  "modules-center": ["custom/weather", "niri/workspaces", "custom/swaync"],
   /*----------Modules Center--------------*/
   "modules-right": ["tray", "battery", "pulseaudio", "network", "clock"],
 
   /*----------Hyprland Workspace----------*/
-  "hyprland/workspaces": {
-    "format": "{id}",
-    "format-icons": {
-      "active": " ",
-      "default": " ",
-      "urgent": " "
-    },
-    "on-click": "activate",
-    "on-scroll-down": "hyprctl dispatch workspace e+1",
-    "on-scroll-up": "hyprctl dispatch workspace e-1"
+  "niri/workspaces": {
+    "format": "{icon}"
   },
 
   /*-----------Weather---------------*/

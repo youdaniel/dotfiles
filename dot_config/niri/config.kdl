@@ -373,12 +373,10 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Alt+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
-    Alt+Shift+Return hotkey-overlay-title="Run an Application: rofi" { spawn-sh "~/.config/rofi/scripts/launcher"; }
+    Alt+Shift+Return hotkey-overlay-title="Run an Application" { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
     Alt+B hotkey-overlay-title="Run an Application: firefox" { spawn "firefox"; }
-    Super+L hotkey-overlay-title="Lock the Screen: gtklock" { spawn-sh "gtklock -d && sleep 5 && niri msg action power-off-monitors"; }
+    Super+L hotkey-overlay-title="Lock the Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
     Super+Shift+L { spawn-sh "systemctl suspend"; }
-
-    Alt+Shift+R { spawn-sh "~/.config/niri/refresh.sh"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
