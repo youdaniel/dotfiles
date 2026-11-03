@@ -1,4 +1,17 @@
 if status is-interactive
+    function fish_user_key_bindings
+        for mode in insert default visual
+            bind -M $mode ctrl-space forward-char
+        end
+    end
+
+    # Vi mode. Set before fzf etc., since changing it rebinds all keys.
+    set -g fish_key_bindings fish_vi_key_bindings
+    set -g fish_cursor_default block
+    set -g fish_cursor_insert line
+    set -g fish_cursor_replace_one underscore
+    set -g fish_cursor_visual block
+
     # Bundled with fish >= 4.3; matches kitty's Catppuccin Mocha palette
     fish_config theme choose catppuccin-mocha
 
@@ -13,6 +26,8 @@ if status is-interactive
 
     if type -q fzf
         fzf --fish | source
+        # Keep vi redo on ctrl-r in normal mode; fzf history stays in insert
+        bind -M default ctrl-r redo
     end
 
     if type -q fnm
@@ -41,9 +56,4 @@ if status is-interactive
         rm -f -- "$tmp"
     end
 
-    function fish_user_key_bindings
-        for mode in insert default visual
-            bind -M $mode ctrl-space forward-char
-        end
-    end
 end
