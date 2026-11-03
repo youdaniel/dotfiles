@@ -1,5 +1,7 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # Bundled with fish >= 4.3; matches kitty's Catppuccin Mocha palette
+    fish_config theme choose catppuccin-mocha
+
     if type -q starship
         starship init fish | source
         enable_transience
