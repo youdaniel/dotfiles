@@ -5,4 +5,4 @@
 .config/paru
 .config/fontconfig
 {{ end }}
-.config/nvim/.git/FETCH_HEAD
+.config/nvim/.git
