@@ -21,8 +21,8 @@ done
 # older copies in package-manager dirs. Empty PNPM_HOME/ANDROID_HOME entries are skipped.
 () {
   local dir; local -a dirs
-  for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.yarn/bin ~/.bun/bin \
-      ${PNPM_HOME:+$PNPM_HOME} ${ANDROID_HOME:+$ANDROID_HOME/{cmdline-tools/latest/bin,platform-tools,emulator}}; do
+  for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.bun/bin \
+      ${PNPM_HOME:+$PNPM_HOME} ${PNPM_HOME:+$PNPM_HOME/bin} ${ANDROID_HOME:+$ANDROID_HOME/{cmdline-tools/latest/bin,platform-tools,emulator}}; do
     [[ -d $dir ]] && dirs+=($dir)
   done
   path=($dirs $path)

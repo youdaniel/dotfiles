@@ -16,7 +16,7 @@ end
 # call per dir would prepend each in turn and reverse it). An unset PNPM_HOME or
 # ANDROID_HOME drops its entries from the list.
 set -l dirs
-for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.yarn/bin ~/.bun/bin $PNPM_HOME \
+for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.bun/bin $PNPM_HOME $PNPM_HOME/bin \
         $ANDROID_HOME/cmdline-tools/latest/bin $ANDROID_HOME/platform-tools $ANDROID_HOME/emulator
     test -d $dir; and set -a dirs $dir
 end
