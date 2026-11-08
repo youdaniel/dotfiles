@@ -1,6 +1,5 @@
 {{ if ne .chezmoi.os "linux" }}
-# Linux-only configs (Wayland compositors, AUR helper, fontconfig)
-.config/hypr
+# Linux-only configs (Wayland compositor, AUR helper, fontconfig)
 .config/niri
 .config/paru
 .config/fontconfig
