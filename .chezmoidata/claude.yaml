@@ -8,3 +8,4 @@ claude:
     - pstack@pstack-claude
     - rust-analyzer-lsp@claude-plugins-official
     - frontend-design@claude-plugins-official
+    - linear@claude-plugins-official
