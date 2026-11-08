@@ -9,18 +9,24 @@ source ~/.config/zsh/fish-handoff.zsh
 
 setopt IGNOREEOF
 
-for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.yarn/bin ~/.bun/bin; do
-  [[ -d $dir ]] && path=($dir $path)
-done
-
 for dir in ~/.local/share/pnpm ~/Library/pnpm; do
-  [[ -d $dir ]] && { export PNPM_HOME=$dir; path=($dir $path); break; }
+  [[ -d $dir ]] && { export PNPM_HOME=$dir; break; }
 done
 
 for dir in /opt/android-sdk ~/Library/Android/sdk; do
-  [[ -d $dir ]] && { export ANDROID_HOME=$dir; path=($dir/{cmdline-tools/latest/bin,platform-tools,emulator} $path); break; }
+  [[ -d $dir ]] && { export ANDROID_HOME=$dir; break; }
 done
 
+# Highest priority first: ~/.local/bin holds the native claude, which must win over
+# older copies in package-manager dirs. Empty PNPM_HOME/ANDROID_HOME entries are skipped.
+() {
+  local dir; local -a dirs
+  for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.yarn/bin ~/.bun/bin \
+      ${PNPM_HOME:+$PNPM_HOME} ${ANDROID_HOME:+$ANDROID_HOME/{cmdline-tools/latest/bin,platform-tools,emulator}}; do
+    [[ -d $dir ]] && dirs+=($dir)
+  done
+  path=($dirs $path)
+}
 typeset -U path
 
 # Plugins via zgenom where it's installed; otherwise just completions
