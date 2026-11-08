@@ -23,8 +23,8 @@ printf '%s' "$input" | jq --arg clauth {{ if eq .chezmoi.os "darwin" -}}
     "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},
     "clauth": {"source": {"source": "directory", "path": $clauth}}
   }
-  # Shared prismantis options merge into each machine's own; options left out here
-  # (toolOutput, bubbleLabels, ...) stay per machine.
+  # Shared prismantis options merge into the options each machine has; ones left out
+  # here (toolOutput, bubbleLabels, ...) stay per machine.
   | .pluginConfigs["prismantis@prismantis"].options = ((.pluginConfigs["prismantis@prismantis"].options // {}) + {
       "theme": "catppuccin-mocha", "tableStyle": "box", "taskStyle": "checks",
       "headingStyle": "banner", "copyButtonStyle": "hover", "promptStyle": "bubble",
