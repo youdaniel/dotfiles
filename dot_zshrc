@@ -1,0 +1,130 @@
+# Shared via chezmoi on Linux and macOS. Machine-local settings go in ~/.zshrc_local.
+[[ -f ~/.zshrc_local ]] && source ~/.zshrc_local
+
+# Hand interactive sessions over to fish (shared via chezmoi). Fish sets up its own
+# environment in ~/.config/fish/conf.d, so nothing above this line needs to reach it.
+source ~/.config/zsh/fish-handoff.zsh
+
+# ---- Below runs only in plain zsh: NO_FISH=1 zsh, zsh -i -c, zsh started from fish ----
+
+setopt IGNOREEOF
+
+for dir in ~/.local/bin ~/.cargo/bin ~/go/bin ~/.yarn/bin ~/.bun/bin; do
+  [[ -d $dir ]] && path=($dir $path)
+done
+
+for dir in ~/.local/share/pnpm ~/Library/pnpm; do
+  [[ -d $dir ]] && { export PNPM_HOME=$dir; path=($dir $path); break; }
+done
+
+for dir in /opt/android-sdk ~/Library/Android/sdk; do
+  [[ -d $dir ]] && { export ANDROID_HOME=$dir; path=($dir/{cmdline-tools/latest/bin,platform-tools,emulator} $path); break; }
+done
+
+typeset -U path
+
+# Plugins via zgenom where it's installed; otherwise just completions
+if [[ -f ~/.zgenom/zgenom.zsh ]]; then
+  source ~/.zgenom/zgenom.zsh
+
+  zgenom autoupdate
+
+  if ! zgenom saved; then
+    echo "Creating a zgenom save"
+
+    zgenom ohmyzsh
+
+    zgenom ohmyzsh plugins/git
+    zgenom ohmyzsh plugins/command-not-found
+    zgenom ohmyzsh plugins/docker
+
+    zgenom load zsh-users/zsh-autosuggestions
+    zgenom load zsh-users/zsh-completions
+    zgenom load zdharma-continuum/fast-syntax-highlighting
+
+    zgenom load jeffreytse/zsh-vi-mode
+
+    zgenom save
+
+    zgenom compile "$HOME/.zshrc"
+  fi
+else
+  autoload -Uz compinit && compinit
+fi
+
+# NVIM as default editor
+if command -v nvim &> /dev/null; then
+  export EDITOR=nvim
+  export GIT_EDITOR=nvim
+  export VISUAL=nvim
+fi
+
+export BAT_THEME="Catppuccin Mocha"
+if command -v bat &> /dev/null; then
+  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  export MANROFFOPT="-c"
+fi
+
+# vim keybindings
+bindkey -v
+
+# binding for zsh autosuggestions
+bindkey '^ ' autosuggest-accept
+
+# Fast node manager
+command -v fnm &> /dev/null && eval "$(fnm env)"
+
+# yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# zoxide
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
+
+# Load aliases
+[[ -f ~/.aliases ]] && . ~/.aliases
+
+# clauth completions and profile shortcuts
+if command -v clauth &> /dev/null; then
+  # The generated script is autoload-style: it defines _clauth but doesn't register it
+  source <(clauth completions zsh) 2> /dev/null
+  compdef _clauth clauth
+  alias c1='clauth start 1'
+  alias c2='clauth start 2'
+  alias c3='clauth start 3'
+  alias ct='clauth start team'
+fi
+
+# starship prompt
+command -v starship &> /dev/null && eval "$(starship init zsh)"
+
+# Fix completions for uv run.
+_uv_run_mod() {
+    if [[ "$words[2]" == "run" && "$words[CURRENT]" != -* ]]; then
+        _arguments '*:filename:_files'
+    else
+        _uv "$@"
+    fi
+}
+command -v uv &> /dev/null && compdef _uv_run_mod uv
+
+# Auto activate python virtualenvs
+python_venv() {
+  MYVENV=.venv
+  # when you cd into a folder that contains $MYVENV
+  [[ -d $MYVENV ]] && source $MYVENV/bin/activate > /dev/null 2>&1
+  # when you cd into a folder that doesn't
+  [[ ! -d $MYVENV ]] && deactivate > /dev/null 2>&1
+}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd python_venv
+python_venv
+
+# bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
