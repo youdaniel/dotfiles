@@ -1,5 +1,5 @@
-# Hand interactive zsh sessions over to fish. Source this at the end of ~/.zshrc so
-# fish inherits everything exported before it. Scripts, `zsh -c` and `zsh -i -c` stay
+# Hand interactive zsh sessions over to fish. Source this from ~/.zshrc; fish sets up its
+# own environment (conf.d). Scripts, `zsh -c` and `zsh -i -c` stay
 # in zsh, as does zsh started from fish. Skip with: NO_FISH=1 zsh
 () {
   [[ -o interactive && -z $ZSH_EXECUTION_STRING && -z $NO_FISH ]] || return 0
