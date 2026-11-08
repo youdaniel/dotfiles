@@ -87,9 +87,6 @@ function y() {
 # zoxide
 command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
-# Load aliases
-[[ -f ~/.aliases ]] && . ~/.aliases
-
 # clauth completions and profile shortcuts
 if command -v clauth &> /dev/null; then
   # The generated script is autoload-style: it defines _clauth but doesn't register it
