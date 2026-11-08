@@ -1,0 +1,21 @@
+#!/bin/sh
+# Install the shared Claude Code plugins (.chezmoidata/claude.yaml) that are missing.
+# Enabling a plugin in settings.json doesn't download it; this does. chezmoi reruns
+# the script whenever the list below changes:
+{{- range .claude.plugins }}
+#   {{ . }}
+{{- end }}
+PATH="$HOME/.local/bin:$PATH"
+if ! command -v claude > /dev/null 2>&1; then
+  echo "claude not found; skipping plugin install" >&2
+  exit 0
+fi
+# Install into ~/.claude even when chezmoi runs inside a clauth profile session
+unset CLAUDE_CONFIG_DIR
+installed=$(claude plugin list --json 2> /dev/null | jq -r '.[].id')
+status=0
+for plugin in{{ range .claude.plugins }} {{ . | quote }}{{ end }}; do
+  printf '%s\n' "$installed" | grep -qxF "$plugin" && continue
+  claude plugin install "$plugin" || { echo "failed to install $plugin" >&2; status=1; }
+done
+exit $status

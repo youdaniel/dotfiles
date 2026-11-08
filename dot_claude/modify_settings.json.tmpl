@@ -10,14 +10,9 @@ printf '%s' "$input" | jq --arg clauth {{ if eq .chezmoi.os "darwin" -}}
   {{- printf "%s/Library/Application Support/clauth/current@claude" .chezmoi.homeDir | quote }}
 {{- else -}}
   {{- printf "%s/.local/share/clauth/current@claude" .chezmoi.homeDir | quote }}
-{{- end }} '
-  .enabledPlugins = (.enabledPlugins // {}) + {
-    "clauth@clauth": true,
-    "prismantis@prismantis": true,
-    "pstack@pstack-claude": true,
-    "rust-analyzer-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
-  }
+{{- end }} --argjson plugins {{ .claude.plugins | toJson | squote }} '
+  # Plugin list: .chezmoidata/claude.yaml
+  .enabledPlugins = (.enabledPlugins // {}) + ($plugins | map({(.): true}) | add)
   | .extraKnownMarketplaces = (.extraKnownMarketplaces // {}) + {
     "pstack-claude": {"source": {"source": "github", "repo": "michael-denyer/pstack-claude"}, "autoUpdate": true},
     "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},

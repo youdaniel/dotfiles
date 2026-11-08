@@ -1,0 +1,10 @@
+# Claude Code plugins shared by every machine. dot_claude/modify_settings.json.tmpl
+# enables them, and run_onchange_after_install-claude-plugins.sh.tmpl installs any
+# that are missing (it reruns whenever this list changes).
+claude:
+  plugins:
+    - clauth@clauth
+    - prismantis@prismantis
+    - pstack@pstack-claude
+    - rust-analyzer-lsp@claude-plugins-official
+    - frontend-design@claude-plugins-official
