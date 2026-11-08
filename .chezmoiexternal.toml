@@ -1,0 +1,10 @@
+# Cloudflare's security-audit skill (MIT), fetched from upstream instead of committed here.
+# Same layout as `npx skills add --global`: the skill lives in ~/.agents/skills and
+# ~/.claude/skills/security-audit links to it.
+[".agents/skills/security-audit"]
+    type = "archive"
+    url = "https://github.com/cloudflare/security-audit-skill/archive/refs/heads/main.tar.gz"
+    exact = true
+    stripComponents = 3
+    include = ["*/skills/security-audit/**"]
+    refreshPeriod = "168h"

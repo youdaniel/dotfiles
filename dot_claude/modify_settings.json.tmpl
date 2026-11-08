@@ -1,0 +1,36 @@
+#!/bin/sh
+# Merge the shared Claude Code setup into ~/.claude/settings.json: turn on the shared
+# plugins and their marketplaces, set shared preferences, and leave every other key
+# (autoMode, hooks, model settings, local extra plugins, ...) as it is. Claude Code,
+# clauth and herdr all write this file, so chezmoi only owns these keys.
+set -e
+input=$(cat)
+[ -n "$input" ] || input='{}'
+printf '%s' "$input" | jq --arg clauth {{ if eq .chezmoi.os "darwin" -}}
+  {{- printf "%s/Library/Application Support/clauth/current@claude" .chezmoi.homeDir | quote }}
+{{- else -}}
+  {{- printf "%s/.local/share/clauth/current@claude" .chezmoi.homeDir | quote }}
+{{- end }} '
+  .enabledPlugins = (.enabledPlugins // {}) + {
+    "clauth@clauth": true,
+    "prismantis@prismantis": true,
+    "pstack@pstack-claude": true,
+    "rust-analyzer-lsp@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true
+  }
+  | .extraKnownMarketplaces = (.extraKnownMarketplaces // {}) + {
+    "pstack-claude": {"source": {"source": "github", "repo": "michael-denyer/pstack-claude"}, "autoUpdate": true},
+    "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},
+    "clauth": {"source": {"source": "directory", "path": $clauth}}
+  }
+  | .pluginConfigs = (.pluginConfigs // {}) + {
+    "prismantis@prismantis": {"options": {
+      "theme": "catppuccin-mocha", "tableStyle": "box", "taskStyle": "checks",
+      "headingStyle": "banner", "copyButtonStyle": "hover", "promptStyle": "bubble",
+      "clock": "12h", "toolStyle": "chat", "toolOutput": "full", "diffStyle": "card",
+      "pieStyle": "round", "listMarker": "dots", "replyStyle": "auto"
+    }}
+  }
+  | .theme = "dark"
+  | .editorMode = "vim"
+'
