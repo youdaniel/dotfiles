@@ -23,14 +23,14 @@ printf '%s' "$input" | jq --arg clauth {{ if eq .chezmoi.os "darwin" -}}
     "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},
     "clauth": {"source": {"source": "directory", "path": $clauth}}
   }
-  | .pluginConfigs = (.pluginConfigs // {}) + {
-    "prismantis@prismantis": {"options": {
+  # Shared prismantis options merge into each machine's own; options left out here
+  # (toolOutput, bubbleLabels, ...) stay per machine.
+  | .pluginConfigs["prismantis@prismantis"].options = ((.pluginConfigs["prismantis@prismantis"].options // {}) + {
       "theme": "catppuccin-mocha", "tableStyle": "box", "taskStyle": "checks",
       "headingStyle": "banner", "copyButtonStyle": "hover", "promptStyle": "bubble",
-      "clock": "12h", "toolStyle": "chat", "toolOutput": "full", "diffStyle": "card",
+      "clock": "12h", "toolStyle": "chat", "diffStyle": "card",
       "pieStyle": "round", "listMarker": "dots", "replyStyle": "auto"
-    }}
-  }
+    })
   | .theme = "dark"
   | .editorMode = "vim"
 '
