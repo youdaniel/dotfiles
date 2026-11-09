@@ -1,0 +1,19 @@
+#!/bin/sh
+# Install the shared herdr plugins (.chezmoidata/herdr.yaml) that are missing.
+# chezmoi reruns the script whenever the list below changes:
+{{- range .herdr.plugins }}
+#   {{ . }}
+{{- end }}
+PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
+if ! command -v herdr > /dev/null 2>&1; then
+  echo "herdr not found; skipping plugin install" >&2
+  exit 0
+fi
+# `herdr plugin list` prints "[github:OWNER/REPO[/SUBDIR]@COMMIT]" per plugin
+installed=$(herdr plugin list 2> /dev/null | sed -n 's/.*\[github:\([^@]*\)@.*/\1/p')
+status=0
+for plugin in{{ range .herdr.plugins }} {{ . | quote }}{{ end }}; do
+  printf '%s\n' "$installed" | grep -qxF "$plugin" && continue
+  herdr plugin install --yes "$plugin" || { echo "failed to install herdr plugin $plugin" >&2; status=1; }
+done
+exit $status

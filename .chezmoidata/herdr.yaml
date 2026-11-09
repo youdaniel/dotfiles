@@ -1,0 +1,8 @@
+# herdr plugins shared by every machine (OWNER/REPO[/SUBDIR], as `herdr plugin install`
+# takes them). run_onchange_after_install-herdr-plugins.sh.tmpl installs any that are
+# missing (it reruns whenever this list changes).
+herdr:
+  plugins:
+    - devswha/ovis
+    - furkankly/zoetrope/herdr-plugin
+    - zenbu-labs/terminal-browser/herdr-plugin
