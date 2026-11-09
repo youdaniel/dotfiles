@@ -93,15 +93,13 @@ function y() {
 # zoxide
 command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
-# clauth completions and profile shortcuts
-if command -v clauth &> /dev/null; then
-  # The generated script is autoload-style: it defines _clauth but doesn't register it
-  source <(clauth completions zsh) 2> /dev/null
-  compdef _clauth clauth
-  alias c1='clauth start 1'
-  alias c2='clauth start 2'
-  alias c3='clauth start 3'
-  alias ct='clauth start team'
+# cswap account shortcuts (this terminal only; default login untouched)
+# Keyed by email so they survive cswap slot renumbering.
+if command -v cswap &> /dev/null; then
+  alias c1='cswap run danielyou416@gmail.com'
+  alias c2='cswap run dunneljir@gmail.com'
+  alias c3='cswap run awesomedaniel0416@gmail.com'
+  alias ct='cswap run daniel@watermark.ac'
 fi
 
 # starship prompt

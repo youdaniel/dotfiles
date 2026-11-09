@@ -2,21 +2,18 @@
 # Merge the shared Claude Code setup into ~/.claude/settings.json: turn on the shared
 # plugins and their marketplaces, set shared preferences, and leave every other key
 # (autoMode, hooks, model settings, local extra plugins, ...) as it is. Claude Code,
-# clauth and herdr all write this file, so chezmoi only owns these keys.
+# cswap and herdr all write this file, so chezmoi only owns these keys.
 set -e
 input=$(cat)
 [ -n "$input" ] || input='{}'
-printf '%s' "$input" | jq --arg clauth {{ if eq .chezmoi.os "darwin" -}}
-  {{- printf "%s/Library/Application Support/clauth/current@claude" .chezmoi.homeDir | quote }}
-{{- else -}}
-  {{- printf "%s/.local/share/clauth/current@claude" .chezmoi.homeDir | quote }}
-{{- end }} --argjson plugins {{ .claude.plugins | toJson | squote }} '
+printf '%s' "$input" | jq --argjson plugins {{ .claude.plugins | toJson | squote }} '
   # Plugin list: .chezmoidata/claude.yaml
-  .enabledPlugins = (.enabledPlugins // {}) + ($plugins | map({(.): true}) | add)
+  # clauth was replaced by cswap; drop its plugin and marketplace
+  del(.enabledPlugins["clauth@clauth"], .extraKnownMarketplaces.clauth)
+  | .enabledPlugins = (.enabledPlugins // {}) + ($plugins | map({(.): true}) | add)
   | .extraKnownMarketplaces = (.extraKnownMarketplaces // {}) + {
     "pstack-claude": {"source": {"source": "github", "repo": "michael-denyer/pstack-claude"}, "autoUpdate": true},
-    "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},
-    "clauth": {"source": {"source": "directory", "path": $clauth}}
+    "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true}
   }
   # prismantis options are shared as a whole set (this Linux machine is the reference)
   | .pluginConfigs["prismantis@prismantis"].options = {

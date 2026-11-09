@@ -3,7 +3,6 @@
 # that are missing (it reruns whenever this list changes).
 claude:
   plugins:
-    - clauth@clauth
     - prismantis@prismantis
     - pstack@pstack-claude
     - rust-analyzer-lsp@claude-plugins-official
