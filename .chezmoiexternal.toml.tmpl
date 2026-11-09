@@ -1,0 +1,26 @@
+# Cloudflare's security-audit skill (MIT), fetched from upstream instead of committed here.
+# Same layout as `npx skills add --global`: the skill lives in ~/.agents/skills and
+# ~/.claude/skills/security-audit links to it.
+[".agents/skills/security-audit"]
+    type = "archive"
+    url = "https://github.com/cloudflare/security-audit-skill/archive/refs/heads/main.tar.gz"
+    exact = true
+    stripComponents = 3
+    include = ["*/skills/security-audit/**"]
+    refreshPeriod = "168h"
+
+# Cursor's thermos review skills and their two subagents (MIT), fetched from upstream.
+# /thermos runs both thermo-nuclear reviews as parallel subagents and merges them.
+{{- $thermos := "https://raw.githubusercontent.com/cursor/plugins/main/thermos" }}
+{{- range list "thermos" "thermo-nuclear-review" "thermo-nuclear-code-quality-review" }}
+[".agents/skills/{{ . }}/SKILL.md"]
+    type = "file"
+    url = "{{ $thermos }}/skills/{{ . }}/SKILL.md"
+    refreshPeriod = "168h"
+{{- end }}
+{{- range list "thermo-nuclear-review-subagent" "thermo-nuclear-code-quality-review-subagent" }}
+[".claude/agents/{{ . }}.md"]
+    type = "file"
+    url = "{{ $thermos }}/agents/{{ . }}.md"
+    refreshPeriod = "168h"
+{{- end }}
