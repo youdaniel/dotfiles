@@ -4,5 +4,4 @@
 herdr:
   plugins:
     - devswha/ovis
-    - furkankly/zoetrope/herdr-plugin
     - zenbu-labs/terminal-browser/herdr-plugin
