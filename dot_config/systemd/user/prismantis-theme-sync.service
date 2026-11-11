@@ -1,5 +1,5 @@
 [Unit]
-Description=Sync the prismantis theme with the DMS light/dark mode
+Description=Sync the prismantis and icon themes with the DMS light/dark mode
 After=niri.service
 
 [Service]
