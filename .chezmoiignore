@@ -3,5 +3,8 @@
 .config/niri
 .config/paru
 .config/fontconfig
+# DMS light/dark -> prismantis theme sync (gsettings + systemd)
+.config/systemd/user/prismantis-theme-sync.service
+.local/bin/prismantis-theme-sync
 {{ end }}
 .config/nvim/.git
