@@ -1,5 +1,11 @@
 onboarding = false
 
+[theme]
+# Follow kitty's light/dark (DMS toggle): Catppuccin Mocha / Latte
+auto_switch = true
+dark_name = "catppuccin"
+light_name = "catppuccin-latte"
+
 [terminal]
 default_shell = "fish"
 
