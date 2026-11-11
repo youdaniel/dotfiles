@@ -1,8 +1,12 @@
 #!/bin/sh
-# Keep the prismantis theme and the icon theme in step with the desktop light/dark
-# mode that DMS sets. DMS dark writes color-scheme 'prefer-dark'; DMS light writes
-# 'default'. prismantis reads its theme when it loads, so a switch reaches new
-# Claude sessions; the icon theme switch is live.
+# Keep the prismantis theme (and, on Linux, the icon theme) in step with the
+# desktop light/dark mode. prismantis reads its theme when it loads, so a switch
+# reaches new Claude sessions.
+#
+# Linux: DMS dark writes color-scheme 'prefer-dark', DMS light writes 'default'.
+#   Runs as a systemd user service and follows `gsettings monitor`.
+# macOS: AppleInterfaceStyle is "Dark" in dark mode and unset in light mode.
+#   A LaunchAgent reruns this whenever the global preferences change.
 set -eu
 settings="$HOME/.claude/settings.json"
 key=org.gnome.desktop.interface
@@ -13,13 +17,22 @@ set_prismantis() {
   [ -n "$current" ] && [ "$current" != "$1" ] || return 0
   tmp=$(mktemp "$settings.XXXXXX")
   jq --arg t "$1" '.pluginConfigs["prismantis@prismantis"].options.theme = $t' "$settings" > "$tmp"
-  chmod --reference="$settings" "$tmp"
-  mv "$tmp" "$settings"
+  cat "$tmp" > "$settings"
+  rm -f "$tmp"
 }
 
 set_icons() {
   [ "$(gsettings get "$key" icon-theme)" = "'$1'" ] || gsettings set "$key" icon-theme "$1"
 }
+
+if [ "$(uname)" = Darwin ]; then
+  if [ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" = Dark ]; then
+    set_prismantis catppuccin-mocha
+  else
+    set_prismantis catppuccin-latte
+  fi
+  exit 0
+fi
 
 apply() {
   case "$1" in

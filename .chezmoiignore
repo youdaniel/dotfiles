@@ -3,8 +3,10 @@
 .config/niri
 .config/paru
 .config/fontconfig
-# DMS light/dark -> prismantis theme sync (gsettings + systemd)
+# light/dark theme sync runs as a systemd service here, a LaunchAgent on macOS
 .config/systemd/user/prismantis-theme-sync.service
-.local/bin/prismantis-theme-sync
+{{ end }}
+{{ if ne .chezmoi.os "darwin" }}
+Library
 {{ end }}
 .config/nvim/.git
