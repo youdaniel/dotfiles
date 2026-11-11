@@ -1,0 +1,24 @@
+#!/bin/sh
+# Keep the prismantis theme in step with the desktop light/dark mode that DMS sets.
+# DMS dark writes color-scheme 'prefer-dark'; DMS light writes 'default'.
+# prismantis reads its theme when it loads, so a switch reaches new Claude sessions.
+set -eu
+settings="$HOME/.claude/settings.json"
+key=org.gnome.desktop.interface
+
+apply() {
+  case "$1" in
+    *prefer-dark*) theme=catppuccin-mocha ;;
+    *) theme=catppuccin-latte ;;
+  esac
+  [ -f "$settings" ] || return 0
+  current=$(jq -r '.pluginConfigs["prismantis@prismantis"].options.theme // ""' "$settings")
+  [ -n "$current" ] && [ "$current" != "$theme" ] || return 0
+  tmp=$(mktemp "$settings.XXXXXX")
+  jq --arg t "$theme" '.pluginConfigs["prismantis@prismantis"].options.theme = $t' "$settings" > "$tmp"
+  chmod --reference="$settings" "$tmp"
+  mv "$tmp" "$settings"
+}
+
+apply "$(gsettings get "$key" color-scheme)"
+gsettings monitor "$key" color-scheme | while read -r _ value; do apply "$value"; done

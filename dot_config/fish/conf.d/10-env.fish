@@ -5,7 +5,6 @@ if type -q nvim
     set -gx GIT_EDITOR nvim
 end
 
-set -gx BAT_THEME "Catppuccin Mocha"
 if type -q bat
     set -gx MANPAGER "sh -c 'col -bx | bat -l man -p'"
     set -gx MANROFFOPT -c

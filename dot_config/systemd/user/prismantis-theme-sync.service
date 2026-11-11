@@ -1,0 +1,12 @@
+[Unit]
+Description=Sync the prismantis theme with the DMS light/dark mode
+After=niri.service
+
+[Service]
+Environment=PATH=%h/.local/bin:/usr/bin
+ExecStart=%h/.local/bin/prismantis-theme-sync
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=niri.service

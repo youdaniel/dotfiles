@@ -15,12 +15,14 @@ printf '%s' "$input" | jq --argjson plugins {{ .claude.plugins | toJson | squote
     "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true}
   }
   # prismantis options are shared as a whole set (this Linux machine is the reference)
+  # theme follows DMS light/dark via prismantis-theme-sync, so keep the current one
+  | (.pluginConfigs["prismantis@prismantis"].options.theme // "catppuccin-mocha") as $theme
   | .pluginConfigs["prismantis@prismantis"].options = {
-      "theme": "catppuccin-mocha", "tableStyle": "box", "taskStyle": "checks",
+      "theme": $theme, "tableStyle": "box", "taskStyle": "checks",
       "headingStyle": "banner", "copyButtonStyle": "hover", "promptStyle": "bubble",
       "clock": "12h", "toolStyle": "chat", "toolOutput": "full", "diffStyle": "card",
       "pieStyle": "round", "listMarker": "dots", "replyStyle": "auto"
     }
-  | .theme = "dark"
+  | .theme = "auto"
   | .editorMode = "vim"
 '

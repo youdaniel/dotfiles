@@ -65,7 +65,6 @@ if command -v nvim &> /dev/null; then
   export VISUAL=nvim
 fi
 
-export BAT_THEME="Catppuccin Mocha"
 if command -v bat &> /dev/null; then
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   export MANROFFOPT="-c"
