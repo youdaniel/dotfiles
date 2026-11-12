@@ -4,7 +4,7 @@
 .config/paru
 .config/fontconfig
 # light/dark theme sync runs as a systemd service here, a LaunchAgent on macOS
-.config/systemd/user/prismantis-theme-sync.service
+.config/systemd
 {{ end }}
 {{ if ne .chezmoi.os "darwin" }}
 Library
