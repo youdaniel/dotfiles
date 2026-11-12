@@ -5,6 +5,10 @@
 .config/fontconfig
 # light/dark theme sync runs as a systemd service here, a LaunchAgent on macOS
 .config/systemd/user/prismantis-theme-sync.service
+# DMS sunrise/sunset switching (macOS Auto appearance does this itself)
+.config/systemd/user/theme-follow-sun.service
+.config/systemd/user/theme-follow-sun.timer
+.local/bin/theme-follow-sun
 {{ end }}
 {{ if ne .chezmoi.os "darwin" }}
 Library

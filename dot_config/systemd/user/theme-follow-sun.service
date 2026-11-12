@@ -1,0 +1,8 @@
+[Unit]
+Description=Switch DMS light/dark at sunrise and sunset
+After=dms.service
+
+[Service]
+Type=oneshot
+Environment=PATH=%h/.local/bin:/usr/bin
+ExecStart=%h/.local/bin/theme-follow-sun

@@ -1,0 +1,19 @@
+#!/bin/sh
+# Switch DMS light/dark at sunrise and sunset, like macOS Auto appearance.
+# DMS computes the day/night period from its auto location (night light schedule).
+# Only a change of period switches the theme, so a manual DMS toggle holds until
+# the next sunrise or sunset. Run from a systemd timer.
+set -eu
+state="${XDG_STATE_HOME:-$HOME/.local/state}/theme-follow-sun"
+period=$(dms ipc call night getSchedule | sed -n 's/^Period: //p')
+
+case "$period" in
+  day) mode=light ;;
+  night) mode=dark ;;
+  *) exit 0 ;;
+esac
+
+[ "$(cat "$state" 2>/dev/null)" = "$period" ] && exit 0
+dms ipc call theme "$mode" >/dev/null
+mkdir -p "$(dirname "$state")"
+printf '%s\n' "$period" > "$state"
