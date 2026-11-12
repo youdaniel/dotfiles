@@ -1,9 +1,0 @@
-[Unit]
-Description=Check for sunrise/sunset every 5 minutes
-
-[Timer]
-OnActiveSec=1min
-OnUnitActiveSec=5min
-
-[Install]
-WantedBy=timers.target
