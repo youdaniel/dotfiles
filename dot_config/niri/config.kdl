@@ -337,7 +337,6 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "awww-daemon"
 spawn-at-startup "discord"
-spawn-at-startup "spotify-launcher"
 spawn-at-startup "slack"
 spawn-sh-at-startup "sleep 5; exec /usr/bin/aw-watcher-window-wayland"
 spawn-at-startup "grok-bot"

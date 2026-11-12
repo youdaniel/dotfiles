@@ -12,7 +12,8 @@ printf '%s' "$input" | jq --argjson plugins {{ .claude.plugins | toJson | squote
   del(.enabledPlugins["clauth@clauth"], .extraKnownMarketplaces.clauth)
   | .enabledPlugins = (.enabledPlugins // {}) + ($plugins | map({(.): true}) | add)
   | .extraKnownMarketplaces = (.extraKnownMarketplaces // {}) + {
-    "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true}
+    "prismantis": {"source": {"source": "github", "repo": "NahumLitvin/prismantis"}, "autoUpdate": true},
+    "pstack-claude": {"source": {"source": "github", "repo": "michael-denyer/pstack-claude"}}
   }
   # prismantis options are shared as a whole set (this Linux machine is the reference)
   # theme follows DMS light/dark via prismantis-theme-sync, so keep the current one
